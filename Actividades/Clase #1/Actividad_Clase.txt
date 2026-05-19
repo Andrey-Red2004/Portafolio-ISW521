@@ -1,0 +1,13 @@
+- pregunta 2
+interet: 100% publico
+intranet: 100% privado
+extranet: privado con acceso a terceros(como clientes)
+
+- pregunta 3
+http: esquema. Para el método que se usará para transferir datos
+api: subdominio: Reduce el trafico
+GitHub.com: Dominio principal. Nombre del sitio o servidor.
+443: es como la puerta directa al servidor.
+/repos/bryanes/: ruta. Indica las rutas dentro del servidor.
+state=opne: parámetros de consulta.
+#comentarios: Fragmento.

@@ -1,0 +1,56 @@
+--- Actividad 1 ---
+- Es técnicamente correcto el argumento de velocidad? Porque sí o porque no?
+
+R% Sí pero UDP es mas rápido no tiene que establecer conexión ni verificar la recepción. Sin embargo en críticos la velocidad no sirve de nada si los datos llegan incompletos.
+
+-Que mecanismos de TCP perderías al cambiar a UDP?
+
+R% Ordenamiento, Control de errores y Control de flujo.
+- En que escenario sí tendría sentido usar UDP?
+
+R% En programas de tiempo real como videollamadas, donde la velocidad es lo más importante.
+
+- Como afecta el 3 way Handshake al tiempo de respuesta si los microservicios hacen muchas conexiones cortas?
+
+R% Aumenta la latencia en las conexiones cortas, básicamente se obliga a dar un viaje de ida y vuelta antes de enviar los datos.
+
+--- Actividad 2 ---
+Que beneficios concretos gana el e-comerse al migrar a HTTP/1.1 a HTTP2?
+
+R& Reducir la latencia y que no se sature el servidor a Multiplexación que permite enviar solicitudes y respuestas de manera simultanea con una sola conexión TCP y también a la comprensión de cabeceras(HPACK) que reduce el peso de los datos repetitivos.
+
+- Porque HTTP/2 no elimina completamente el HOL Blocking?
+R% Porque al meter todos los recursos(como imágenes o archivos de formato, etc...) en una sola conexión TCP si un solo paquete de esa conexión se pierde en el camino se detiene toda la transmisión hasta que el paquete perdido sea retransmitido, básicamente uno solo puede frenar todo el flujo
+
+-Tiene sentido saltar directamente a HTPP/3? Que consideraciones técnicas y de infraestructura deben evaluarse?
+R% tiene sentido porque HTTP/3 corre sobre QUIC que elimina el HOL Blocking de TCP por completo, entonces si se pierde un paquete los demás siguen cargando.
+Consideraciones: Soporte de red, Carga de CPU y Compatibilidad.
+
+-Como verificarían en producción que versión de HTPP esta usando un sitio?
+R% Con DevTools del navegador es uno de los métodos, se activan las columnas de protocolos y otro de los métodos es con un comando curl en la terminal "curl -I -s --http2 https://tu-sitio.com | grep -i HTTP/
+
+--- Actividad 3 ---
+Pregunta 1
+R% emitido por: E8, Es una  intermediante.
+Pregunta 2
+R% Vence el domingo 2 de agosto de 2026.
+Pregunta 3:
+R% TLS 1.3
+Pregunta 4:
+R% TLS 1.3 X25519 y AES_128_GCM
+Pregunta 5:
+R% El navegador quitaría el acceso y en vez de eso pondría un mensaje como "ERR_CERT_DATE_INVALID"
+
+--- Actividad 4 ---
+Pregunta 1
+R% 23 microsegundos
+Pregunta 2
+R& 175.67 milisegundos
+Pregunta 3
+R% 85.32 milisegundos
+Pregunta 4
+R% Total de recursos 205 solicitudes.
+Solo 14 usaron HTTP/2
+Pregunta 5
+R% El recurso mas pesado es el recurso llamado "imagen-somos-u-publica.jpg" con 1.534 kb. tipo de archivo es una imagen
+y en este caso como es una imagen se podrían reducir sus dimensiones físicas y se convierte en un formato más moderno como AVIF.

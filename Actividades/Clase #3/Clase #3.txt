@@ -1,0 +1,121 @@
+--------- Actividad 1 -----------
+Respuesta 1
+- ping -n 4 <IP_servidor> es una prueba muy útil para descartar varios puntos desde el inicio como ver la red, hadware del hipervisor.
+- Test-NetConnection - ComputerName <IP_servidor> - Port 3389 se verifica si el sistema base esta funcionando con completa normalidad
+- Get-Service | Where-Object {$_.Status -eq 'Stopped'}  cuando ya se esta dentro de la maquina este comando hace una lista de cualquier servicio critico que no se este ejecutando
+
+Respuesta 2
+Usar el comando nginx.service para ver el estado actual y tener las primeras líneas del log error
+usar el comando nginx -t para comprobar si hay errores de sintaxis en los archivos de configuración.
+
+Respuestq 3
+podemos reiniciar en el caso de que si se intenta ejecutra los comandos ls o ps y se reciben errores de entrada o salida que se mantienen constantes todo el tiempo o si el sistema deja de responder.
+
+
+
+-------- Actividad 1.2 --------------
+Respuesta 1
+- 192.168.1.10 portafolio.local
+- 192.168..1.10 api.local
+- 192.168.1.10 admin.local
+
+Respuesta 2
+-Como solución se pueden crear unos bloques de código server que se diferencian por los parámetros, se puede tener en un solo archivo o en varios archivos.
+server {
+	listen 80;
+	server_name api.local;
+	root /var/www/portafolio;
+}
+
+
+server {
+	listen 80;
+	server_name api.local;
+	root /var/www/api;
+}
+
+
+server {
+	listen 80;
+	server_name api.local;
+	root /var/www/admin;
+}
+
+Respuesta 3
+- Si se llega a olvidar el server name en uno de los bloques Nginx va a usarlo como el bloque servidor por defecto para ese puerto.
+
+----------- Actividad 2 --------------
+
+Respuesta 1 
+pasa cuando la app intenta abrir un stocket en una dirección IP y un puerto en especifico pero ya hay otros procesos en ese mismo puerto
+
+Respuesta 2 
+netstat -ano | findstr :8080
+
+Respuesta 3
+cuando se tenga el PID se ejecuta el comando "taskill /PID 1234 /F
+1234 es un ejemplo del PID
+
+Respuesta 4 
+El uso de herramientas de proceso como nodemon, ayuda a gestionar mejor cuando se reinician los procesos y así se liberan los puertos de maneras más limpia.
+
+
+
+------------ Actividad 3 ----------------------
+Respuesta 1
+- Nginx porque su arquitectura asíncronica maneja miles de conexiones con muy poca RAM
+
+Respuesta 2
+- apache prefork usa -200mb por proceso
+
+Respuesta 3 
+- configuración WS requiere proxy_http_version 1.1 junto con los headers Upgrade y Connection "upgrade"
+
+
+
+-------------Actividad 4---------------------
+Respuesta 1
+- Bare metal se necesita una latencia menor  a 1 ms y control total sobre el hadware 
+- VPS se necesita una solución que permita escalar de manera horizontal
+- Contenedor porque los contenedores permite aislar cada microservicio
+
+
+---------- Actividad 5 -----------------
+Respuesta: Crítico cold start.
+
+
+------------ Actividad 6 ---------------
+Respuestas
+- App web
+- Sitio web
+- App web
+
+
+----------- Actividad 7 --------------
+Respuestas
+- SSG
+- CSR
+- SSG
+
+
+
+-------------- Actividad 8 --------------
+Respuestas
+- Se descarta la C ya que el localStorage es mas propenso a ataques XSS y aparte de que los datos como contraseñas en ir en DB no en local
+- la opción B es la que dejaría en producción ya que no hay ataques XSS pq no es accesible a JS
+
+
+
+---------- Actividad 9 ----------------
+Respuesta 1
+- SCP porque usa el protocolo SSH a diferencia de FIP que transmite datos
+comando: scp -r ./dist usuario@ip_servidor
+
+Respuesta 2
+en un archivo usando dontenv.
+
+Respuesta 3
+Su código expuesto y se pueden ver las herramientas que se uso y se da mucho para ciberataques
+
+
+

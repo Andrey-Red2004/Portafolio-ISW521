@@ -1,0 +1,55 @@
+------ Actividad 1 -----------
+Pregunta 1:
+-  de todos los commits que están ninguno esta escrito de la manera correcta.
+1- git commit -m " fix: login funcionality "
+2- git commit -m " chore: apply weekly updates "
+3- git commit -m " feat: implement new client feature "
+4- git commit -m " chore: add express dependency "
+5- git commit -m " chore: add environment configuration "
+
+
+Pregunta 2:
+- uno de los problemas es justamente lo que hablamos la clase anterior, se subió un ".env" y esto genera un gran riesgo desde cualquier punto de vista que se vea, para haber evitado esto desde el primer commit se tuvo que crear un archivo gitignore y en su interior debe ir ".env" y "node_modules/" el node_modules/ es para evitar subir dependencias que son innecesarias
+
+
+Pregunta 3:
+- cuando esta en Untracked es porque esta recién creado sin el git add
+- Cunado el estado esta en Staged es porque esta con el git add pero sin commit
+
+
+
+------- Actividad 2 -----------
+Pregunta 1:
+- el comando correcto para descargar  es "git fetch"
+Se prefiere porque un git pull hace automáticamente un fetch + merge en cambio si se hace solamente un git fetch se pueden revisar antes de que sean integrados y se pueden llegar a evitar conflictos o algo innesperado.
+
+
+Pregunta 2:
+- git fetch origin
+- git rebase origin/la rama a la que vaya  # esto sirve para que los commits que uno agrega vayan encima de los del compañero
+
+
+Pregunta 3:
+- significa que el repo hay cambios que aún no se han realizado en la rama local
+el flujo correcto sería:
+- git fetch
+- git rebase origin/ y la rama
+o si no se puede solucionar de manera manual que usa git add y despúes un git rebase --continue y finalmente se podrá hacer un git push.
+
+
+
+--------- Actividad 4 -----------------
+Pregunta 1:
+- el tipo de merge será un 3-way merge(sirve para combinar versiones distintas) y el fast-forward solo pasa cuando la rama del destino no tiene commits nuevos desde que la rama origen fue creada.
+
+
+Pregunta 2:
+- git fecth: para traer las actualizaciones al local.
+- git log origin/features/dark-mode: es para poder ver el historial de commits que tiene esa rama
+- git diff  main..origin/features/dark-mode: para poder ver que líneas de código cambiaron en comparación con mi main.
+- git checkout origin/feature/dark-mode
+
+
+
+Pregunta 3:
+- titulo descriptivo y conciso, un contexto, resumen de cambios y instrucciones de prueba.

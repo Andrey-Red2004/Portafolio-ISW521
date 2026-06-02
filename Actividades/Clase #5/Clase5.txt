@@ -1,0 +1,152 @@
+-----Actividad 1 -------------
+Pregunta 1:
+El DOM se arma igual porque el navegador medio que corrige las etiquetas que no cerraste, asi que al final lo "arregla" para que se entienda.
+
+Como no pusiste el doctipe, entra en modo quirks o modo "antiguo" porque el navegador no sabe bien como leer eso.
+
+Visualmente se va a ver el texto, pero puede que todo se vea raro o con espacios que no deberian estar porque no esta siguiendo los estandares modernos.
+
+
+---------- Actividad 2 -------------
+Respuesta:
+<header> y <nav>: Cambié el primer div por header porque es la cabecera, y metí el menú en un nav porque es específicamente para navegación.
+
+<main>: Envolví el contenido principal en main para que el navegador sepa qué es lo más importante de la página.
+
+<article> vs <section>: Puse el post en un article porque se entiende que es un contenido independiente que podrias compartir o reusar. El contenido dentro ("content") lo deje como section porque es una parte lógica del articulo.
+
+<aside>: La barra lateral es un aside porque es contenido complementario, no es lo principal de la pagina.
+
+<footer>: Es la etiqueta correcta para el pie de pagina y los derechos de autor.
+
+
+
+------ Actividad 3 ------------
+Pregunta 1:
+- <blockquote> = bloque, semántico, citar parrafos
+  <span> = lineal, ninguno, aplicar estilos css a una parte especifica
+  <strong> = lineal, semántico, para indicar que un texto tiene relevancia
+  <article> = bloque, semántico, para agregar contenido aparte que es independiente de si mismo, como alguna noticia
+  <b> = lineal, presentacional, resaltar textos
+  <time> lineal, semántico, poner fecha y hora, por ejemplo fecha de publicación
+  <ul> bloque, semántico, para crear una lista desordenada
+  <mark> = lineal, semántico, para marcar un texto porque es relevante
+  <code> = lineal, semántico, para poner líneas del código en líneas del texto
+  <section> = bloque, semántico, para agrupar contenido que este relacionado.
+
+
+
+-------- Actividad 4 -----------------
+Use required en todos lados porque es la forma nativa de HTML5 para obligar a que llenen los datos.
+
+En el carné puse el pattern con la expresion regular [A-Za-z]{2}[0-9]{6} que pide las 2 letras y los 6 numeros exactos.
+
+El fieldset y legend agrupan los datos personales como pediste.
+
+El enctype lo deje en application/x-www-form-urlencoded que es el estandar para este tipo de formularios.
+
+
+
+-------- Actividad 5 -----------------
+Pregunta 1:
+- <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Horario de Clases</title>
+</head>
+<body>
+
+    <h1>Horario de Clases ISW</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>7:00</td>
+                <td>ISW-521</td>
+                <td>ISW-311</td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td>9:00</td>
+                <td colspan="3">Receso</td>
+            </tr>
+            <tr>
+                <td>10:00</td>
+                <td>ISW-421</td>
+                <td>ISW-521</td>
+                <td>ISW-311</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
+
+--------- Actividad 6 -------------
+Pregunta 1:
+- <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Galería de Recursos Multimedia</title>
+</head>
+<body>
+
+    <h1>Galería del Curso</h1>
+
+    <section>
+        <h2>Imagen Destacada</h2>
+        <picture>
+            <source srcset="imagen-grande.jpg" media="(min-width: 800px)">
+            <img src="imagen-pequena.jpg" alt="Descripción detallada de la imagen principal del curso">
+        </picture>
+    </section>
+
+    <section>
+        <h2>Video de la Clase</h2>
+        <video controls poster="miniatura.jpg" width="600">
+            <source src="clase.mp4" type="video/mp4">
+            <source src="clase.webm" type="video/webm">
+            Tu navegador no soporta el formato de video.
+        </video>
+    </section>
+
+    <section>
+        <h2>Podcast del Tema</h2>
+        <audio controls src="podcast.mp3">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </section>
+
+    <section>
+        <h2>Ubicación del Centro de Estudios</h2>
+        <iframe 
+            src="https://www.google.com/maps/embed?..." 
+            width="600" height="450" 
+            sandbox="allow-scripts allow-same-origin"
+            title="Mapa de ubicación del centro de estudios">
+        </iframe>
+    </section>
+
+</body>
+</html>
+
+Pregunta 2:
+- se necesitan los atributos: allow-scripts: permite que el mapa use JS para interactuar.
+- allow-same-origin: permite al iframe cargar los recursos necesarios
+
+Pregunta 3:
+- porque source deja que los navegadores sean compatibles porque no todos los navegadores soportan los mismos formatos de video, entonces al poner varios <source> el navegador prueba 1 por 1 para ver cual puede reproducir
+
+Pregunta 4:
+- si se quita el alt la imagen no tendrá descripción y por ejemplo alguien con problemasde vista no podrá ver entender la imagen del todo bien.
+Si la imagen falla por algún error de conexión, el usuario podrá entender la imagen gracias a alt.

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Congreso Universitario de Tecnología y Sostenibilidad — UTN Sede San Carlos, 15, 16 y 17 de agosto de 2025.">
+  <title>Congreso Universitario de Tecnología y Sostenibilidad — UTN Sede San Carlos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Enlace de salto para usuarios de teclado (WCAG 2.4.1) -->
+  <a class="skip-link" href="#contenido-principal">Saltar al contenido principal</a>
+
+  <!-- ============================================================
+       HEADER SEMÁNTICO — reemplaza <div class="header">
+       ============================================================ -->
+  <header class="site-header">
+    <h1>Congreso Universitario de Tecnología y Sostenibilidad</h1>
+    <p>UTN Sede San Carlos · 15, 16 y 17 de Agosto 2025</p>
+    <p>Innovar para un futuro verde y digital</p>
+  </header>
+
+  <!-- ============================================================
+       NAV SEMÁNTICO — reemplaza <div class="nav">
+       Uso de <ul> para lista de enlaces de navegación (WCAG 1.3.1)
+       ============================================================ -->
+  <nav class="site-nav" aria-label="Navegación principal">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#ponentes">Ponentes</a></li>
+      <li><a href="#horario">Horario</a></li>
+      <li><a href="#registro">Registro</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       MAIN SEMÁNTICO — reemplaza <div class="main">
+       ============================================================ -->
+  <main id="contenido-principal" class="site-main">
+
+    <!-- ============================================================
+         SECCIÓN: SOBRE EL CONGRESO
+         ============================================================ -->
+    <section id="inicio" class="card" aria-labelledby="titulo-sobre">
+      <h2 id="titulo-sobre">Sobre el Congreso</h2>
+      <p>
+        El Congreso Universitario de Tecnología y Sostenibilidad es el evento académico
+        más importante del año en la Sede San Carlos. Reunirá a investigadores, docentes,
+        estudiantes y profesionales del sector tecnológico para discutir los desafíos
+        del desarrollo sostenible en la era digital.
+      </p>
+      <p>
+        Este año el congreso se enfoca en tres ejes temáticos: Inteligencia Artificial Ética,
+        Energías Renovables y Software para el Bien Común.
+      </p>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: VIDEO PROMOCIONAL
+         Atributos agregados: poster, controls, dos <source> (mp4 + webm),
+         texto de respaldo accesible.
+         ============================================================ -->
+    <section class="card" aria-labelledby="titulo-video">
+      <h2 id="titulo-video">Video Promocional</h2>
+      <div class="video-wrapper">
+        <video
+          poster="assets/poster_congreso.jpg" 
+          controls
+          aria-label="Video promocional del Congreso Universitario de Tecnología y Sostenibilidad 2025"
+        >
+          <source src="assets/promo_congreso.mp4" type="video/mp4">
+          <source src="assets/promo_congreso.webm" type="video/webm">
+          <p>
+            
+            <a href="assets/promo_congreso.mp4" target="_blank"> </a>
+            Tu navegador no admite la reproducción de video HTML5.
+          </p>
+        </video>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: PONENTES DESTACADOS
+         Cada ponente es un <article> independiente dentro de un <section>.
+         ============================================================ -->
+    <section id="ponentes" class="card" aria-labelledby="titulo-ponentes">
+      <h2 id="titulo-ponentes">Ponentes Destacados</h2>
+      <div class="ponentes-lista">
+
+        <article class="ponente" aria-labelledby="ponente-rodriguez">
+          <h3 id="ponente-rodriguez">Dra. Laura Rodríguez</h3>
+          <p>Especialista en Inteligencia Artificial Ética — UCR</p>
+          <p>
+            <strong>Ponencia:</strong>
+            "Sesgos algorítmicos en sistemas de contratación: el caso latinoamericano"
+          </p>
+        </article>
+
+        <article class="ponente" aria-labelledby="ponente-mendoza">
+          <h3 id="ponente-mendoza">Ing. Carlos Mendoza</h3>
+          <p>Director de Innovación — Instituto Costarricense de Electricidad</p>
+          <p>
+            <strong>Ponencia:</strong>
+            "Microrredes eléctricas rurales con energía solar: experiencias en zonas alejadas"
+          </p>
+        </article>
+
+        <article class="ponente" aria-labelledby="ponente-vega">
+          <h3 id="ponente-vega">MSc. Patricia Vega</h3>
+          <p>Investigadora en Software Libre — TEC</p>
+          <p>
+            <strong>Ponencia:</strong>
+            "Código abierto como herramienta para la democratización del conocimiento"
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: TABLA DE HORARIO
+         Incluye: <caption>, <thead>, <tbody>, <tfoot>,
+         scope="col" en encabezados de columna, scope="row" en celdas
+         de hora para máxima accesibilidad con lectores de pantalla.
+         ============================================================ -->
+    <section id="horario" class="card" aria-labelledby="titulo-horario">
+      <h2 id="titulo-horario">Horario del Congreso</h2>
+      <table>
+        <caption>Programa de actividades del 15 al 17 de agosto de 2025. Todos los horarios están en hora local de Costa Rica (UTC−6).</caption>
+        <thead>
+          <tr>
+            <th scope="col">Hora</th>
+            <th scope="col">Lunes 15 Ago</th>
+            <th scope="col">Martes 16 Ago</th>
+            <th scope="col">Miércoles 17 Ago</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">8:00 – 9:00</th>
+            <td>Acreditación y Bienvenida</td>
+            <td>Apertura del día</td>
+            <td>Apertura del día</td>
+          </tr>
+          <tr>
+            <th scope="row">9:00 – 10:30</th>
+            <td>Conferencia Magistral: Dra. Rodríguez</td>
+            <td>Taller de Machine Learning</td>
+            <td>Panel: Futuro Verde</td>
+          </tr>
+          <tr>
+            <th scope="row">10:30 – 11:00</th>
+            <td>Coffee Break</td>
+            <td>Coffee Break</td>
+            <td>Coffee Break</td>
+          </tr>
+          <tr>
+            <th scope="row">11:00 – 12:30</th>
+            <td>Mesa Redonda: IA y Sociedad</td>
+            <td>Presentaciones de investigación</td>
+            <td>Conferencia: Ing. Mendoza</td>
+          </tr>
+          <tr>
+            <th scope="row">12:30 – 14:00</th>
+            <td>Almuerzo</td>
+            <td>Almuerzo</td>
+            <td>Almuerzo y clausura</td>
+          </tr>
+          <tr>
+            <th scope="row">14:00 – 15:30</th>
+            <td>Taller: Energías Renovables</td>
+            <td>Conferencia: MSc. Vega</td>
+            <td>Ceremonia de clausura</td>
+          </tr>
+          <tr>
+            <th scope="row">15:30 – 17:00</th>
+            <td>Exposición de Proyectos</td>
+            <td>Networking y actividades</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total horas</td>
+            <td>8 horas</td>
+            <td>8 horas</td>
+            <td>6 horas</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: FORMULARIO DE REGISTRO
+         Mejoras: <fieldset>/<legend> por grupo lógico, <label for="id">
+         en todos los controles, type semánticos (email, tel), <input list>
+         + <datalist> para Carrera, checkboxes con label explícito.
+         ============================================================ -->
+    <section id="registro" class="card" aria-labelledby="titulo-registro">
+      <h2 id="titulo-registro">Formulario de Registro</h2>
+      <form action="#" method="post" novalidate>
+
+        <!-- Grupo 1: Datos personales -->
+        <fieldset>
+          <legend>Datos personales</legend>
+
+          <label for="nombre">Nombre completo <span aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            placeholder="Ingrese su nombre completo"
+            autocomplete="name"
+            required
+          >
+
+          <label for="cedula">Número de cédula <span aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="cedula"
+            name="cedula"
+            placeholder="X-XXXX-XXXX"
+            autocomplete="off"
+            required
+          >
+
+          <label for="correo">Correo electrónico institucional <span aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="correo"
+            name="correo"
+            placeholder="usuario@utn.ac.cr"
+            autocomplete="email"
+            required
+          >
+
+          <label for="telefono">Número de teléfono</label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            placeholder="XXXX-XXXX"
+            autocomplete="tel"
+          >
+        </fieldset>
+
+        <!-- Grupo 2: Perfil académico -->
+        <fieldset>
+          <legend>Perfil académico</legend>
+
+          <label for="tipo-participante">Tipo de participante <span aria-hidden="true">*</span></label>
+          <select id="tipo-participante" name="tipo_participante" required>
+            <option value="">Seleccione una opción</option>
+            <option value="grado">Estudiante de grado</option>
+            <option value="posgrado">Estudiante de posgrado</option>
+            <option value="docente">Docente universitario</option>
+            <option value="profesional">Profesional externo</option>
+            <option value="investigador">Investigador</option>
+          </select>
+
+          <!-- <input list> + <datalist> reemplaza al <select> fijo de carrera -->
+          <label for="carrera">Carrera o Departamento</label>
+          <input
+            type="text"
+            id="carrera"
+            name="carrera"
+            list="carreras"
+            placeholder="Seleccione o escriba su carrera"
+            autocomplete="off"
+          >
+          <datalist id="carreras">
+            <option value="Ingeniería en Sistemas">
+            <option value="Ingeniería en Electrónica">
+            <option value="Administración de Empresas">
+            <option value="Contaduría Pública">
+            <option value="Ingeniería en Construcción">
+            <option value="Seguridad e Higiene Laboral">
+            <option value="Trabajo Social">
+            <option value="Educación">
+            <option value="Otra">
+          </datalist>
+        </fieldset>
+
+        <!-- Grupo 3: Preferencias del congreso -->
+        <fieldset>
+          <legend>Preferencias del congreso</legend>
+
+          <label for="talleres">¿Cuáles talleres le interesan?</label>
+          <input
+            type="text"
+            id="talleres"
+            name="talleres"
+            placeholder="Ej: Machine Learning, Energías Renovables…"
+          >
+
+          <label for="accesibilidad">Necesidades especiales o requerimientos de accesibilidad</label>
+          <textarea
+            id="accesibilidad"
+            name="accesibilidad"
+            rows="3"
+            placeholder="Indique si tiene alguna necesidad especial…"
+          ></textarea>
+
+          <label for="modalidad">Modalidad de asistencia <span aria-hidden="true">*</span></label>
+          <select id="modalidad" name="modalidad" required>
+            <option value="" disabled selected>Seleccione una modalidad</option>
+            <option value="presencial">Presencial</option>
+            <option value="virtual">Virtual</option>
+            <option value="hibrida">Híbrida</option>
+          </select>
+        </fieldset>
+
+        <!-- Grupo 4: Consentimientos -->
+        <fieldset>
+          <legend>Consentimientos</legend>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="terminos" name="terminos" required>
+            <label for="terminos">Acepto los términos y condiciones del congreso</label>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="datos" name="datos" required>
+            <label for="datos">Autorizo el uso de mis datos para fines académicos</label>
+          </div>
+        </fieldset>
+
+        <button class="btn" type="submit">Enviar Registro</button>
+
+      </form>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: UBICACIÓN
+         iframe con loading="lazy", sandbox restrictivo y title descriptivo.
+         ============================================================ -->
+    <section id="ubicacion" class="card" aria-labelledby="titulo-ubicacion">
+      <h2 id="titulo-ubicacion">Ubicación</h2>
+      <div class="mapa-wrapper">
+        <p>UTN Sede San Carlos, Ciudad Quesada, Alajuela, Costa Rica</p>
+        <p>Carretera Florencia – Ciudad Quesada, frente al Banco Nacional</p>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.1234567890!2d-84.4234567!3d10.3234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDE5JzI0LjQiTiA4NMKwMjUnMjQuNCJX!5e0!3m2!1ses!2scr!4v1234567890"
+          title="Mapa de ubicación de UTN Sede San Carlos, Ciudad Quesada, Alajuela, Costa Rica"
+          loading="lazy"
+            sandbox="allow-scripts allow-forms allow-popups"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN: INFORMACIÓN IMPORTANTE
+         Corrección de anidamiento: se eliminan los <div> y <span>
+         que envolvían incorrectamente contenido de bloque. Se usan
+         elementos de bloque nativos sin violar el modelo de contenido.
+         ============================================================ -->
+    <section class="card" aria-labelledby="titulo-info">
+      <h2 id="titulo-info">Información Importante</h2>
+      <p>Para más información sobre el congreso, contacte a la comisión organizadora:</p>
+
+      <!-- Contenido de bloque estructurado correctamente (sin <span> ni <a> como contenedores de bloque) -->
+      <div class="contacto-info">
+        <h3>Contacto Principal</h3>
+        <p>
+          <a href="mailto:congreso.tecnologia@utn.ac.cr">congreso.tecnologia@utn.ac.cr</a>
+        </p>
+        <p>Teléfono: <a href="tel:+506240113000">2401-3000</a> ext. 5200</p>
+      </div>
+
+      <p>También puede visitar nuestra página de redes sociales:</p>
+
+      <!-- Enlace correcto: solo texto/elementos inline dentro de <a> -->
+      <a href="https://www.utn.ac.cr" class="enlace-sitio" target="_blank" rel="noopener noreferrer">
+        Visitar sitio oficial de la UTN
+        <span class="enlace-subtexto">www.utn.ac.cr · Sede San Carlos</span>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER SEMÁNTICO — reemplaza <div class="footer">
+       ============================================================ -->
+  <footer class="site-footer">
+    <p>© 2025 UTN Sede San Carlos. Todos los derechos reservados.</p>
+    <p>Congreso Universitario de Tecnología y Sostenibilidad</p>
+    <p>Desarrollado por el Departamento de Tecnología de Información</p>
+  </footer>
+
+</body>
+</html>

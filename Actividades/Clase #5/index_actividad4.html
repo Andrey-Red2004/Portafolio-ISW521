@@ -1,0 +1,32 @@
+<form action="/registro" method="POST" enctype="application/x-www-form-urlencoded">
+    <fieldset>
+      <legend>Datos Personales</legend>
+      
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre" required>
+  
+      <label for="email">Correo institucional:</label>
+      <input type="email" id="email" name="email" required>
+  
+      <label for="carne">Número de carné (AA123456):</label>
+      <input type="text" id="carne" name="carne" pattern="[A-Za-z]{2}[0-9]{6}" required>
+    </fieldset>
+  
+    <label for="sede">Sede:</label>
+    <select id="sede" name="sede" required>
+      <option value="sc">San Carlos</option>
+      <option value="al">Alajuela</option>
+      <option value="ca">Cartago</option>
+      <option value="li">Limón</option>
+    </select>
+  
+    <label for="carrera">Carrera:</label>
+    <input list="lista-carreras" id="carrera" name="carrera" required>
+    <datalist id="lista-carreras">
+      <option value="Ingeniería en Computadores">
+      <option value="Ingeniería Electrónica">
+      <option value="Ingeniería en Producción Industrial">
+    </datalist>
+  
+    <button type="submit">Enviar</button>
+  </form>

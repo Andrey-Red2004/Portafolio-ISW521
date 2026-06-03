@@ -1,0 +1,55 @@
+---------- Actvidad 1 -----------
+Respuestas:
+A- hay que aplicar una formula matemática W3C que ayuda a sacar el contraste entre los dos colores
+
+B- se requiere un mínimo de 4.5:1 para texto normal, si se pasa el nivel AA
+el nivel AAA no
+
+C- como el texto es de 16px el botón entra en el nivel AA que es lo mínimo que se necesita para ser considerado un diseño inclusivo
+
+
+-------- Actividad 2 ---------
+Respuestas:
+1- el navegador gestiona el foco y sigue el orden del DOM, como el modal esta solo a nivel de CSS entonces el navegador no lo reconoce como un entorno aislado, cuando llega al ultimo elemento del modal y se pulsa TAB el foco sigue normal hacia los elementos que quedaron de fondo en la pagina.
+
+2- se identifican los extremos: se obtiene el primer y ultimo elemento dentro del modal
+- escuchar eventos: captura el evento keydown de la tecla Tab
+-Redirigir el flujo: si se detecta un intento de salida, se usa preventDefault() para frenar el navegador y mover el foco manualmente
+
+3- Pseudocodigo:
+const modal = document.querySelector('.modal');
+const enfocables = modal.querySelectorAll('a, button, input, [tabindex]');
+const primero = enfocables[0];
+const ultimo = enfocables[enfocables.length - 1];
+
+modal.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return; // Solo nos interesa Tab
+
+  if (e.shiftKey && document.activeElement === primero) {
+    e.preventDefault();
+    ultimo.focus(); // Retroceso al final
+  } else if (!e.shiftKey && document.activeElement === ultimo) {
+    e.preventDefault();
+    primero.focus(); // Avance al inicio
+  }
+});
+
+
+--------- Actividad 3 -------------
+Respuestas:
+1- botón falso, es un div que se hace pasar por botón. los div no tienen interactividad y se arregla cambiando div por button
+
+2- titulo invisible el nav dice "mi nombre esta en el titilo h2, pero ese h2 tiene aria.hidden="true" lo que lo oculta al lector y para arreglarlo se quita el atributp aria-hidden="true"
+
+3- se repite lo obvio, se le pone role="navigation" a la etiqueta nav, se arregla quitando el atributo role
+
+4- el arrive debería ser un polite
+
+
+
+---------- Actividad 4 ------------
+Respuesta 1:
+1- básicamente va por jerarquía, etiqueta/clase/id
+tomando el orden de jerarquía el id le asigna el color a todos los elementos dentro de el
+
+

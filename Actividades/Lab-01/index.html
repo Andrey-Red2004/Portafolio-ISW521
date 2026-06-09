@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Akchete By Lara's Food - Comidas rápidas artesanales en Río Frío. Fajitas, burritos, hamburguesas de patacón, pollo frito y más. Pedidos por WhatsApp.">
+  <meta name="author" content="Myrna Doris Valerio Gonzales - Akchete By Lara's Food">
+
+  <title>Akchete By Lara's Food | Comidas Rápidas en Río Frío</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="site-header" role="banner">
+    <div class="logo-container">
+      <a href="#inicio" aria-label="Akchete By Lara's Food - Ir al inicio">
+        <img
+          src="assets/logoAkchete.png"
+          alt="Logo de Akchete By Lara's Food"
+          class="footer-logo"
+          width="60"
+          height="60"
+        >
+      </a>
+    </div>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      <button
+        class="nav-toggle"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li role="listitem">
+          <a href="#inicio" class="nav-link">Inicio</a>
+        </li>
+        <li role="listitem">
+          <a href="#nosotros" class="nav-link">Nosotros</a>
+        </li>
+        <li role="listitem">
+          <a href="#destacados" class="nav-link">Destacados</a>
+        </li>
+        <li role="listitem">
+          <a href="#menu" class="nav-link">Menú</a>
+        </li>
+        <li role="listitem">
+          <a href="#contacto" class="nav-link">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <section id="inicio" class="hero-section" aria-labelledby="hero-titulo">
+      <div class="hero-content">
+        <h1 id="hero-titulo" class="hero-title">
+          Sabor auténtico,<br>
+          <span class="highlight">directo del corazón</span>
+        </h1>
+        <p class="hero-subtitle">
+          Comidas rápidas artesanales en Río Frío. Fajitas, burritos,
+          hamburguesas de patacón y pollo frito que te harán volver.
+        </p>
+        <div class="hero-badges" aria-label="Opciones de servicio disponibles">
+          <span class="badge">🛵 Domicilio Express</span>
+          <span class="badge">🛍️ Para llevar</span>
+          <span class="badge">🍽️ Comer aquí</span>
+          <span class="badge">🚗 Drive-thru</span>
+        </div>
+        <a
+          href="https://wa.me/50663987994"
+          class="cta-button"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Hacer un pedido por WhatsApp al número +506 6398-7994"
+        >
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <section id="nosotros" class="about-section" aria-labelledby="nosotros-titulo">
+      <h2 id="nosotros-titulo" class="section-title">
+        ¿Quiénes somos?
+      </h2>
+
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            <strong>Akchete By Lara's Food</strong> es un local informal, bonito y acogedor
+            de comidas rápidas artesanales en Río Frío, Finca 6. Fundado y administrado
+            por <strong>Myrna Doris Valerio Gonzales</strong>, nació del amor por la cocina
+            tradicional con un toque contemporáneo.
+          </p>
+          <p>
+            Cada plato se prepara con ingredientes frescos y recetas propias: desde nuestras
+            fajitas empanizadas con un toque picante, hasta la icónica "Pata Hamburguesa"
+            hecha con patacones dorados.
+          </p>
+        </div>
+
+        <div class="about-info">
+          <div class="info-card" role="group" aria-label="Horario de atención">
+            <h3 class="info-card-title">
+              <span aria-hidden="true">🕐</span> Horario
+            </h3>
+            <p><strong>Martes a Domingo</strong></p>
+            <p>12:00 m.d. — 9:00 p.m.</p>
+            <p class="closed-day">
+              <span aria-hidden="true">❌</span> Lunes: Cerrado
+            </p>
+          </div>
+
+          <div class="info-card" role="group" aria-label="Servicios disponibles">
+            <h3 class="info-card-title">
+              <span aria-hidden="true">✅</span> Servicios
+            </h3>
+            <ul>
+              <li>Entrega a domicilio Express</li>
+              <li>Para llevar</li>
+              <li>Consumo en el lugar</li>
+              <li>Pedidos desde el automóvil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="destacados" class="featured-section" aria-labelledby="destacados-titulo">
+      <h2 id="destacados-titulo" class="section-title">
+        Platillos Estrella
+      </h2>
+      <p class="section-subtitle">Los favoritos de nuestra clientela</p>
+
+      <div class="featured-grid">
+        <article class="featured-card" aria-labelledby="fajitas-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Fajitas de pollo">🌮</span>
+          </div>
+          <div class="card-content">
+            <h3 id="fajitas-titulo" class="card-title">Fajitas de Pollo + Papas</h3>
+            <p class="card-description">
+              Fajitas de pollo empanizadas con un toque de picante,
+              acompañadas de papas. El favorito indiscutible de la casa.
+            </p>
+            <p class="card-price" aria-label="Precio: tres mil seiscientos colones">
+              <span aria-hidden="true">₡</span>3.600
+            </p>
+          </div>
+        </article>
+
+        <article class="featured-card" aria-labelledby="burrito-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Burrito de pollo crispy">🌯</span>
+          </div>
+          <div class="card-content">
+            <h3 id="burrito-titulo" class="card-title">Burrito de Pollo Crispy + Papas</h3>
+            <p class="card-description">
+              Tortilla de harina con frijoles molidos, queso amarillo, mayonesa
+              de la casa, papas y fajitas de pollo empanizadas con picante.
+            </p>
+            <p class="card-price" aria-label="Precio: dos mil quinientos colones">
+              <span aria-hidden="true">₡</span>2.500
+            </p>
+          </div>
+        </article>
+
+        <article class="featured-card" aria-labelledby="pata-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Pata hamburguesa con patacones">🍔</span>
+          </div>
+          <div class="card-content">
+            <h3 id="pata-titulo" class="card-title">Pata Hamburguesa + Papas</h3>
+            <p class="card-description">
+              Dos patacones dorados en forma de hamburguesa, rellenos de mayonesa
+              de la casa, lechuga, tomate y tu proteína a escoger.
+            </p>
+            <p class="card-price" aria-label="Precio: tres mil quinientos colones">
+              <span aria-hidden="true">₡</span>3.500
+            </p>
+          </div>
+        </article>
+
+        <article class="featured-card" aria-labelledby="pollo-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Pollo frito picante">🍗</span>
+          </div>
+          <div class="card-content">
+            <h3 id="pollo-titulo" class="card-title">Pollo Frito Picante</h3>
+            <p class="card-description">
+              Trocitos por peso desde ₡1.000. Porciones: pechuga y ala ₡2.200 /
+              muslo y cadera ₡2.000. Crujiente y lleno de sabor.
+            </p>
+            <p class="card-price" aria-label="Precio desde un mil colones">
+              Desde <span aria-hidden="true">₡</span>1.000
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="menu" class="menu-section" aria-labelledby="menu-titulo">
+      <h2 id="menu-titulo" class="section-title">Nuestro Menú Completo</h2>
+      <p class="section-subtitle">Precios en colones costarricenses (₡)</p>
+
+      <div class="menu-grid" role="list" aria-label="Categorías del menú">
+        <section class="menu-category" role="listitem" aria-labelledby="cat-nachos">
+          <h3 id="cat-nachos" class="category-title">Nachos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Carne</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Mixto</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-papas">
+          <h3 id="cat-papas" class="category-title">Papas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Orden de papas</span>
+              <span class="item-price" aria-label="1800 colones">₡1.800</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Salchipapas</span>
+              <span class="item-price" aria-label="2300 colones">₡2.300</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-papa-carne">
+          <h3 id="cat-papa-carne" class="category-title">Papa Carne</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Papa carne</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Papa Nacho Mixto</span>
+              <span class="item-price" aria-label="4500 colones">₡4.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Fusión de carne</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Fusión Mixto</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-hamburguesas">
+          <h3 id="cat-hamburguesas" class="category-title">Hamburguesas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pequeña Pollo + papas</span>
+              <span class="item-price" aria-label="2000 colones">₡2.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pequeña Carne + papas</span>
+              <span class="item-price" aria-label="1700 colones">₡1.700</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Grande Carne + papas</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Grande Pollo + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-pata">
+          <h3 id="cat-pata" class="category-title">Pata Hamburguesas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Carne + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Original + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-burritos">
+          <h3 id="cat-burritos" class="category-title">Burritos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">De carne + papas</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">De carne solo</span>
+              <span class="item-price" aria-label="2500 colones">₡2.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy solo</span>
+              <span class="item-price" aria-label="2000 colones">₡2.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy + papas</span>
+              <span class="item-price" aria-label="2500 colones">₡2.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-fajitas">
+          <h3 id="cat-fajitas" class="category-title">Fajitas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pescado + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Mixtas + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="menu-category" role="listitem" aria-labelledby="cat-tacos">
+          <h3 id="cat-tacos" class="category-title">Tacos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Taco Clásico</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Taco + papas</span>
+              <span class="item-price"

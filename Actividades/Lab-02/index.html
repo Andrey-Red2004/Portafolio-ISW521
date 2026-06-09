@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroPulse - Dashboard de Monitoreo Hídrico</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- EJERCICIO 1: BARRA DE NAVEGACIÓN CON FLEXBOX -->
+    <!-- Rol "banner" es implícito en <nav> dentro de <header>; aria-label diferencia si hubiera múltiples navs -->
+    <nav class="navbar" aria-label="Navegación principal">
+        <div class="nav-logo" aria-label="HydroPulse - Dashboard de Monitoreo Hídrico">
+            <span class="logo-icon" aria-hidden="true">💧</span>
+            <span class="logo-text">Hydro<span class="text-gradient">Pulse</span></span>
+        </div>
+        <ul class="nav-links" role="list">
+            <li><a href="#" class="active" aria-current="page">Dashboard</a></li>
+            <li><a href="#">Sensores</a></li>
+            <li><a href="#">Reportes</a></li>
+            <li><a href="#">Configuración</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="btn-primary" type="button">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="main-layout" id="main-content">
+        
+        <!-- EJERCICIO 3: COLUMNA 1 - SIDEBAR IZQUIERDO -->
+        <aside class="sidebar" aria-label="Panel de estaciones y resumen diario">
+            <div class="sidebar-section">
+                <h3 id="estaciones-heading">Estaciones</h3>
+                <ul class="sidebar-menu" aria-labelledby="estaciones-heading" role="list">
+                    <!-- aria-current indica la estación activa; el punto verde se refuerza con texto para lectores -->
+                    <li class="active" aria-current="true">
+                        <span class="status-dot online" aria-hidden="true"></span>
+                        <span class="sr-only">Estado: En línea — </span>
+                        Planta Central Planta Alta
+                    </li>
+                    <li>
+                        <span class="status-dot online" aria-hidden="true"></span>
+                        <span class="sr-only">Estado: En línea — </span>
+                        Sucursal Norte Flujo
+                    </li>
+                    <li>
+                        <!-- Estado "offline" reforzado con texto oculto, no solo con color -->
+                        <span class="status-dot offline" aria-hidden="true"></span>
+                        <span class="sr-only">Estado: Fuera de línea — </span>
+                        Estación Delta V
+                    </li>
+                    <li>
+                        <span class="status-dot online" aria-hidden="true"></span>
+                        <span class="sr-only">Estado: En línea — </span>
+                        Represa Sector 4
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar-section quick-stats" aria-label="Resumen diario del sistema">
+                <h3 id="resumen-heading">Resumen Diario</h3>
+                <dl class="stat-list" aria-labelledby="resumen-heading">
+                    <div class="stat-mini">
+                        <dt class="stat-label">Eficiencia total</dt>
+                        <dd class="stat-val text-neon-blue">94.2%</dd>
+                    </div>
+                    <div class="stat-mini">
+                        <dt class="stat-label">Alertas Activas</dt>
+                        <!-- El color rojo se refuerza con el número, no depende solo del color -->
+                        <dd class="stat-val text-neon-pink">2</dd>
+                    </div>
+                </dl>
+            </div>
+        </aside>
+
+        <!-- EJERCICIO 3: COLUMNA 2 - CONTENIDO CENTRAL -->
+        <section class="content-center" aria-label="Panel principal de monitoreo">
+            
+            <!-- Gráfico de flujo en tiempo real -->
+            <div class="charts-container">
+                <div class="chart-card main-chart">
+                    <div class="card-header">
+                        <h2>Flujo de Consumo en Tiempo Real</h2>
+                        <!-- aria-label sobre el badge explica su significado semántico -->
+                        <span class="badge shadow-neon-blue" role="status" aria-label="Transmisión en vivo activa">En vivo</span>
+                    </div>
+                    <!-- El gráfico de barras es decorativo/visual; se describe con aria-label para lectores -->
+                    <div class="mock-chart-visual"
+                         role="img"
+                         aria-label="Gráfico de barras: flujo de consumo hídrico en las últimas horas. Valores aproximados: 40%, 65%, 50%, 85%, 70%, 95%, 60%">
+                        <div class="chart-bar" style="height: 40%"></div>
+                        <div class="chart-bar" style="height: 65%"></div>
+                        <div class="chart-bar" style="height: 50%"></div>
+                        <div class="chart-bar" style="height: 85%"></div>
+                        <div class="chart-bar" style="height: 70%"></div>
+                        <div class="chart-bar" style="height: 95%"></div>
+                        <div class="chart-bar" style="height: 60%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EJERCICIO 2: CUADRÍCULA DE SENSORES CON FLEX-WRAP y GAP -->
+            <section aria-label="Lecturas de sensores IoT" class="sensors-section">
+                <h2 class="sr-only">Sensores IoT — Lecturas Actuales</h2>
+                <div class="sensors-grid">
+
+                    <article class="sensor-card" aria-label="Sensor de Temperatura">
+                        <span class="sensor-icon" aria-hidden="true">🌡️</span>
+                        <h3>Temperatura</h3>
+                        <p class="sensor-value">22.4 °C</p>
+                        <!-- Estado no depende solo del color: texto descriptivo "Óptimo" lo refuerza -->
+                        <span class="sensor-status status-ok">
+                            <span class="sr-only">Estado: </span>Óptimo
+                        </span>
+                    </article>
+
+                    <article class="sensor-card" aria-label="Sensor de Presión Hídrica">
+                        <span class="sensor-icon" aria-hidden="true">📊</span>
+                        <h3>Presión Hídrica</h3>
+                        <p class="sensor-value">4.2 bar</p>
+                        <span class="sensor-status status-ok">
+                            <span class="sr-only">Estado: </span>Estable
+                        </span>
+                    </article>
+
+                    <article class="sensor-card" aria-label="Sensor de Caudal de Entrada">
+                        <span class="sensor-icon" aria-hidden="true">🌊</span>
+                        <h3>Caudal de Entrada</h3>
+                        <p class="sensor-value">124 L/s</p>
+                        <span class="sensor-status status-ok">
+                            <span class="sr-only">Estado: </span>Normal
+                        </span>
+                    </article>
+
+                    <!-- alert-glow refuerza visualmente la alerta; aria-label y texto "Elevado" la refuerzan semánticamente -->
+                    <article class="sensor-card alert-glow" aria-label="Sensor de Nivel de pH — Requiere atención">
+                        <span class="sensor-icon" aria-hidden="true">🧪</span>
+                        <h3>Nivel de pH</h3>
+                        <p class="sensor-value">8.7 pH</p>
+                        <span class="sensor-status status-warn" role="alert">
+                            <span class="sr-only">Advertencia — Estado: </span>Elevado
+                        </span>
+                    </article>
+
+                    <article class="sensor-card" aria-label="Sensor de Turbidez del Agua">
+                        <span class="sensor-icon" aria-hidden="true">☁️</span>
+                        <h3>Turbidez</h3>
+                        <p class="sensor-value">1.8 NTU</p>
+                        <span class="sensor-status status-ok">
+                            <span class="sr-only">Estado: </span>Claro
+                        </span>
+                    </article>
+
+                    <article class="sensor-card" aria-label="Sensor de Consumo Eléctrico">
+                        <span class="sensor-icon" aria-hidden="true">⚡</span>
+                        <h3>Consumo Eléctrico</h3>
+                        <p class="sensor-value">14.2 kW</p>
+                        <span class="sensor-status status-ok">
+                            <span class="sr-only">Estado: </span>Eficiente
+                        </span>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 TERMINAL DE TELEMETRÍA OPERATIVA
+                 Justificación: Esta terminal permite visualizar rápidamente
+                 eventos recientes de la infraestructura hídrica, facilitando
+                 la supervisión operativa y la detección temprana de incidencias.
+                 Los operadores pueden identificar patrones y anomalías sin
+                 navegar entre múltiples vistas, optimizando el tiempo de
+                 respuesta ante fallos o lecturas fuera de rango.
+                 Implementada con solo HTML y CSS (sin JavaScript).
+                 ============================================================ -->
+            <section class="telemetry-panel" aria-label="Terminal de Telemetría Operativa">
+                <div class="telemetry-header">
+                    <div class="telemetry-title-row">
+                        <span class="telemetry-icon" aria-hidden="true">⬛</span>
+                        <h2 class="telemetry-title">Terminal de Telemetría</h2>
+                        <span class="telemetry-badge" role="status" aria-label="Sistema operando normalmente">SYS OK</span>
+                    </div>
+                    <p class="telemetry-subtitle">hydropulse@acueducto:~$ monitor --live --interval=2s</p>
+                </div>
+
+                <!-- El contenido de la terminal es decorativo/visual para lectores;
+                     el aria-label del section padre provee contexto. Los registros
+                     en texto plano son legibles por lectores de pantalla. -->
+                <div class="telemetry-body" role="log" aria-live="off" aria-label="Registro de eventos del sistema hídrico">
+
+                    <!-- Animación CSS: los registros se desplazan hacia arriba simulando un log en vivo -->
+                    <div class="telemetry-scroll">
+
+                        <div class="tlog-line tlog-system">
+                            <span class="tlog-prompt" aria-hidden="true">$</span>
+                            <span class="tlog-text">Iniciando sesión de monitoreo continuo...</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:01">[08:15:01]</span>
+                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
+                            <span class="tlog-text">Tanque Principal Sector A <span class="tlog-val">73%</span> — Nivel nominal</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:03">[08:15:03]</span>
+                            <span class="tlog-tag tlog-tag-pressure">PRESIÓN</span>
+                            <span class="tlog-text">Sector Norte <span class="tlog-val">4.2 bar</span> — Dentro del rango operativo</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:05">[08:15:05]</span>
+                            <span class="tlog-tag tlog-tag-quality">CALIDAD</span>
+                            <span class="tlog-text">Sensor PH-C01 <span class="tlog-val">7.1 pH</span> — Óptimo para consumo</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:07">[08:15:07]</span>
+                            <span class="tlog-tag tlog-tag-flow">CAUDAL</span>
+                            <span class="tlog-text">Naciente Sur <span class="tlog-val">124 L/s</span> — Flujo estable</span>
+                        </div>
+                        <div class="tlog-line tlog-warn">
+                            <span class="tlog-time" aria-label="08:15:09">[08:15:09]</span>
+                            <span class="tlog-tag tlog-tag-warn">ALERTA</span>
+                            <span class="tlog-text">PH-C02 Filtro Central <span class="tlog-val-warn">8.7 pH</span> — Elevado. Revisión requerida</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:11">[08:15:11]</span>
+                            <span class="tlog-tag tlog-tag-valve">VÁLVULA</span>
+                            <span class="tlog-text">V-04 Sector D <span class="tlog-val">ABIERTA</span> — Operación normal</span>
+                        </div>
+                        <div class="tlog-line tlog-error">
+                            <span class="tlog-time" aria-label="08:15:12">[08:15:12]</span>
+                            <span class="tlog-tag tlog-tag-error">CRÍTICO</span>
+                            <span class="tlog-text">Estación Delta V — <span class="tlog-val-error">Sensor no responde</span> · Tiempo de espera excedido</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:14">[08:15:14]</span>
+                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
+                            <span class="tlog-text">Represa Sector 4 <span class="tlog-val">58%</span> — Llenado en progreso</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:16">[08:15:16]</span>
+                            <span class="tlog-tag tlog-tag-flow">CAUDAL</span>
+                            <span class="tlog-text">Planta Central <span class="tlog-val">98 L/s</span> — Flujo reducido post-pico</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:18">[08:15:18]</span>
+                            <span class="tlog-tag tlog-tag-quality">TURBIDEZ</span>
+                            <span class="tlog-text">NTU-01 <span class="tlog-val">1.8 NTU</span> — Agua clara, dentro de parámetros</span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:20">[08:15:20]</span>
+                            <span class="tlog-tag tlog-tag-pressure">ELÉCTRICO</span>
+                            <span class="tlog-text">Consumo bomba principal <span class="tlog-val">14.2 kW</span> — Eficiencia nominal</span>
+                        </div>
+                        <div class="tlog-line tlog-system">
+                            <span class="tlog-time" aria-label="08:15:22">[08:15:22]</span>
+                            <span class="tlog-tag tlog-tag-sys">SISTEMA</span>
+                            <span class="tlog-text">Ciclo de monitoreo completado — <span class="tlog-val">4/5 estaciones operativas</span></span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:24">[08:15:24]</span>
+                            <span class="tlog-tag tlog-tag-valve">VÁLVULA</span>
+                            <span class="tlog-text">V-01 Principal <span class="tlog-val">ABIERTA</span> — Mantenimiento programado 23:00</span>
+                        </div>
+                        <div class="tlog-line tlog-warn">
+                            <span class="tlog-time" aria-label="08:15:26">[08:15:26]</span>
+                            <span class="tlog-tag tlog-tag-warn">MANT.</span>
+                            <span class="tlog-text">Limpieza de tuberías programada para <span class="tlog-val-warn">hoy 23:00</span></span>
+                        </div>
+                        <div class="tlog-line tlog-info">
+                            <span class="tlog-time" aria-label="08:15:28">[08:15:28]</span>
+                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
+                            <span class="tlog-text">Tanque Auxiliar Norte <span class="tlog-val">91%</span> — Alto. Evaluando desvío</span>
+                        </div>
+
+                    </div><!-- /.telemetry-scroll -->
+                </div><!-- /.telemetry-body -->
+
+                <!-- Línea de entrada: cursor parpadeante CSS, sin JavaScript -->
+                <div class="telemetry-input-row" aria-hidden="true">
+                    <span class="tlog-prompt-green">hydropulse@acueducto</span>
+                    <span class="tlog-prompt-white">:</span>
+                    <span class="tlog-prompt-blue">~</span>
+                    <span class="tlog-prompt-white">$</span>
+                    <span class="tlog-cursor" aria-hidden="true">█</span>
+                </div>
+
+            </section><!-- /.telemetry-panel -->
+
+        </section><!-- /.content-center -->
+
+        <!-- EJERCICIO 3: COLUMNA 3 - SIDEBAR DERECHO (ALERTAS) -->
+        <section class="sidebar-right" aria-label="Alertas activas del sistema">
+            <h2 id="alertas-heading">Alertas del Sistema</h2>
+            <div class="alerts-container" role="list" aria-labelledby="alertas-heading">
+
+                <!-- role="listitem" en conjunto con role="list" para compatibilidad con lectores -->
+                <!-- El color del indicador se refuerza con el texto del encabezado ("Crítica:", "Advertencia:") -->
+                <div class="alert-item high" role="listitem" aria-label="Alerta crítica: Presión Estación Delta V">
+                    <!-- aria-hidden: indicador visual de color, el significado está en el texto -->
+                    <div class="alert-indicator" aria-hidden="true"></div>
+                    <div class="alert-content">
+                        <h4>Crítica: Presión Estación Delta V</h4>
+                        <p>Hace 5 min · Sensor no responde.</p>
+                    </div>
+                </div>
+
+                <div class="alert-item warning" role="listitem" aria-label="Advertencia: pH Elevado en filtro central">
+                    <div class="alert-indicator" aria-hidden="true"></div>
+                    <div class="alert-content">
+                        <h4>Advertencia: pH Elevado</h4>
+                        <p>Hace 12 min · Filtro central requiere revisión.</p>
+                    </div>
+                </div>
+
+                <div class="alert-item info" role="listitem" aria-label="Información: Mantenimiento programado esta noche">
+                    <div class="alert-indicator" aria-hidden="true"></div>
+                    <div class="alert-content">
+                        <h4>Mantenimiento Programado</h4>
+                        <p>Hoy 23:00 · Limpieza de tuberías.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

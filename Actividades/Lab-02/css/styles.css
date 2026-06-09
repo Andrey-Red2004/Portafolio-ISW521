@@ -1,0 +1,784 @@
+/* ==========================================================================
+   LABORATORIO 3: RESPUESTAS DE REFLEXIÓN (Requisito Obligatorio)
+   ==========================================================================
+   1. ¿Por qué es una mala práctica utilizar floats para crear columnas en un layout moderno?
+      R/ Los floats fueron creados originalmente para envolver texto alrededor de imágenes. Al usarlos para 
+         estructurar columnas, se rompe el flujo natural del documento, requiriendo "hacks" como Clearfix 
+         para evitar el colapso de contenedores primarios. No poseen control nativo de alineación vertical 
+         ni distribución automática proporcional del espacio.
+
+   2. Describe la diferencia principal entre flex-basis y width.
+      R/ 'width' define un ancho estático absoluto en cualquier contexto. En cambio, 'flex-basis' define 
+         el tamaño inicial asignado a un elemento antes de que se distribuyan los espacios remanentes. 
+         Además, flex-basis es flexible: responde directamente al eje determinado por 'flex-direction' 
+         (actúa como ancho en filas y como altura en columnas).
+
+   EJERCICIO 3 · PREGUNTAS DE REFLEXIÓN:
+
+   3. ¿Qué diferencia hay entre flex: 1 y flex-grow: 1? ¿Son exactamente lo mismo?
+      R/ No son exactamente lo mismo. 'flex: 1' es el shorthand de flex-grow: 1, flex-shrink: 1, 
+         flex-basis: 0%. Al establecer flex-basis en 0%, el elemento parte de tamaño cero y distribuye 
+         todo el espacio disponible proporcionalmente. En cambio, 'flex-grow: 1' por sí solo no modifica 
+         flex-basis ni flex-shrink, por lo que el tamaño base sigue siendo 'auto' (el contenido natural). 
+         Resultado: con contenidos de distinto tamaño, ambas declaraciones producen distribuciones 
+         diferentes del espacio libre.
+
+   4. Si quisiéramos que el Sidebar nunca sea menor a 180px sin importar el flex-shrink, 
+      ¿qué propiedad agregarían?
+      R/ Se agregaría min-width: 180px al elemento sidebar. Esta propiedad actúa como un "piso": 
+         el algoritmo de flexibilidad puede intentar encoger el elemento, pero nunca lo reducirá 
+         por debajo de ese valor mínimo, independientemente del valor de flex-shrink.
+
+   5. Prueben cambiar flex: 3 del Main Content a flex: 5 — ¿Cómo afecta la proporción visual?
+      R/ Al cambiar a flex: 5, el total de porciones pasa de 1+3+1=5 a 1+5+1=7. El Main Content 
+         pasaría de ocupar 3/5 (60%) del espacio a 5/7 (~71.4%), mientras que cada sidebar se 
+         reduciría de 1/5 (20%) a 1/7 (~14.3%). El centro gana protagonismo visual y los sidebars 
+         se vuelven más estrechos.
+   ========================================================================== */
+
+/* VARIABLES DE DISEÑO (Inspirado en la paleta oscura y luces de neón de la imagen) */
+:root {
+    --bg-main: #0B0F19;
+    --bg-card: rgba(20, 27, 45, 0.7);
+    --bg-navbar: rgba(13, 19, 33, 0.85);
+    --border-color: rgba(255, 255, 255, 0.06);
+    
+    --neon-blue: #00f2fe;
+    --neon-purple: #4facfe;
+    --neon-pink: #ff007f;
+    --neon-green: #00ff87;
+    --neon-orange: #ff9f43;
+    
+    --text-main: #f5f6fa;
+    --text-muted: #8b9bb4;
+    --font-family: 'Plus Jakarta Sans', sans-serif;
+
+    /* Terminal de Telemetría — paleta monocromática de consola */
+    --terminal-bg: rgba(8, 12, 22, 0.95);
+    --terminal-border: rgba(0, 242, 254, 0.15);
+    --terminal-green: #39ff14;
+    --terminal-amber: #ffd700;
+    --terminal-red: #ff4444;
+    --terminal-blue-dim: #4facfe;
+    --terminal-text: #c8d8e8;
+    --terminal-muted: #5a7a9a;
+    --terminal-font: 'Courier New', Courier, 'Lucida Console', monospace;
+}
+
+/* RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD · CLASE UTILITARIA "SOLO PARA LECTORES DE PANTALLA"
+   Oculta texto visualmente pero lo mantiene disponible para tecnologías de
+   asistencia (lectores de pantalla, Braille, etc.)
+   ========================================================================== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD · ESTILOS DE FOCO VISIBLES (Navegación por teclado)
+   El navegador elimina el outline por defecto en muchos elementos. Se restaura
+   con un anillo de foco visible y de alto contraste para usuarios de teclado.
+   No afecta la estética para usuarios de ratón (se puede usar :focus-visible).
+   ========================================================================== */
+:focus-visible {
+    outline: 2px solid var(--neon-blue);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Excepción: botones y tarjetas ya tienen borde-radius propio */
+.btn-primary:focus-visible {
+    outline-offset: 4px;
+    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.4);
+}
+
+.sidebar-menu li:focus-visible,
+.sensor-card:focus-visible {
+    outline: 2px solid var(--neon-blue);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD · PREFERENCIA DE MOVIMIENTO REDUCIDO
+   Usuarios con epilepsia, vértigo o sensibilidad al movimiento pueden activar
+   "Reducir movimiento" en su sistema operativo. Esta media query respeta esa
+   preferencia desactivando o reduciendo animaciones.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    /* Desactivar todas las transiciones y animaciones globalmente */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* La terminal no se desplazará; mostrará los registros estáticos */
+    .telemetry-scroll {
+        animation: none !important;
+        transform: none !important;
+    }
+
+    /* El cursor parpadeante se mostrará estático */
+    .tlog-cursor {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
+    /* Las barras del gráfico no tendrán transición de altura */
+    .chart-bar {
+        transition: none !important;
+    }
+}
+
+/* GRADIENTES Y UTILIDADES DE ESTILO VISUAL */
+.text-gradient {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.shadow-neon-blue {
+    background: rgba(0, 242, 254, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+/* ==========================================================================
+   EJERCICIO 1: BARRA DE NAVEGACIÓN CON FLEXBOX
+   justify-content: space-between distribuye logo, enlaces y botón entre los
+   extremos del navbar dejando el espacio libre entre ellos. Los tres grupos
+   quedan: logo a la izquierda, nav-links al centro y botón a la derecha,
+   todo alineado verticalmente al centro mediante align-items: center.
+   ========================================================================== */
+.navbar {
+    display: flex;
+    flex-direction: row;           /* Eje principal explícito (row es el default) */
+    justify-content: space-between; /* Distribuye logo ← espacio → links ← espacio → botón */
+    align-items: center;            /* Centra verticalmente en el cross axis */
+    min-height: 60px;
+    padding: 1.2rem 3rem;
+    background-color: var(--bg-navbar);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    /* Subrayado visible al pasar el ratón mejora la accesibilidad más allá del color */
+    text-underline-offset: 4px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+    text-decoration: underline; /* Refuerzo no-color del estado activo/hover */
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+}
+
+/* ==========================================================================
+   EJERCICIO 3: LAYOUT PRINCIPAL — DISTRIBUCIÓN TRIPARTITA CON FLEXBOX
+   flex-direction: row (eje principal horizontal) con tres hijos:
+     Sidebar izquierdo (flex: 1) = 1/5 del ancho
+     Content Center  (flex: 3) = 3/5 del ancho  ← mayor jerarquía visual
+     Sidebar derecho (flex: 1) = 1/5 del ancho
+   min-height: calc(100vh - 60px) garantiza que el layout ocupe el viewport
+   completo descontando la altura del navbar (aprox. 60px).
+   ========================================================================== */
+.main-layout {
+    display: flex;
+    flex-direction: row;            /* Eje principal explícito requerido por el Ej. 3 */
+    flex: 1;                        /* Ocupa el resto de la pantalla verticalmente */
+    min-height: calc(100vh - 60px); /* Requisito Ejercicio 3: descuenta el navbar */
+    padding: 2rem;
+    gap: 2rem;
+}
+
+/* ==========================================================================
+   EJERCICIO 3: COLUMNA 1 — SIDEBAR IZQUIERDO (flex: 1 = 1/5 del ancho)
+   ========================================================================== */
+.sidebar {
+    flex: 1; /* Proporción 1/5 según la distribución del Ejercicio 3 */
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sidebar h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-menu li {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: background 0.3s;
+}
+
+.sidebar-menu li.active,
+.sidebar-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--neon-blue);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+/* El color del punto se refuerza semánticamente con texto .sr-only en el HTML */
+.status-dot.online  { background-color: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
+.status-dot.offline { background-color: var(--text-muted); }
+
+/* Semántica mejorada: dl/dt/dd para la lista de estadísticas */
+.stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.quick-stats {
+    margin-top: auto; /* Empuja las métricas hacia abajo del sidebar */
+}
+
+.stat-mini {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.stat-label { color: var(--text-muted); font-size: 0.85rem; }
+.stat-val   { font-weight: 700; font-size: 0.9rem; }
+
+.text-neon-blue { color: var(--neon-blue); font-weight: 700; }
+.text-neon-pink { color: var(--neon-pink); font-weight: 700; }
+
+/* ==========================================================================
+   EJERCICIO 3: COLUMNA 2 — CONTENIDO CENTRAL (flex: 3 = 3/5 del ancho)
+   ========================================================================== */
+.content-center {
+    flex: 3; /* Proporción mayor: 3 veces más ancho que cada sidebar */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Panel de Gráficos */
+.chart-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.card-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Simulación Visual de Barras Estilo Sci-Fi */
+.mock-chart-visual {
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-bar {
+    width: 8%;
+    background: linear-gradient(to top, rgba(79, 172, 254, 0.1), var(--neon-blue));
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+    transition: height 0.5s ease;
+}
+
+/* ==========================================================================
+   EJERCICIO 2: CUADRÍCULA DE SENSORES — flex-wrap y gap
+   flex-wrap: wrap permite que las tarjetas pasen a múltiples líneas cuando
+   no caben en el ancho disponible.
+   gap: 1.2rem reemplaza el hack de margin como espaciado entre ítems.
+   flex-basis: calc(33.333% - 1.2rem) produce ~3 columnas descontando el gap.
+   Diferencia align-items vs align-content:
+     - align-items: alinea los ítems DENTRO DE CADA fila del contenedor flex.
+     - align-content: distribuye el espacio ENTRE LAS FILAS cuando hay más de
+       una línea (solo activo con flex-wrap: wrap y múltiples filas).
+   ========================================================================== */
+.sensors-section {
+    /* wrapper semántico sin estilos propios */
+}
+
+.sensors-grid {
+    display: flex;
+    flex-wrap: wrap;   /* Permite multilínea cuando los ítems no caben en una fila */
+    gap: 1.2rem;       /* Espaciado moderno: reemplaza margin como hack de separación */
+}
+
+.sensor-card {
+    flex: 1 1 calc(33.333% - 1.2rem); /* Base de 3 columnas restando el gap */
+    min-width: 200px;                  /* Evita colapso en pantallas muy estrechas */
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.sensor-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 242, 254, 0.3);
+}
+
+.alert-glow {
+    border-color: rgba(255, 0, 127, 0.3);
+    box-shadow: inset 0 0 15px rgba(255, 0, 127, 0.05);
+}
+
+.sensor-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.sensor-card h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.sensor-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.sensor-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: auto; /* Alinea el estado siempre al fondo de la tarjeta */
+}
+
+/* El estado se comunica tanto con color como con texto descriptivo en el HTML */
+.status-ok   { color: var(--neon-green); }
+.status-warn { color: var(--neon-pink); }
+
+/* ==========================================================================
+   TERMINAL DE TELEMETRÍA OPERATIVA
+   Simula una consola técnica tipo Linux utilizada por operadores de acueducto.
+   Justificación funcional: permite visualizar rápidamente eventos recientes de
+   la infraestructura hídrica, facilitando la supervisión operativa y la
+   detección temprana de incidencias sin cambiar de pantalla.
+   Implementada únicamente con HTML y CSS (sin JavaScript).
+   Usa Flexbox para la estructura interna del panel.
+   ========================================================================== */
+.telemetry-panel {
+    background-color: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    border-radius: 14px;
+    overflow: hidden;
+    /* Separador superior sutil para diferenciar del sensor grid */
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.05), inset 0 1px 0 rgba(0, 242, 254, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Encabezado de la terminal */
+.telemetry-header {
+    padding: 0.9rem 1.2rem 0.6rem;
+    border-bottom: 1px solid rgba(0, 242, 254, 0.08);
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.telemetry-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.telemetry-icon {
+    font-size: 0.7rem;
+    color: var(--terminal-muted);
+}
+
+.telemetry-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--neon-blue);
+    text-transform: uppercase;
+}
+
+.telemetry-badge {
+    font-family: var(--terminal-font);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--terminal-green);
+    color: var(--terminal-green);
+    background: rgba(57, 255, 20, 0.06);
+    letter-spacing: 1px;
+    margin-left: auto;
+}
+
+.telemetry-subtitle {
+    font-family: var(--terminal-font);
+    font-size: 0.75rem;
+    color: var(--terminal-muted);
+    letter-spacing: 0.3px;
+}
+
+/* Cuerpo de la terminal: área de scroll con máscara de degradado */
+.telemetry-body {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    padding: 0.8rem 0;
+    /* Máscara: los registros más antiguos se desvanecen en la parte superior */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
+}
+
+/* Contenedor de registros que se anima hacia arriba */
+.telemetry-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* Animación: los registros suben continuamente simulando un log en vivo */
+    animation: terminalScroll 28s linear infinite;
+}
+
+@keyframes terminalScroll {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-55%); }
+}
+
+/* Línea de registro individual */
+.tlog-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.22rem 1.2rem;
+    font-family: var(--terminal-font);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Prompt de inicio de sesión */
+.tlog-prompt {
+    color: var(--terminal-green);
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Timestamp */
+.tlog-time {
+    color: var(--terminal-muted);
+    flex-shrink: 0;
+    min-width: 7rem;
+}
+
+/* Etiquetas de categoría */
+.tlog-tag {
+    font-size: 0.65rem;
+    padding: 0.05rem 0.35rem;
+    border-radius: 2px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    min-width: 5.5rem;
+    text-align: center;
+}
+
+.tlog-tag-tank     { background: rgba(0, 242, 254, 0.12); color: var(--neon-blue);   border: 1px solid rgba(0, 242, 254, 0.3); }
+.tlog-tag-pressure { background: rgba(79, 172, 254, 0.12); color: var(--neon-purple); border: 1px solid rgba(79, 172, 254, 0.3); }
+.tlog-tag-flow     { background: rgba(0, 255, 135, 0.10); color: var(--neon-green);  border: 1px solid rgba(0, 255, 135, 0.3); }
+.tlog-tag-quality  { background: rgba(79, 172, 254, 0.10); color: #7ec8e3;            border: 1px solid rgba(79, 172, 254, 0.2); }
+.tlog-tag-valve    { background: rgba(255, 159, 67, 0.10); color: var(--neon-orange); border: 1px solid rgba(255, 159, 67, 0.3); }
+.tlog-tag-sys      { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); }
+.tlog-tag-warn     { background: rgba(255, 215, 0, 0.10); color: var(--terminal-amber); border: 1px solid rgba(255, 215, 0, 0.3); }
+.tlog-tag-error    { background: rgba(255, 68, 68, 0.12); color: var(--terminal-red);   border: 1px solid rgba(255, 68, 68, 0.3); }
+
+/* Texto principal del registro */
+.tlog-text      { color: var(--terminal-text); flex: 1; }
+
+/* Valores destacados: color + negrita (no solo color, también peso tipográfico) */
+.tlog-val       { color: var(--neon-blue);    font-weight: bold; }
+.tlog-val-warn  { color: var(--terminal-amber); font-weight: bold; }
+.tlog-val-error { color: var(--terminal-red);   font-weight: bold; }
+
+/* Variantes de línea por nivel de severidad */
+.tlog-system { opacity: 0.6; }
+.tlog-info   { opacity: 1; }
+.tlog-warn   { background: rgba(255, 215, 0, 0.03); }
+.tlog-error  { background: rgba(255, 68, 68, 0.05); }
+
+/* Línea de entrada con cursor parpadeante — solo CSS, sin JavaScript */
+.telemetry-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.55rem 1.2rem;
+    border-top: 1px solid rgba(0, 242, 254, 0.06);
+    background: rgba(0, 0, 0, 0.25);
+    font-family: var(--terminal-font);
+    font-size: 0.76rem;
+}
+
+.tlog-prompt-green { color: var(--terminal-green); font-weight: bold; }
+.tlog-prompt-white { color: var(--text-main); }
+.tlog-prompt-blue  { color: var(--neon-purple); }
+
+/* Cursor parpadeante: animación CSS pura, sin JavaScript */
+.tlog-cursor {
+    color: var(--neon-blue);
+    font-size: 0.8rem;
+    line-height: 1;
+    animation: cursorBlink 1s step-end infinite;
+    /* step-end produce el efecto on/off característico de los terminales reales */
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ==========================================================================
+   EJERCICIO 3: COLUMNA 3 — SIDEBAR DERECHO (flex: 1 = 1/5 del ancho)
+   Mismo valor que el sidebar izquierdo, produciendo simetría visual.
+   ========================================================================== */
+.sidebar-right {
+    flex: 1; /* Mismo 1/5 del ancho que el sidebar izquierdo */
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-right h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.alerts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.alert-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.01);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.2s;
+}
+
+.alert-item:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.alert-indicator {
+    width: 4px;
+    border-radius: 2px;
+    flex-shrink: 0; /* Evita que el indicador se deforme */
+    min-height: 100%;
+}
+
+/* El significado de cada color se refuerza con el texto del h4 ("Crítica:", "Advertencia:") */
+.alert-item.high    .alert-indicator { background-color: var(--neon-pink);   box-shadow: 0 0 8px var(--neon-pink); }
+.alert-item.warning .alert-indicator { background-color: var(--neon-orange); }
+.alert-item.info    .alert-indicator { background-color: var(--neon-purple); }
+
+.alert-content h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+.alert-content p  { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ==========================================================================
+   EJERCICIO 4 (BONUS): RESPONSIVIDAD MÓVIL — MEDIA QUERIES
+   Se usa min-height en lugar de height: 100vh porque 'height' rígido
+   cortaría el contenido en pantallas con mucho contenido (overflow). 
+   min-height permite que el contenedor crezca si el contenido lo necesita,
+   pero garantiza que ocupe al menos todo el viewport.
+   ========================================================================== */
+@media (max-width: 1100px) {
+    /* El layout pasa de 3 a 2 columnas colapsando el panel derecho abajo */
+    .main-layout {
+        flex-wrap: wrap;
+    }
+    .sidebar       { flex: 1 1 250px; }
+    .content-center { flex: 3 1 600px; }
+    .sidebar-right { flex: 1 1 100%; } /* Ocupa el ancho completo al final */
+}
+
+@media (max-width: 768px) {
+    /* TODO SE COLAPSA A UNA SOLA COLUMNA VERTICAL */
+    /* min-height: 100vh en body con flex-direction: column implementa el
+       patrón Sticky Footer: el contenido principal se expande para empujar
+       el footer hasta el fondo del viewport. */
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1.2rem;
+        font-size: 0.85rem;
+    }
+
+    /* El único cambio clave: eje principal cambia de row a column */
+    .main-layout {
+        flex-direction: column;
+        padding: 1rem;
+        min-height: auto; /* El body ya gestiona el min-height */
+    }
+
+    /* Todos los paneles pasan a ocupar el 100% del ancho */
+    .sidebar,
+    .content-center,
+    .sidebar-right {
+        flex: 1 1 100%;
+        width: 100%; /* Refuerzo explícito requerido por el enunciado del Ej. 4 */
+        min-height: auto;
+    }
+
+    /* Las tarjetas de sensores se apilan una sobre otra */
+    .sensors-grid .sensor-card {
+        flex: 1 1 100%;
+    }
+
+    /* En móvil la terminal muestra una altura menor para no dominar el scroll */
+    .telemetry-body {
+        height: 180px;
+    }
+
+    /* Truncamos el prompt en móvil para que quepa en pantalla */
+    .telemetry-subtitle {
+        font-size: 0.68rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

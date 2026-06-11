@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard de Seguimiento de Restauración Mecánica — Toyota Land Cruiser FJ40 1970 Negro Mate. Taller Mecánico Vargas & Asociados, San Carlos, Costa Rica.">
+  <title>Dashboard de Restauración — Toyota Land Cruiser FJ40 1970</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CONTENEDOR RAÍZ — CSS Grid asimétrico sin @media queries
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="dashboard-wrapper">
+
+    <!-- ══════════════════════════════════════
+         ZONA A · HEADER
+    ═════════════════════════════════════════= -->
+    <header class="dashboard-header">
+
+      <!-- Partículas decorativas de fondo (CSS only) -->
+      <div class="header-particles" aria-hidden="true">
+        <span class="particle particle--1"></span>
+        <span class="particle particle--2"></span>
+        <span class="particle particle--3"></span>
+        <span class="particle particle--4"></span>
+        <span class="particle particle--5"></span>
+      </div>
+
+      <div class="header-brand">
+        <div class="header-logo" aria-hidden="true">
+          <!-- SVG Logotipo engranaje -->
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 2a1 1 0 011 1v2.07A9 9 0 0123.93 13H26a1 1 0 010 2h-2.07A9 9 0 0117 22.93V25a1 1 0 01-2 0v-2.07A9 9 0 016.07 15H4a1 1 0 010-2h2.07A9 9 0 0113 5.07V3a1 1 0 011-1h1z" fill="#3D96FF" opacity="0.3"/>
+            <circle cx="15" cy="15" r="5" stroke="#3D96FF" stroke-width="1.5"/>
+            <circle cx="15" cy="15" r="2" fill="#3D96FF"/>
+            <path d="M15 4v3M15 23v3M4 15h3M23 15h3" stroke="#3D96FF" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M6.7 6.7l2.12 2.12M21.18 21.18l2.12 2.12M23.3 6.7l-2.12 2.12M8.82 21.18l-2.12 2.12" stroke="#3D96FF" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="header-brand-text">
+          <div class="brand-eyebrow">Restauración de Vehículos Clásicos</div>
+          <h1 class="project-title">Toyota Land Cruiser <span class="title-accent">FJ40</span></h1>
+          <p class="project-subtitle">Restauración Integral · Negro Mate Texturizado · 1970</p>
+        </div>
+      </div>
+
+      <div class="header-meta">
+        <div class="header-meta-badges">
+          <span class="badge badge--active" id="project-status-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            En Progreso
+          </span>
+          <span class="badge badge--priority">Alta Prioridad</span>
+        </div>
+        <div class="header-meta-info">
+          <p class="meta-item">
+            <span class="meta-icon" aria-hidden="true">📅</span>
+            Ingreso: <strong>03 / 02 / 2026</strong>
+          </p>
+          <p class="meta-item">
+            <span class="meta-icon" aria-hidden="true">👷</span>
+            Técnico: <strong>Carlos Vargas Rojas</strong>
+          </p>
+          <p class="meta-item">
+            <span class="meta-icon" aria-hidden="true">📋</span>
+            OT: <strong>RV-2026-047</strong>
+          </p>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- ══════════════════════════════════════
+         ZONA B · VEHICLE HERO
+    ═════════════════════════════════════════= -->
+    <section class="vehicle-hero" aria-label="Foto principal del vehículo">
+      <figure class="hero-figure">
+        <img
+          src="assets/vehiculo-toyota.jpg"
+          alt="Toyota Land Cruiser FJ40 1970 — Negro Mate en proceso de restauración integral"
+          class="hero-image"
+          id="vehicle-main-image"
+        >
+        <!-- Overlay scanline (CSS) -->
+        <div class="hero-scanline" aria-hidden="true"></div>
+        <figcaption class="hero-caption">
+          <span class="caption-dot" aria-hidden="true"></span>
+          Vista lateral izquierda · Pre-pintura · 10 / 06 / 2026
+        </figcaption>
+        <div class="hero-overlay-badge" aria-hidden="true">
+          <span class="overlay-year">1970</span>
+          <span class="overlay-model">FJ40</span>
+        </div>
+      </figure>
+
+      <div class="hero-stats-row">
+        <div class="hero-stat" title="Porcentaje de avance general">
+          <span class="hero-stat__value" data-target="67">67<span class="stat-unit">%</span></span>
+          <span class="hero-stat__label">Avance</span>
+        </div>
+        <div class="hero-stat" title="Días activos en taller">
+          <span class="hero-stat__value">142</span>
+          <span class="hero-stat__label">Días activo</span>
+        </div>
+        <div class="hero-stat" title="Total de sistemas mecánicos">
+          <span class="hero-stat__value">6</span>
+          <span class="hero-stat__label">Sistemas</span>
+        </div>
+        <div class="hero-stat hero-stat--green" title="Sistemas completados">
+          <span class="hero-stat__value">2</span>
+          <span class="hero-stat__label">Completados</span>
+        </div>
+      </div>
+
+      <div class="hero-progress" id="hero-progress-section">
+        <div class="progress-bar" role="progressbar" aria-valuenow="67"
+             aria-valuemin="0" aria-valuemax="100" aria-label="Avance general del proyecto">
+          <div class="progress-fill" style="--progress: 67%"></div>
+        </div>
+        <p class="progress-label">
+          <span>Avance general del proyecto</span>
+          <strong>67%</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         ZONA C · SIDEBAR
+    ═════════════════════════════════════════= -->
+    <aside class="project-sidebar" aria-label="Datos del proyecto y propietario">
+      <div class="sidebar-card" id="project-data-card">
+        <h2 class="sidebar-card__title">
+          <span class="card-title-icon" aria-hidden="true">🗂</span>
+          Datos del Proyecto
+        </h2>
+        <dl class="project-data">
+          <dt>Placa</dt>     <dd>SC-4070</dd>
+          <dt>VIN</dt>       <dd class="vin-value">FJ40-029841</dd>
+          <dt>Motor</dt>     <dd>3.9L I6 · F-Engine</dd>
+          <dt>Transmisión</dt><dd>Manual 3 vel. (H41)</dd>
+          <dt>Kilometraje</dt><dd>187 340 km</dd>
+          <dt>Presupuesto</dt><dd class="budget-approved">₡ 11 200 000</dd>
+          <dt>Ejecutado</dt>  <dd>₡ 7 504 000</dd>
+        </dl>
+      </div>
+
+      <div class="sidebar-card sidebar-card--compact" id="owner-data-card">
+        <h2 class="sidebar-card__title">
+          <span class="card-title-icon" aria-hidden="true">👤</span>
+          Propietario
+        </h2>
+        <address class="owner-info">
+          <p class="owner-name">Rodrigo Madrigal Ulate</p>
+          <p>📞 8834-6120</p>
+          <p>📧 rmadrigal@agrosalas.cr</p>
+        </address>
+      </div>
+
+      <!-- Mini barra de presupuesto -->
+      <div class="sidebar-card sidebar-card--highlight" id="budget-card">
+        <h2 class="sidebar-card__title">
+          <span class="card-title-icon" aria-hidden="true">💰</span>
+          Presupuesto
+        </h2>
+        <div class="budget-meter-wrap">
+          <div class="budget-bar">
+            <div class="budget-fill" style="--budget-pct: 67%"></div>
+          </div>
+          <p class="budget-pct-label">67% ejecutado</p>
+        </div>
+        <div class="budget-row">
+          <span class="budget-label">Aprobado</span>
+          <span class="budget-val budget-val--total">₡ 11 200 000</span>
+        </div>
+        <div class="budget-row">
+          <span class="budget-label">Ejecutado</span>
+          <span class="budget-val budget-val--used">₡ 7 504 000</span>
+        </div>
+        <div class="budget-row">
+          <span class="budget-label">Saldo</span>
+          <span class="budget-val budget-val--remaining">₡ 3 696 000</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ══════════════════════════════════════
+         ZONA ANALYTICS · Radar + KPIs
+         (Zona de impacto visual principal)
+    ═════════════════════════════════════════= -->
+    <section class="analytics-section" aria-labelledby="analytics-heading">
+      <h2 id="analytics-heading" class="section-title">
+        Perfil de Rendimiento &amp; Valor · FJ40
+        <span class="section-title-count">6 métricas clave</span>
+      </h2>
+
+      <div class="analytics-grid">
+
+        <!-- ── Radar Chart SVG — Potencia & Valor FJ40 1970 ── -->
+        <div class="radar-card" id="radar-chart-card">
+          <div class="radar-card__header">
+            <p class="radar-card__title">Radar de Potencia, Ventajas y Valor de Mercado</p>
+            <span class="radar-legend-dot radar-legend-dot--data"></span>
+            <span class="radar-legend-label">FJ40 1970 vs. promedio de la categoría</span>
+          </div>
+
+          <div class="radar-chart-wrap">
+            <!--
+              COORDENADAS — Centro: (170, 155) | Radio máximo: 105px
+              6 ejes, ángulo inicial -90° (arriba), paso 60° horario:
+
+              Eje 0 Potencia     (-90°) → cos=0,      sin=-1     → vértice (170, 50)
+              Eje 1 Torque       (-30°) → cos=0.866,  sin=-0.5   → vértice (260.9, 102.5)
+              Eje 2 Off-Road      (30°) → cos=0.866,  sin=0.5    → vértice (260.9, 207.5)
+              Eje 3 Valor Colecc. (90°) → cos=0,      sin=1      → vértice (170, 260)
+              Eje 4 Ventas       (150°) → cos=-0.866, sin=0.5    → vértice (79.1, 207.5)
+              Eje 5 Durabilidad  (210°) → cos=-0.866, sin=-0.5   → vértice (79.1, 102.5)
+
+              Datos FJ40 1970:
+              Potencia 70%    → r=73.5 → (170+0,     155-73.5)    = (170,    81.5)
+              Torque   85%    → r=89.25→ (170+77.3,  155-44.6)    = (247.3, 110.4)
+              Off-Road 95%    → r=99.75→ (170+86.4,  155+49.9)    = (256.4, 204.9)
+              Valor    90%    → r=94.5 → (170+0,     155+94.5)    = (170,   249.5)
+              Ventas   78%    → r=81.9 → (170-70.9,  155+40.95)   = (99.1,  195.95)
+              Durabilidad 97% → r=101.9→ (170-88.2,  155-51.0)    = (81.8,  104.0)
+            -->
+            <svg
+              class="radar-svg"
+              viewBox="0 0 340 310"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Gráfica de radar hexagonal: Potencia, Torque, Off-Road, Valor, Ventas y Durabilidad del Toyota Land Cruiser FJ40 1970"
+            >
+              <defs>
+                <linearGradient id="radar-grad" x1="30%" y1="0%" x2="70%" y2="100%">
+                  <stop offset="0%"   stop-color="#3D96FF" stop-opacity="0.6"/>
+                  <stop offset="50%"  stop-color="#22C55E" stop-opacity="0.45"/>
+                  <stop offset="100%" stop-color="#EAB308" stop-opacity="0.35"/>
+                </linearGradient>
+                <filter id="radar-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="dot-glow" x="-80%" y="-80%" width="260%" height="260%">
+                  <feGaussianBlur stdDeviation="2" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- ╔═══════════════════════════════╗
+                   ║  REJILLAS HEXAGONALES (4 anillos) ║
+                   ╚═══════════════════════════════╝ -->
+
+              <!-- r=105 (100%) — anillo exterior con guion -->
+              <polygon points="170,50 260.9,102.5 260.9,207.5 170,260 79.1,207.5 79.1,102.5"
+                fill="none" stroke="rgba(61,150,255,0.22)" stroke-width="1.2" stroke-dasharray="5 3"/>
+              <!-- r=78.75 (75%) -->
+              <polygon points="170,76.25 238.18,119.38 238.18,190.63 170,233.75 101.83,190.63 101.83,119.38"
+                fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <!-- r=52.5 (50%) -->
+              <polygon points="170,102.5 215.46,129.25 215.46,180.75 170,207.5 124.54,180.75 124.54,129.25"
+                fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <!-- r=26.25 (25%) -->
+              <polygon points="170,128.75 192.73,142.13 192.73,167.88 170,181.25 147.27,167.88 147.27,142.13"
+                fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+              <!-- ╔═════════════════╗
+                   ║     EJES        ║
+                   ╚═════════════════╝ -->
+              <line x1="170" y1="155" x2="170"   y2="50"    stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+              <line x1="170" y1="155" x2="260.9" y2="102.5" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+              <line x1="170" y1="155" x2="260.9" y2="207.5" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+              <line x1="170" y1="155" x2="170"   y2="260"   stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+              <line x1="170" y1="155" x2="79.1"  y2="207.5" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+              <line x1="170" y1="155" x2="79.1"  y2="102.5" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+
+              <!-- ╔══════════════════════════════════════════╗
+                   ║  POLÍGONO DE DATOS — FJ40 1970          ║
+                   ║  Potencia 70% · Torque 85% · OffRoad 95% ║
+                   ║  Valor 90% · Ventas 78% · Durabilidad 97%║
+                   ╚══════════════════════════════════════════╝ -->
+              <polygon
+                points="170,81.5 247.3,110.4 256.4,204.9 170,249.5 99.1,195.95 81.8,104.0"
+                fill="url(#radar-grad)"
+                stroke="#3D96FF"
+                stroke-width="2"
+                stroke-linejoin="round"
+                filter="url(#radar-glow)"
+                class="radar-data"
+              />
+
+              <!-- ╔═══════════════════╗
+                   ║  PUNTOS DE DATOS  ║
+                   ╚═══════════════════╝ -->
+              <!-- Potencia 70% -->
+              <circle cx="170" cy="81.5" r="5" fill="#3D96FF" stroke="#7BBFFF" stroke-width="2" filter="url(#dot-glow)"><title>Potencia: 70/100 · 125 hp</title></circle>
+              <!-- Torque 85% -->
+              <circle cx="247.3" cy="110.4" r="5" fill="#22C55E" stroke="#4ADE80" stroke-width="2" filter="url(#dot-glow)"><title>Torque: 85/100 · 285 Nm</title></circle>
+              <!-- Off-Road 95% -->
+              <circle cx="256.4" cy="204.9" r="5" fill="#3D96FF" stroke="#7BBFFF" stroke-width="2" filter="url(#dot-glow)"><title>Cap. Off-Road: 95/100</title></circle>
+              <!-- Valor Coleccionable 90% -->
+              <circle cx="170" cy="249.5" r="5" fill="#EAB308" stroke="#FDE047" stroke-width="2" filter="url(#dot-glow)"><title>Valor Coleccionable: 90/100</title></circle>
+              <!-- Ventas Históricas 78% -->
+              <circle cx="99.1" cy="195.95" r="5" fill="#22C55E" stroke="#4ADE80" stroke-width="2" filter="url(#dot-glow)"><title>Ventas Históricas: 78/100</title></circle>
+              <!-- Durabilidad 97% -->
+              <circle cx="81.8" cy="104.0" r="5" fill="#22C55E" stroke="#4ADE80" stroke-width="2" filter="url(#dot-glow)"><title>Durabilidad: 97/100</title></circle>
+
+              <!-- ╔═══════════════════════╗
+                   ║  ETIQUETAS DE EJES    ║
+                   ╚═══════════════════════╝ -->
+              <!-- Superior: Potencia -->
+              <text x="170" y="38" text-anchor="middle"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">POTENCIA</text>
+
+              <!-- Superior derecha: Torque -->
+              <text x="268" y="99" text-anchor="start"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">TORQUE</text>
+
+              <!-- Inferior derecha: Off-Road -->
+              <text x="268" y="214" text-anchor="start"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">OFF-ROAD</text>
+
+              <!-- Inferior: Valor -->
+              <text x="170" y="278" text-anchor="middle"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">VALOR</text>
+
+              <!-- Inferior izquierda: Ventas -->
+              <text x="72" y="214" text-anchor="end"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">VENTAS</text>
+
+              <!-- Superior izquierda: Durabilidad -->
+              <text x="72" y="99" text-anchor="end"
+                font-family="Inter,sans-serif" font-size="10" font-weight="700"
+                fill="#8FA9CC" letter-spacing="0.08em">DURABILIDAD</text>
+
+              <!-- ╔══════════════════════════╗
+                   ║  ETIQUETAS DE PORCENTAJE ║
+                   ╚══════════════════════════╝ -->
+              <!-- Potencia 70% — encima del punto -->
+              <text x="170" y="73" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#6AB0FF">70%</text>
+
+              <!-- Torque 85% — derecha del punto -->
+              <text x="253" y="107" text-anchor="start"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4ADE80">85%</text>
+
+              <!-- Off-Road 95% — derecha-abajo del punto -->
+              <text x="262" y="213" text-anchor="start"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#6AB0FF">95%</text>
+
+              <!-- Valor 90% — debajo del punto -->
+              <text x="170" y="262" text-anchor="middle"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#FDE047">90%</text>
+
+              <!-- Ventas 78% — izquierda del punto -->
+              <text x="93" y="205" text-anchor="end"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4ADE80">78%</text>
+
+              <!-- Durabilidad 97% — izquierda-arriba del punto -->
+              <text x="75" y="100" text-anchor="end"
+                font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="#4ADE80">97%</text>
+
+              <!-- ╔═══════════════════════╗
+                   ║  NIVELES DE REFERENCIA ║
+                   ╚═══════════════════════╝
+                   A lo largo del eje Torque (superior-derecha), posición exacta:
+                   r=26.25: (192.73,142.13) → label cerca
+                   r=52.5:  (215.46,129.25) → label cerca
+                   r=78.75: (238.18,119.38) → label cerca  -->
+              <text x="192" y="140" text-anchor="start"
+                font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.22)">25</text>
+              <text x="214" y="127" text-anchor="start"
+                font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.22)">50</text>
+              <text x="237" y="117" text-anchor="start"
+                font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,255,255,0.22)">75</text>
+
+            </svg>
+          </div>
+
+          <!-- Leyenda bajo el radar -->
+          <div class="radar-legend">
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--blue"></span>
+              <span class="rli-label">Potencia</span>
+              <span class="rli-val">70 / 100</span>
+              <span class="rli-note">125 hp · F 3.9L</span>
+            </div>
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--green"></span>
+              <span class="rli-label">Torque</span>
+              <span class="rli-val">85 / 100</span>
+              <span class="rli-note">285 Nm · 2 200 rpm</span>
+            </div>
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--blue"></span>
+              <span class="rli-label">Off-Road</span>
+              <span class="rli-val">95 / 100</span>
+              <span class="rli-note">4×4 · blocaje Dana</span>
+            </div>
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--yellow"></span>
+              <span class="rli-label">Valor</span>
+              <span class="rli-val">90 / 100</span>
+              <span class="rli-note">Clásico codiciado</span>
+            </div>
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--green"></span>
+              <span class="rli-label">Ventas</span>
+              <span class="rli-val">78 / 100</span>
+              <span class="rli-note">700 000+ uds. globales</span>
+            </div>
+            <div class="radar-legend-item">
+              <span class="rli-dot rli-dot--green"></span>
+              <span class="rli-label">Durabilidad</span>
+              <span class="rli-val">97 / 100</span>
+              <span class="rli-note">Fiabilidad legendaria</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Panel KPIs / Métricas ── -->
+        <div class="kpi-panel" id="kpi-panel">
+
+          <div class="kpi-card kpi-card--blue" id="kpi-avance">
+            <div class="kpi-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 10l4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__value">67<small>%</small></span>
+              <span class="kpi-card__label">Avance general</span>
+            </div>
+            <div class="kpi-bar-mini">
+              <div class="kpi-bar-fill" style="--kpi-pct: 67%"></div>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--green" id="kpi-completados">
+            <div class="kpi-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M6.5 10.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__value">2<small>/6</small></span>
+              <span class="kpi-card__label">Sistemas completados</span>
+            </div>
+            <div class="kpi-bar-mini">
+              <div class="kpi-bar-fill" style="--kpi-pct: 33%"></div>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--yellow" id="kpi-dias">
+            <div class="kpi-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 2v3M13 2v3M3 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__value">142</span>
+              <span class="kpi-card__label">Días en taller</span>
+            </div>
+            <div class="kpi-bar-mini">
+              <div class="kpi-bar-fill" style="--kpi-pct: 80%"></div>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--red" id="kpi-presupuesto">
+            <div class="kpi-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2v2M10 16v2M2 10h2M16 10h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="10" cy="10" r="5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__value">33<small>%</small></span>
+              <span class="kpi-card__label">Saldo disponible</span>
+            </div>
+            <div class="kpi-bar-mini">
+              <div class="kpi-bar-fill" style="--kpi-pct: 33%"></div>
+            </div>
+          </div>
+
+          <!-- Timeline de actividad reciente -->
+          <div class="activity-feed" id="activity-feed">
+            <p class="activity-feed__title">Actividad Reciente</p>
+            <ul class="activity-list" role="list">
+              <li class="activity-item activity-item--done">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-info">
+                  <p class="activity-text">Motor F-Engine reconstruido</p>
+                  <time class="activity-time" datetime="2026-05-20">20 May 2026</time>
+                </div>
+              </li>
+              <li class="activity-item activity-item--done">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-info">
+                  <p class="activity-text">Pintura Negro Mate finalizada</p>
+                  <time class="activity-time" datetime="2026-04-18">18 Abr 2026</time>
+                </div>
+              </li>
+              <li class="activity-item activity-item--progress">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-info">
+                  <p class="activity-text">Caja H41 en reconstrucción</p>
+                  <time class="activity-time" datetime="2026-06-02">02 Jun 2026</time>
+                </div>
+              </li>
+              <li class="activity-item activity-item--progress">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-info">
+                  <p class="activity-text">Arnés eléctrico en proceso</p>
+                  <time class="activity-time" datetime="2026-06-08">08 Jun 2026</time>
+                </div>
+              </li>
+              <li class="activity-item activity-item--pending">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-info">
+                  <p class="activity-text">Suspensión OME por iniciar</p>
+                  <time class="activity-time" datetime="2026-07-01">01 Jul 2026</time>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- /.kpi-panel -->
+      </div><!-- /.analytics-grid -->
+    </section>
+
+    <!-- ══════════════════════════════════════
+         ZONA D · ESTADO MECÁNICO
+    ═════════════════════════════════════════= -->
+    <section class="status-section" aria-labelledby="status-heading">
+      <h2 id="status-heading" class="section-title">
+        Estado Mecánico
+        <span class="section-title-count">6 sistemas</span>
+      </h2>
+      <div class="status-grid">
+
+        <article class="status-card status-card--done" id="card-motor">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">🔧</span>
+            <h3 class="status-card__name">Motor F-Engine 3.9L</h3>
+          </header>
+          <p class="status-card__state">Completado</p>
+          <p class="status-card__detail">Reconstrucción completa del bloque. Rectificación de cilindros, culata nueva, mangueras de silicona y calibración de válvulas al 100%.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="100" min="0" max="100" title="100%"></meter>
+            <span class="meter-pct">100%</span>
+          </div>
+        </article>
+
+        <article class="status-card status-card--in-progress" id="card-caja">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">⚙️</span>
+            <h3 class="status-card__name">Caja de Cambios H41</h3>
+          </header>
+          <p class="status-card__state">En Proceso</p>
+          <p class="status-card__detail">Reemplazo de sincronizadores, rodamientos y sellos de retención. Reconstrucción del varillaje de selección de marcha.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="60" min="0" max="100" title="60%"></meter>
+            <span class="meter-pct">60%</span>
+          </div>
+        </article>
+
+        <article class="status-card status-card--pending" id="card-dif">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">🔄</span>
+            <h3 class="status-card__name">Diferenciales Del/Tras</h3>
+          </header>
+          <p class="status-card__state">Pendiente</p>
+          <p class="status-card__detail">Cambio de fluidos sintéticos SAE 80W-90 y ajuste de holgura en corona-piñón del diferencial trasero tipo Dana 44.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="15" min="0" max="100" title="15%"></meter>
+            <span class="meter-pct">15%</span>
+          </div>
+        </article>
+
+        <article class="status-card status-card--pending" id="card-suspension">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">🛞</span>
+            <h3 class="status-card__name">Suspensión Delantera</h3>
+          </header>
+          <p class="status-card__state">Pendiente</p>
+          <p class="status-card__detail">Instalación de kit lift +4 pulgadas con amortiguadores Old Man Emu y bushings de poliuretano en todos los brazos.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="0" min="0" max="100" title="0%"></meter>
+            <span class="meter-pct">0%</span>
+          </div>
+        </article>
+
+        <article class="status-card status-card--done" id="card-carroceria">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">🎨</span>
+            <h3 class="status-card__name">Carrocería / Pintura</h3>
+          </header>
+          <p class="status-card__state">Completado</p>
+          <p class="status-card__detail">Desarme total, tratamiento anticorrosivo epóxico, relleno de abolladuras y aplicación de pintura de poliuretano Negro Mate texturizado.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="100" min="0" max="100" title="100%"></meter>
+            <span class="meter-pct">100%</span>
+          </div>
+        </article>
+
+        <article class="status-card status-card--in-progress" id="card-electrico">
+          <header class="status-card__header">
+            <span class="status-icon" aria-hidden="true">💡</span>
+            <h3 class="status-card__name">Sistema Eléctrico</h3>
+          </header>
+          <p class="status-card__state">En Proceso</p>
+          <p class="status-card__detail">Simplificación del arnés original, instalación de faros LED sellados tipo PAR, batería Optima Yellow Top y centraleta auxiliar.</p>
+          <div class="meter-wrap">
+            <meter class="status-meter" value="45" min="0" max="100" title="45%"></meter>
+            <span class="meter-pct">45%</span>
+          </div>
+        </article>
+
+      </div><!-- /.status-grid -->
+    </section>
+
+    <!-- ══════════════════════════════════════
+         ZONA E · INVENTARIO DE REPUESTOS
+    ═════════════════════════════════════════= -->
+    <section class="inventory-section" aria-labelledby="inventory-heading">
+      <h2 id="inventory-heading" class="section-title">
+        Inventario de Repuestos
+        <span class="section-title-count">5 ítems · ₡ 813 500</span>
+      </h2>
+      <ul class="parts-list" role="list">
+
+        <li class="parts-item" id="part-1">
+          <div class="part-info">
+            <span class="part-icon" aria-hidden="true">🔩</span>
+            <div class="part-details">
+              <p class="part-name">Kit de Empaque Motor F-Engine Completo</p>
+              <p class="part-sku">SKU: 04111-61021 · Toyota OEM</p>
+            </div>
+          </div>
+          <span class="part-price">₡ 68 500</span>
+          <div class="part-actions">
+            <span class="badge badge--stock-ok">En Stock</span>
+            <button class="btn-buy" type="button" id="btn-order-1" aria-label="Ordenar Kit de Empaque Motor F-Engine Completo">Ordenar</button>
+          </div>
+        </li>
+
+        <li class="parts-item" id="part-2">
+          <div class="part-info">
+            <span class="part-icon" aria-hidden="true">🔧</span>
+            <div class="part-details">
+              <p class="part-name">Kit de Embrague Completo (Disco + Plato + Collarín)</p>
+              <p class="part-sku">SKU: FJC-EXD-H41 · Exedy OEM</p>
+            </div>
+          </div>
+          <span class="part-price">₡ 145 000</span>
+          <div class="part-actions">
+            <span class="badge badge--stock-ok">En Stock</span>
+            <button class="btn-buy" type="button" id="btn-order-2" aria-label="Ordenar Kit de Embrague Completo">Ordenar</button>
+          </div>
+        </li>
+
+        <li class="parts-item" id="part-3">
+          <div class="part-info">
+            <span class="part-icon" aria-hidden="true">🛞</span>
+            <div class="part-details">
+              <p class="part-name">Amortiguador Delantero Nitrocharger Pro +4" FJ40</p>
+              <p class="part-sku">SKU: OME-80193 · Old Man Emu ARB</p>
+            </div>
+          </div>
+          <span class="part-price">₡ 195 000</span>
+          <div class="part-actions">
+            <span class="badge badge--stock-low">Pocas unidades</span>
+            <button class="btn-buy" type="button" id="btn-order-3" aria-label="Ordenar Amortiguador Delantero Nitrocharger Pro">Ordenar</button>
+          </div>
+        </li>
+
+        <li class="parts-item" id="part-4">
+          <div class="part-info">
+            <span class="part-icon" aria-hidden="true">🔄</span>
+            <div class="part-details">
+              <p class="part-name">Faro Principal Delantero Sellado LED PAR46</p>
+              <p class="part-sku">SKU: 81110-60740 · Toyota OEM</p>
+            </div>
+          </div>
+          <span class="part-price">₡ 220 000</span>
+          <div class="part-actions">
+            <span class="badge badge--out-of-stock">Agotado</span>
+            <button class="btn-buy" type="button" id="btn-quote-4" aria-label="Cotizar Faro Principal Delantero" disabled>Cotizar</button>
+          </div>
+        </li>
+
+        <li class="parts-item" id="part-5">
+          <div class="part-info">
+            <span class="part-icon" aria-hidden="true">💡</span>
+            <div class="part-details">
+              <p class="part-name">Batería Optima Yellow Top D34 (Ciclo Profundo)</p>
+              <p class="part-sku">SKU: OPT-8014-045 · Optima Batteries</p>
+            </div>
+          </div>
+          <span class="part-price">₡ 185 000</span>
+          <div class="part-actions">
+            <span class="badge badge--stock-ok">En Stock</span>
+            <button class="btn-buy" type="button" id="btn-order-5" aria-label="Ordenar Batería Optima Yellow Top D34">Ordenar</button>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         ZONA F · FOOTER
+    ═════════════════════════════════════════= -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        <p class="footer-name">Taller Mecánico Vargas &amp; Asociados</p>
+        <p class="footer-address">San Carlos, Alajuela · Costa Rica</p>
+      </div>
+      <div class="footer-contact">
+        <p>📞 2460-1598 · 8834-6120</p>
+        <p>📧 info@tallervargas.cr</p>
+      </div>
+      <div class="footer-legal">
+        <p class="footer-budget-status">
+          Presupuesto N.° <strong>RV-2026-047</strong> — Aprobado y firmado
+        </p>
+        <p class="footer-disclaimer">Los precios indicados no incluyen IVA. Sujeto a disponibilidad de repuestos.</p>
+      </div>
+    </footer>
+
+  </div><!-- /.dashboard-wrapper -->
+
+</body>
+</html>

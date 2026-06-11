@@ -1,784 +1,1706 @@
-/* ==========================================================================
-   LABORATORIO 3: RESPUESTAS DE REFLEXIÓN (Requisito Obligatorio)
-   ==========================================================================
-   1. ¿Por qué es una mala práctica utilizar floats para crear columnas en un layout moderno?
-      R/ Los floats fueron creados originalmente para envolver texto alrededor de imágenes. Al usarlos para 
-         estructurar columnas, se rompe el flujo natural del documento, requiriendo "hacks" como Clearfix 
-         para evitar el colapso de contenedores primarios. No poseen control nativo de alineación vertical 
-         ni distribución automática proporcional del espacio.
+/* ================================================================
+   ARCHIVO: css/styles.css
+   PROYECTO: Akchete By Lara's Food — Landing Page
+   LABORATORIO #1 — ISW-521 Programación en Ambiente Web I
+   UNIVERSIDAD TÉCNICA NACIONAL (UTN)
 
-   2. Describe la diferencia principal entre flex-basis y width.
-      R/ 'width' define un ancho estático absoluto en cualquier contexto. En cambio, 'flex-basis' define 
-         el tamaño inicial asignado a un elemento antes de que se distribuyan los espacios remanentes. 
-         Además, flex-basis es flexible: responde directamente al eje determinado por 'flex-direction' 
-         (actúa como ancho en filas y como altura en columnas).
+   ESTRUCTURA DE ESTE ARCHIVO:
+   1.  Variables CSS (Custom Properties) — Paleta y tokens de diseño
+   2.  Reset / Normalización global
+   3.  Tipografía base y accesibilidad de foco
+   4.  Skip Link (accesibilidad de teclado)
+   5.  HEADER — Flexbox (REQUERIMIENTO #1 de layout)
+   6.  NAVEGACIÓN — Flexbox + menú hamburguesa
+   7.  SECCIÓN HERO
+   8.  SECCIÓN NOSOTROS
+   9.  SECCIÓN DESTACADOS
+   10. SECCIÓN MENÚ — CSS Grid Layout (REQUERIMIENTO #2 de layout)
+   11. SECCIÓN CONTACTO — Flexbox + Mapa
+   12. ASIDE (Sinpe Móvil)
+   13. FOOTER — Flexbox
+   14. MEDIA QUERIES — Breakpoints responsivos (PASO 3 — se amplían)
+   ================================================================ */
 
-   EJERCICIO 3 · PREGUNTAS DE REFLEXIÓN:
 
-   3. ¿Qué diferencia hay entre flex: 1 y flex-grow: 1? ¿Son exactamente lo mismo?
-      R/ No son exactamente lo mismo. 'flex: 1' es el shorthand de flex-grow: 1, flex-shrink: 1, 
-         flex-basis: 0%. Al establecer flex-basis en 0%, el elemento parte de tamaño cero y distribuye 
-         todo el espacio disponible proporcionalmente. En cambio, 'flex-grow: 1' por sí solo no modifica 
-         flex-basis ni flex-shrink, por lo que el tamaño base sigue siendo 'auto' (el contenido natural). 
-         Resultado: con contenidos de distinto tamaño, ambas declaraciones producen distribuciones 
-         diferentes del espacio libre.
+/* ================================================================
+   1. VARIABLES CSS — CUSTOM PROPERTIES
+   ================================================================
+   Las Custom Properties (variables CSS) son una característica nativa
+   de CSS3 declaradas con el prefijo "--". Se definen en el selector
+   :root (equivale a <html>) para que sean accesibles en TODA la hoja.
 
-   4. Si quisiéramos que el Sidebar nunca sea menor a 180px sin importar el flex-shrink, 
-      ¿qué propiedad agregarían?
-      R/ Se agregaría min-width: 180px al elemento sidebar. Esta propiedad actúa como un "piso": 
-         el algoritmo de flexibilidad puede intentar encoger el elemento, pero nunca lo reducirá 
-         por debajo de ese valor mínimo, independientemente del valor de flex-shrink.
+   VENTAJA TÉCNICA CLAVE para defender:
+   - Si el cliente decide cambiar el amarillo por naranja, solo se modifica
+     UN valor aquí, y el cambio se propaga automáticamente a todo el sitio.
+   - Son como constantes en programación, pero para CSS.
+   - Se usan con la función var(--nombre-variable).
 
-   5. Prueben cambiar flex: 3 del Main Content a flex: 5 — ¿Cómo afecta la proporción visual?
-      R/ Al cambiar a flex: 5, el total de porciones pasa de 1+3+1=5 a 1+5+1=7. El Main Content 
-         pasaría de ocupar 3/5 (60%) del espacio a 5/7 (~71.4%), mientras que cada sidebar se 
-         reduciría de 1/5 (20%) a 1/7 (~14.3%). El centro gana protagonismo visual y los sidebars 
-         se vuelven más estrechos.
-   ========================================================================== */
-
-/* VARIABLES DE DISEÑO (Inspirado en la paleta oscura y luces de neón de la imagen) */
+   PALETA DEL NEGOCIO:
+   - Negro  → Fondo principal (identidad de marca)
+   - Amarillo/Dorado → Títulos, acentos, detalles del logo
+   - Blanco → Texto de cuerpo (garantiza contraste WCAG mínimo 4.5:1)
+   ================================================================ */
 :root {
-    --bg-main: #0B0F19;
-    --bg-card: rgba(20, 27, 45, 0.7);
-    --bg-navbar: rgba(13, 19, 33, 0.85);
-    --border-color: rgba(255, 255, 255, 0.06);
-    
-    --neon-blue: #00f2fe;
-    --neon-purple: #4facfe;
-    --neon-pink: #ff007f;
-    --neon-green: #00ff87;
-    --neon-orange: #ff9f43;
-    
-    --text-main: #f5f6fa;
-    --text-muted: #8b9bb4;
-    --font-family: 'Plus Jakarta Sans', sans-serif;
+  /* --- Colores principales --- */
+  --color-negro:          #0a0a0a;   /* Fondo principal de la página */
+  --color-negro-medio:    #141414;   /* Fondo de secciones alternadas */
+  --color-negro-claro:    #1e1e1e;   /* Fondo de tarjetas y categorías */
+  --color-negro-borde:    #2a2a2a;   /* Bordes sutiles sobre fondos oscuros */
 
-    /* Terminal de Telemetría — paleta monocromática de consola */
-    --terminal-bg: rgba(8, 12, 22, 0.95);
-    --terminal-border: rgba(0, 242, 254, 0.15);
-    --terminal-green: #39ff14;
-    --terminal-amber: #ffd700;
-    --terminal-red: #ff4444;
-    --terminal-blue-dim: #4facfe;
-    --terminal-text: #c8d8e8;
-    --terminal-muted: #5a7a9a;
-    --terminal-font: 'Courier New', Courier, 'Lucida Console', monospace;
+  --color-amarillo:       #f0b429;   /* Amarillo dorado — color de marca principal */
+  --color-amarillo-hover: #d49e20;   /* Amarillo más oscuro para estados :hover */
+  --color-amarillo-claro: #ffd166;   /* Amarillo más suave para detalles secundarios */
+
+  --color-blanco:         #ffffff;   /* Texto principal sobre fondos oscuros */
+  --color-blanco-suave:   #e8e8e8;   /* Texto secundario, descripciones */
+  --color-gris-texto:     #aaaaaa;   /* Texto terciario, notas, metainformación */
+
+  /* --- Tipografías --- */
+  /*
+    Oswald: fuente de display de palo seco condensada. Ideal para títulos
+    porque es impactante, legible y tiene personalidad fuerte.
+    Lato: fuente humanista sans-serif. Ideal para cuerpo de texto porque
+    es neutral, muy legible en tamaños pequeños y en pantallas.
+  */
+  --fuente-titulo:   'Oswald', sans-serif;
+  --fuente-cuerpo:   'Lato', sans-serif;
+
+  /* --- Espaciados (sistema de 8px) --- */
+  /*
+    Un sistema de espaciado basado en múltiplos de 8px crea consistencia
+    visual. El ojo humano percibe harmónicamente las proporciones 8/16/24/32.
+  */
+  --espacio-xs:   0.5rem;   /*  8px */
+  --espacio-sm:   1rem;     /* 16px */
+  --espacio-md:   1.5rem;   /* 24px */
+  --espacio-lg:   2rem;     /* 32px */
+  --espacio-xl:   3rem;     /* 48px */
+  --espacio-xxl:  5rem;     /* 80px */
+
+  /* --- Bordes y sombras --- */
+  --radio-borde:     0.5rem;    /* Border-radius estándar para tarjetas */
+  --radio-borde-lg:  1rem;      /* Border-radius grande para contenedores */
+  --sombra-tarjeta:  0 4px 20px rgba(0, 0, 0, 0.4);
+  --sombra-hover:    0 8px 30px rgba(240, 180, 41, 0.25); /* Brillo dorado en hover */
+
+  /* --- Transiciones --- */
+  /*
+    Una transición consistente en toda la página hace que la UI se sienta
+    cohesiva y pulida. Todos los :hover usan esta misma duración.
+  */
+  --transicion:  0.3s ease;
+
+  /* --- Altura del Header (necesaria para offset de anclas) --- */
+  --altura-header: 70px;
 }
 
-/* RESET GENERAL */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* ================================================================
+   2. RESET / NORMALIZACIÓN GLOBAL
+   ================================================================
+   Los navegadores (Chrome, Firefox, Safari) tienen estilos por defecto
+   distintos entre sí: márgenes, paddings, tamaños de fuente, etc.
+   El reset elimina estas inconsistencias para partir de una base
+   predecible y uniforme en TODOS los navegadores.
+   ================================================================ */
+
+/* Box-sizing universal: DECISIÓN TÉCNICA CRÍTICA */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  /*
+    Por defecto, CSS usa box-sizing: content-box, donde width/height
+    definen SOLO el contenido. Padding y border se SUMAN al tamaño final.
+    Ejemplo con content-box: div de width:200px + padding:20px = 240px reales.
+    Con border-box: div de width:200px + padding:20px = 200px reales.
+    border-box es mucho más intuitivo y es el estándar en desarrollo moderno.
+    El selector *::before y *::after incluye los pseudo-elementos.
+  */
+  margin: 0;
+  padding: 0;
+}
+
+/* Reset del html y body */
+html {
+  scroll-behavior: smooth;
+  /*
+    scroll-behavior: smooth hace que los enlaces de ancla (#inicio, #menu, etc.)
+    desplacen la página suavemente en lugar de saltar abruptamente.
+    Es una propiedad CSS pura, sin necesidad de JavaScript.
+  */
+  font-size: 16px;
+  /*
+    Definir font-size en el html establece la BASE para las unidades rem.
+    1rem = 16px (el tamaño raíz).
+    Si el usuario cambia el tamaño de fuente en su navegador por accesibilidad,
+    rem respeta esa preferencia. px no lo hace.
+    ACCESIBILIDAD: WCAG recomienda evitar px para tamaños de fuente base.
+  */
 }
 
 body {
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: var(--font-family);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-negro);
+  color: var(--color-blanco);
+  line-height: 1.6;
+  /*
+    line-height: 1.6 es el interlineado (espacio entre líneas de texto).
+    WCAG 1.4.12 recomienda al menos 1.5 para texto de cuerpo.
+    Usamos 1.6 para mejorar la legibilidad en textos largos.
+    El valor sin unidad (1.6) es relativo al font-size actual del elemento,
+    lo que lo hace escalable. Usar px aquí sería un error de accesibilidad.
+  */
+  min-height: 100vh;
+  /*
+    100vh = 100% del viewport height (altura visible de la pantalla).
+    Garantiza que el body siempre ocupe al menos toda la pantalla,
+    evitando que el footer quede "flotando" en páginas con poco contenido.
+  */
 }
 
-/* ==========================================================================
-   ACCESIBILIDAD · CLASE UTILITARIA "SOLO PARA LECTORES DE PANTALLA"
-   Oculta texto visualmente pero lo mantiene disponible para tecnologías de
-   asistencia (lectores de pantalla, Braille, etc.)
-   ========================================================================== */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+/* Reset de listas */
+ul, ol {
+  list-style: none;
+  /*
+    Quitamos los bullets/números por defecto. Los estilos de lista
+    se añaden donde son necesarios semánticamente.
+  */
 }
 
-/* ==========================================================================
-   ACCESIBILIDAD · ESTILOS DE FOCO VISIBLES (Navegación por teclado)
-   El navegador elimina el outline por defecto en muchos elementos. Se restaura
-   con un anillo de foco visible y de alto contraste para usuarios de teclado.
-   No afecta la estética para usuarios de ratón (se puede usar :focus-visible).
-   ========================================================================== */
+/* Reset de enlaces */
+a {
+  color: inherit;
+  text-decoration: none;
+  /*
+    Por defecto, los <a> son azules y subrayados. Heredamos el color del
+    padre y quitamos el subrayado para poder estilizarlos completamente
+    según el diseño. Los estilos específicos se definen en cada clase.
+  */
+}
+
+/* Reset de imágenes */
+img {
+  max-width: 100%;
+  /*
+    max-width: 100% es FUNDAMENTAL para la responsividad de imágenes.
+    Sin esto, una imagen de 800px de ancho desbordaría su contenedor
+    en una pantalla de 375px (móvil).
+    Con max-width:100%, la imagen nunca excede el ancho de su contenedor.
+  */
+  height: auto;
+  /*
+    height: auto mantiene la proporción original de la imagen (aspect ratio)
+    al escalar con max-width. Sin esto, la imagen se deformaría.
+  */
+  display: block;
+  /*
+    Las imágenes son inline por defecto, lo que crea un pequeño espacio
+    en blanco debajo (el "descender" de la línea de texto).
+    display:block elimina ese espacio no deseado.
+  */
+}
+
+/* Reset de botones */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  /*
+    Los botones no heredan font-family del body por defecto en algunos
+    navegadores. Forzamos la herencia para consistencia tipográfica.
+  */
+}
+
+
+/* ================================================================
+   3. TIPOGRAFÍA BASE
+   ================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fuente-titulo);
+  line-height: 1.2;
+  /*
+    Los encabezados usan line-height más compacto que el cuerpo (1.2 vs 1.6)
+    porque son textos cortos en tamaños grandes. Un interlineado amplio
+    en títulos grandes crea demasiado espacio vertical y se ve mal.
+  */
+}
+
+p {
+  max-width: 70ch;
+  /*
+    La unidad "ch" equivale al ancho del carácter "0" en la fuente actual.
+    70ch limita las líneas de párrafo a ~70 caracteres de ancho.
+    ACCESIBILIDAD: WCAG 1.4.8 recomienda max 80 caracteres por línea
+    para una lectura cómoda. El ojo humano fatiga al leer líneas muy largas.
+  */
+}
+
+/* Títulos de sección reutilizables */
+.section-title {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  /*
+    clamp(mínimo, preferido, máximo): función CSS que escala el valor
+    entre un mínimo y un máximo según el tamaño del viewport.
+    - Mínimo: 1.8rem (el título nunca será más pequeño que esto)
+    - Preferido: 4vw (escala proporcionalmente al viewport)
+    - Máximo: 2.5rem (el título nunca será más grande que esto)
+    Esto REEMPLAZA algunas media queries para tipografía fluida.
+  */
+  color: var(--color-amarillo);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  /*
+    letter-spacing: 0.05em añade espaciado entre caracteres.
+    Usamos em (relativo al font-size) para que el espaciado escale
+    proporcionalmente si el usuario cambia el tamaño de fuente.
+  */
+  margin-bottom: var(--espacio-sm);
+  text-align: center;
+}
+
+.section-subtitle {
+  color: var(--color-gris-texto);
+  text-align: center;
+  margin-bottom: var(--espacio-xl);
+  font-size: 1.1rem;
+}
+
+
+/* ================================================================
+   4. SKIP LINK — ACCESIBILIDAD DE TECLADO
+   ================================================================
+   WCAG 2.1 — Criterio 2.4.1 (Bypass Blocks, Nivel A):
+   Los usuarios de teclado y lectores de pantalla deben poder
+   saltar bloques repetitivos (como el menú de navegación) para
+   ir directamente al contenido principal.
+
+   TÉCNICA: El enlace existe en el DOM (el lector de pantalla lo ve
+   y el Tab lo enfoca), pero está visualmente fuera de pantalla
+   hasta que recibe el foco. Al recibir foco con Tab, se mueve
+   a una posición visible en la página.
+   ================================================================ */
+.skip-link {
+  position: absolute;
+  top: -100px;          /* Fuera de pantalla por defecto */
+  left: var(--espacio-sm);
+  background-color: var(--color-amarillo);
+  color: var(--color-negro);
+  padding: var(--espacio-xs) var(--espacio-sm);
+  border-radius: var(--radio-borde);
+  font-weight: 700;
+  font-size: 0.9rem;
+  z-index: 9999;        /* Siempre encima de todo al aparecer */
+  transition: top var(--transicion);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--espacio-sm);   /* Salta a posición visible al recibir foco */
+  outline: 3px solid var(--color-negro);
+}
+
+
+/* ================================================================
+   5. HEADER — FLEXBOX (REQUERIMIENTO OBLIGATORIO #1)
+   ================================================================
+   DECISIÓN TÉCNICA — Por qué Flexbox aquí y no Grid:
+   El header contiene DOS elementos: logo y nav. Son ítems en UNA
+   dimensión (una fila). Flexbox es ideal para distribución en
+   una sola dimensión (fila o columna). Grid es para dos dimensiones
+   (filas Y columnas). Justificar esta elección es fundamental.
+
+   FLEXBOX: display:flex convierte el elemento en un "flex container".
+   Sus hijos directos se convierten en "flex items" y se distribuyen
+   según las propiedades flex que definamos.
+   ================================================================ */
+.site-header {
+  display: flex;
+  /*
+    display: flex — Activa el modelo Flexbox en este contenedor.
+    Todos los hijos directos (.logo-container y .main-nav)
+    se convierten automáticamente en flex items.
+  */
+  align-items: center;
+  /*
+    align-items: center — Alinea los flex items en el eje CRUZADO (vertical).
+    El eje principal es horizontal (row por defecto), el cruzado es vertical.
+    Resultado: logo y nav quedan centrados verticalmente dentro del header.
+  */
+  justify-content: space-between;
+  /*
+    justify-content: space-between — Distribuye los flex items en el
+    eje PRINCIPAL (horizontal). "space-between" empuja el primer item
+    al inicio y el último al final, con todo el espacio disponible
+    entre ellos. Resultado: logo a la izquierda, nav a la derecha.
+  */
+  padding: var(--espacio-sm) var(--espacio-lg);
+  background-color: var(--color-negro);
+  border-bottom: 2px solid var(--color-amarillo);
+  /*
+    El borde inferior amarillo refuerza la identidad de marca y
+    separa visualmente el header del contenido.
+  */
+  position: sticky;
+  /*
+    position: sticky — El header se comporta como position:relative
+    hasta que el usuario hace scroll y llega al umbral (top:0).
+    En ese momento se "pega" en la parte superior de la pantalla.
+    Mejor que position:fixed porque no saca el elemento del flujo
+    del documento hasta que es necesario.
+  */
+  top: 0;
+  z-index: 100;
+  /*
+    z-index: 100 — Garantiza que el header quede ENCIMA del resto
+    del contenido al hacer scroll. Sin z-index, las secciones con
+    fondos de color podrían superponerse al header sticky.
+    z-index solo funciona en elementos con position != static.
+  */
+  gap: var(--espacio-sm);
+  /*
+    gap: Espacio entre flex items. Más limpio que usar margin en cada hijo.
+    Funciona tanto en Flexbox como en Grid Layout.
+  */
+}
+
+/* Logo */
+.site-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  /*
+    object-fit: contain — La imagen se escala para caber completamente
+    dentro de sus dimensiones (60x60) sin recortarse ni deformarse.
+    Mantiene el aspect ratio original. Alternativa: cover recortaría.
+  */
+  transition: transform var(--transicion);
+  /*
+    Preparamos la transición para el efecto hover que definimos abajo.
+    La propiedad transition define QUÉ propiedad animar y a qué velocidad.
+    Se define en el estado NORMAL (no en :hover) para que también anime
+    al salir del hover (de vuelta al estado normal).
+  */
+}
+
+.logo-container a:hover .site-logo,
+.logo-container a:focus .site-logo {
+  transform: scale(1.08);
+  /*
+    transform: scale() escala el elemento. scale(1.08) lo agranda un 8%.
+    transform NO afecta el layout (no mueve otros elementos).
+    Es acelerado por GPU, lo que lo hace más suave que animar width/height.
+  */
+}
+
+
+/* ================================================================
+   6. NAVEGACIÓN — FLEXBOX
+   ================================================================ */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-sm);
+}
+
+/* Lista de navegación — Flexbox en fila */
+.nav-menu {
+  display: flex;
+  /*
+    La lista de navegación también usa Flexbox. Sus hijos (<li>) se
+    distribuyen en fila horizontal, que es el comportamiento deseado
+    para una barra de navegación desktop.
+  */
+  list-style: none;
+  gap: var(--espacio-xs);
+  align-items: center;
+}
+
+/* Enlace de navegación individual */
+.nav-link {
+  display: block;
+  padding: var(--espacio-xs) var(--espacio-sm);
+  font-family: var(--fuente-titulo);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-blanco-suave);
+  border-radius: var(--radio-borde);
+  transition: color var(--transicion), background-color var(--transicion);
+  position: relative;
+}
+
+/* Línea decorativa debajo del nav-link con pseudo-elemento */
+.nav-link::after {
+  content: '';
+  /*
+    Los pseudo-elementos ::before y ::after requieren la propiedad content
+    para existir (aunque esté vacía). Son elementos "virtuales" que el
+    CSS inserta antes/después del contenido del elemento seleccionado.
+    Aquí creamos una línea decorativa que crece en el hover.
+  */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-amarillo);
+  transition: width var(--transicion), left var(--transicion);
+  /*
+    Animamos width (de 0 a 100%) y left (de 50% a 0%) simultáneamente
+    para crear el efecto de línea que crece desde el centro.
+  */
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--color-amarillo);
+  background-color: rgba(240, 180, 41, 0.08);
+  /*
+    rgba() permite definir colores con transparencia (canal alpha).
+    El último valor (0.08) es la opacidad: 0=transparente, 1=opaco.
+    Usamos un amarillo muy transparente para el fondo del hover,
+    dando un efecto sutil sin ser dominante.
+  */
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 100%;
+  left: 0;
+  /*
+    Al hacer hover/focus, la línea crece a 100% de ancho y left vuelve a 0,
+    creando el efecto de "expansión desde el centro".
+  */
+}
+
+/* ---- FOCO VISIBLE ---- */
+/*
+  WCAG 2.1 — Criterio 2.4.7 (Focus Visible, Nivel AA):
+  Cualquier componente de interfaz navegable por teclado debe tener
+  un indicador de foco visible. Los navegadores tienen uno por defecto
+  (outline azul), pero muchos diseñadores lo eliminan con outline:none.
+  AQUÍ LO MANTENEMOS Y LO MEJORAMOS para que sea coherente con la marca.
+*/
 :focus-visible {
-    outline: 2px solid var(--neon-blue);
-    outline-offset: 3px;
-    border-radius: 4px;
+  outline: 2px solid var(--color-amarillo);
+  outline-offset: 3px;
+  /*
+    :focus-visible es más preciso que :focus.
+    :focus se activa SIEMPRE que el elemento recibe foco (incluso con mouse).
+    :focus-visible solo se activa cuando el navegador determina que el
+    indicador es NECESARIO (principalmente navegación por teclado).
+    Esto evita el outline "molesto" al hacer clic con mouse, pero
+    lo mantiene visible para usuarios de teclado.
+
+    outline-offset: 3px — Separa el outline del borde del elemento,
+    haciéndolo más visible y elegante.
+  */
+  border-radius: var(--radio-borde);
 }
 
-/* Excepción: botones y tarjetas ya tienen borde-radius propio */
-.btn-primary:focus-visible {
-    outline-offset: 4px;
-    box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.4);
+/* Botón hamburguesa (solo visible en móvil — oculto en desktop) */
+.nav-toggle {
+  display: none;
+  /*
+    En desktop, el menú hamburguesa está oculto.
+    En móvil (media query), lo mostramos con display:flex.
+  */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: var(--espacio-xs);
+  border-radius: var(--radio-borde);
+  background-color: transparent;
+  transition: background-color var(--transicion);
 }
 
-.sidebar-menu li:focus-visible,
-.sensor-card:focus-visible {
-    outline: 2px solid var(--neon-blue);
-    outline-offset: 2px;
+.nav-toggle:hover,
+.nav-toggle:focus {
+  background-color: rgba(240, 180, 41, 0.15);
 }
 
-/* ==========================================================================
-   ACCESIBILIDAD · PREFERENCIA DE MOVIMIENTO REDUCIDO
-   Usuarios con epilepsia, vértigo o sensibilidad al movimiento pueden activar
-   "Reducir movimiento" en su sistema operativo. Esta media query respeta esa
-   preferencia desactivando o reduciendo animaciones.
-   ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-    /* Desactivar todas las transiciones y animaciones globalmente */
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-
-    /* La terminal no se desplazará; mostrará los registros estáticos */
-    .telemetry-scroll {
-        animation: none !important;
-        transform: none !important;
-    }
-
-    /* El cursor parpadeante se mostrará estático */
-    .tlog-cursor {
-        animation: none !important;
-        opacity: 1 !important;
-    }
-
-    /* Las barras del gráfico no tendrán transición de altura */
-    .chart-bar {
-        transition: none !important;
-    }
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-amarillo);
+  border-radius: 2px;
+  transition: transform var(--transicion), opacity var(--transicion);
+  /*
+    Las tres líneas del ícono hamburguesa.
+    En JS (Paso 5), cuando se abre el menú, animaremos estas líneas
+    para convertirlas en una "X" usando transform: rotate().
+  */
 }
 
-/* GRADIENTES Y UTILIDADES DE ESTILO VISUAL */
-.text-gradient {
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* Animación hamburguesa → X cuando está activo */
+.nav-toggle.is-active .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle.is-active .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
-.shadow-neon-blue {
-    background: rgba(0, 242, 254, 0.1);
-    color: var(--neon-blue);
-    border: 1px solid rgba(0, 242, 254, 0.3);
+
+/* ================================================================
+   7. SECCIÓN HERO
+   ================================================================ */
+.hero-section {
+  min-height: calc(100vh - var(--altura-header));
+  /*
+    calc() permite mezclar unidades CSS en cálculos matemáticos.
+    100vh = altura total del viewport.
+    Restamos la altura del header (70px) para que el hero ocupe
+    exactamente el espacio visible debajo del header.
+  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espacio-xxl) var(--espacio-lg);
+  background-color: var(--color-negro);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
 }
 
-/* ==========================================================================
-   EJERCICIO 1: BARRA DE NAVEGACIÓN CON FLEXBOX
-   justify-content: space-between distribuye logo, enlaces y botón entre los
-   extremos del navbar dejando el espacio libre entre ellos. Los tres grupos
-   quedan: logo a la izquierda, nav-links al centro y botón a la derecha,
-   todo alineado verticalmente al centro mediante align-items: center.
-   ========================================================================== */
-.navbar {
-    display: flex;
-    flex-direction: row;           /* Eje principal explícito (row es el default) */
-    justify-content: space-between; /* Distribuye logo ← espacio → links ← espacio → botón */
-    align-items: center;            /* Centra verticalmente en el cross axis */
-    min-height: 60px;
-    padding: 1.2rem 3rem;
-    background-color: var(--bg-navbar);
-    border-bottom: 1px solid var(--border-color);
-    backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+/* Fondo decorativo del hero con gradiente y patrón */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(240, 180, 41, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(240, 180, 41, 0.04) 0%, transparent 50%);
+  /*
+    radial-gradient() crea gradientes circulares/elípticos.
+    Usamos dos gradientes amarillos muy transparentes (0.06 = 6% opacidad)
+    en posiciones distintas para simular una fuente de luz difusa.
+    Esto da profundidad al fondo negro sin sobrecargar el diseño.
+  */
+  pointer-events: none;
+  /*
+    pointer-events: none — Este pseudo-elemento es puramente decorativo.
+    Con este valor, los clics "pasan a través" de él al contenido real.
+    Sin esto, el gradiente interceptaría los eventos del mouse.
+  */
 }
 
-.nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  /*
+    flex-direction: column — Los flex items se apilan verticalmente.
+    Por defecto Flexbox es horizontal (row). Con column, los elementos
+    se organizan de arriba a abajo como un stack.
+  */
+  align-items: center;
+  gap: var(--espacio-md);
 }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 2.5rem;
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--color-blanco);
+  font-weight: 700;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  /*
+    text-shadow: offsetX offsetY blur color
+    Añade una sombra suave al texto para mejorar la legibilidad
+    sobre el fondo con gradiente. Valores: 0px horizontales, 2px verticales,
+    20px de desenfoque, negro semitransparente.
+  */
 }
 
-.nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-    /* Subrayado visible al pasar el ratón mejora la accesibilidad más allá del color */
-    text-underline-offset: 4px;
+.highlight {
+  color: var(--color-amarillo);
+  display: block;
+  /*
+    display: block en un <span> (que es inline por defecto) fuerza
+    un salto de línea, poniendo "directo del corazón" en su propia línea.
+    Alternativa con CSS puro, sin necesidad del <br> en HTML.
+  */
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--neon-blue);
-    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
-    text-decoration: underline; /* Refuerzo no-color del estado activo/hover */
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--color-blanco-suave);
+  max-width: 60ch;
+  line-height: 1.7;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
-    color: #000;
-    border: none;
-    padding: 0.6rem 1.4rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-}
-
-/* ==========================================================================
-   EJERCICIO 3: LAYOUT PRINCIPAL — DISTRIBUCIÓN TRIPARTITA CON FLEXBOX
-   flex-direction: row (eje principal horizontal) con tres hijos:
-     Sidebar izquierdo (flex: 1) = 1/5 del ancho
-     Content Center  (flex: 3) = 3/5 del ancho  ← mayor jerarquía visual
-     Sidebar derecho (flex: 1) = 1/5 del ancho
-   min-height: calc(100vh - 60px) garantiza que el layout ocupe el viewport
-   completo descontando la altura del navbar (aprox. 60px).
-   ========================================================================== */
-.main-layout {
-    display: flex;
-    flex-direction: row;            /* Eje principal explícito requerido por el Ej. 3 */
-    flex: 1;                        /* Ocupa el resto de la pantalla verticalmente */
-    min-height: calc(100vh - 60px); /* Requisito Ejercicio 3: descuenta el navbar */
-    padding: 2rem;
-    gap: 2rem;
-}
-
-/* ==========================================================================
-   EJERCICIO 3: COLUMNA 1 — SIDEBAR IZQUIERDO (flex: 1 = 1/5 del ancho)
-   ========================================================================== */
-.sidebar {
-    flex: 1; /* Proporción 1/5 según la distribución del Ejercicio 3 */
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.sidebar h3 {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-}
-
-.sidebar-menu {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.sidebar-menu li {
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    transition: background 0.3s;
-}
-
-.sidebar-menu li.active,
-.sidebar-menu li:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-    color: var(--neon-blue);
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    flex-shrink: 0;
-}
-/* El color del punto se refuerza semánticamente con texto .sr-only en el HTML */
-.status-dot.online  { background-color: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
-.status-dot.offline { background-color: var(--text-muted); }
-
-/* Semántica mejorada: dl/dt/dd para la lista de estadísticas */
-.stat-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.quick-stats {
-    margin-top: auto; /* Empuja las métricas hacia abajo del sidebar */
-}
-
-.stat-mini {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-}
-
-.stat-label { color: var(--text-muted); font-size: 0.85rem; }
-.stat-val   { font-weight: 700; font-size: 0.9rem; }
-
-.text-neon-blue { color: var(--neon-blue); font-weight: 700; }
-.text-neon-pink { color: var(--neon-pink); font-weight: 700; }
-
-/* ==========================================================================
-   EJERCICIO 3: COLUMNA 2 — CONTENIDO CENTRAL (flex: 3 = 3/5 del ancho)
-   ========================================================================== */
-.content-center {
-    flex: 3; /* Proporción mayor: 3 veces más ancho que cada sidebar */
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-/* Panel de Gráficos */
-.chart-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 1.5rem;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.card-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
+/* Badges de servicios */
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  /*
+    flex-wrap: wrap — Cuando los flex items no caben en una fila,
+    "saltan" a la siguiente línea automáticamente.
+    Sin wrap: los items se comprimen para caber (pueden quedar ilegibles).
+    Con wrap: mantienen su tamaño y se reorganizan en múltiples filas.
+    Perfecto para los badges en pantallas pequeñas.
+  */
+  gap: var(--espacio-xs);
+  justify-content: center;
 }
 
 .badge {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.7rem;
-    border-radius: 20px;
-    font-weight: 600;
-    text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-negro-claro);
+  border: 1px solid var(--color-negro-borde);
+  color: var(--color-blanco-suave);
+  padding: 0.4rem 0.8rem;
+  border-radius: 2rem;
+  /*
+    border-radius: 2rem en un elemento pequeño crea una "píldora" (pill shape).
+    Es un valor grande relativo al elemento que redondea completamente los lados.
+  */
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: border-color var(--transicion), color var(--transicion);
 }
 
-/* Simulación Visual de Barras Estilo Sci-Fi */
-.mock-chart-visual {
-    height: 180px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.badge:hover {
+  border-color: var(--color-amarillo);
+  color: var(--color-amarillo);
 }
 
-.chart-bar {
-    width: 8%;
-    background: linear-gradient(to top, rgba(79, 172, 254, 0.1), var(--neon-blue));
-    border-radius: 4px 4px 0 0;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
-    transition: height 0.5s ease;
+/* Botón CTA (Call to Action) */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-xs);
+  background-color: var(--color-amarillo);
+  color: var(--color-negro);
+  padding: var(--espacio-sm) var(--espacio-lg);
+  border-radius: var(--radio-borde);
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color var(--transicion), transform var(--transicion), box-shadow var(--transicion);
+  /*
+    Animamos 3 propiedades simultáneamente: color de fondo, desplazamiento
+    vertical y sombra. La coma en transition separa múltiples propiedades.
+  */
 }
 
-/* ==========================================================================
-   EJERCICIO 2: CUADRÍCULA DE SENSORES — flex-wrap y gap
-   flex-wrap: wrap permite que las tarjetas pasen a múltiples líneas cuando
-   no caben en el ancho disponible.
-   gap: 1.2rem reemplaza el hack de margin como espaciado entre ítems.
-   flex-basis: calc(33.333% - 1.2rem) produce ~3 columnas descontando el gap.
-   Diferencia align-items vs align-content:
-     - align-items: alinea los ítems DENTRO DE CADA fila del contenedor flex.
-     - align-content: distribuye el espacio ENTRE LAS FILAS cuando hay más de
-       una línea (solo activo con flex-wrap: wrap y múltiples filas).
-   ========================================================================== */
-.sensors-section {
-    /* wrapper semántico sin estilos propios */
+.cta-button:hover,
+.cta-button:focus {
+  background-color: var(--color-amarillo-hover);
+  transform: translateY(-2px);
+  /*
+    translateY(-2px) mueve el botón 2px hacia arriba al hacer hover.
+    Crea un efecto de "elevación" sutil y muy elegante.
+    Junto con box-shadow, simula que el botón flota sobre la página.
+  */
+  box-shadow: var(--sombra-hover);
 }
 
-.sensors-grid {
-    display: flex;
-    flex-wrap: wrap;   /* Permite multilínea cuando los ítems no caben en una fila */
-    gap: 1.2rem;       /* Espaciado moderno: reemplaza margin como hack de separación */
+.cta-button:active {
+  transform: translateY(0);
+  /*
+    :active es el estado cuando el botón está siendo presionado.
+    Volvemos a translateY(0) para simular que el botón "se hunde" al click.
+  */
 }
 
-.sensor-card {
-    flex: 1 1 calc(33.333% - 1.2rem); /* Base de 3 columnas restando el gap */
-    min-width: 200px;                  /* Evita colapso en pantallas muy estrechas */
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    transition: transform 0.3s, border-color 0.3s;
+
+/* ================================================================
+   8. SECCIÓN NOSOTROS
+   ================================================================ */
+.about-section {
+  padding: var(--espacio-xxl) var(--espacio-lg);
+  background-color: var(--color-negro-medio);
 }
 
-.sensor-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 242, 254, 0.3);
+.about-content {
+  display: flex;
+  /*
+    Flexbox para el layout de dos columnas: texto (izquierda) e info-cards (derecha).
+    En móvil, las media queries cambiarán esto a flex-direction: column.
+  */
+  gap: var(--espacio-xl);
+  align-items: flex-start;
+  /*
+    align-items: flex-start — Los items se alinean en la parte superior
+    del eje cruzado (vertical). Sin esto, Flexbox los estiraría a la misma
+    altura (stretch es el valor por defecto), lo que puede verse raro
+    cuando las columnas tienen alturas muy distintas.
+  */
+  max-width: 1100px;
+  margin: 0 auto;
+  /*
+    margin: 0 auto — El truco clásico para centrar un elemento de bloque.
+    margin-top y margin-bottom = 0.
+    margin-left y margin-right = auto (se reparten el espacio disponible).
+    Requiere que el elemento tenga un width o max-width definido.
+  */
 }
 
-.alert-glow {
-    border-color: rgba(255, 0, 127, 0.3);
-    box-shadow: inset 0 0 15px rgba(255, 0, 127, 0.05);
+.about-text {
+  flex: 1;
+  /*
+    flex: 1 — Propiedad abreviada que combina flex-grow:1, flex-shrink:1, flex-basis:0.
+    flex-grow:1 permite que el elemento CREZCA para llenar el espacio disponible.
+    En un contenedor flex con dos hijos que ambos tienen flex:1, se reparten
+    el espacio disponible en partes iguales (50% cada uno).
+  */
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
 }
 
-.sensor-icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.2rem;
+.about-text p {
+  color: var(--color-blanco-suave);
+  font-size: 1.05rem;
+  max-width: none;
+  /*
+    Anulamos el max-width:70ch del reset global para párrafos dentro de
+    columnas Flexbox. El propio contenedor flex controla el ancho.
+  */
 }
 
-.sensor-card h3 {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 500;
+.about-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
 }
 
-.sensor-value {
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+/* Tarjetas de información (horario/servicios) */
+.info-card {
+  background-color: var(--color-negro-claro);
+  border: 1px solid var(--color-negro-borde);
+  border-left: 3px solid var(--color-amarillo);
+  /*
+    El borde izquierdo amarillo es un detalle de diseño que conecta
+    visualmente estas tarjetas con la identidad de marca dorada.
+  */
+  border-radius: var(--radio-borde);
+  padding: var(--espacio-md);
+  transition: box-shadow var(--transicion), border-color var(--transicion);
 }
 
-.sensor-status {
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-top: auto; /* Alinea el estado siempre al fondo de la tarjeta */
+.info-card:hover {
+  box-shadow: var(--sombra-hover);
+  border-left-color: var(--color-amarillo-claro);
 }
 
-/* El estado se comunica tanto con color como con texto descriptivo en el HTML */
-.status-ok   { color: var(--neon-green); }
-.status-warn { color: var(--neon-pink); }
-
-/* ==========================================================================
-   TERMINAL DE TELEMETRÍA OPERATIVA
-   Simula una consola técnica tipo Linux utilizada por operadores de acueducto.
-   Justificación funcional: permite visualizar rápidamente eventos recientes de
-   la infraestructura hídrica, facilitando la supervisión operativa y la
-   detección temprana de incidencias sin cambiar de pantalla.
-   Implementada únicamente con HTML y CSS (sin JavaScript).
-   Usa Flexbox para la estructura interna del panel.
-   ========================================================================== */
-.telemetry-panel {
-    background-color: var(--terminal-bg);
-    border: 1px solid var(--terminal-border);
-    border-radius: 14px;
-    overflow: hidden;
-    /* Separador superior sutil para diferenciar del sensor grid */
-    box-shadow: 0 0 30px rgba(0, 242, 254, 0.05), inset 0 1px 0 rgba(0, 242, 254, 0.08);
-    display: flex;
-    flex-direction: column;
+.info-card-title {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.1rem;
+  margin-bottom: var(--espacio-xs);
+  font-weight: 600;
 }
 
-/* Encabezado de la terminal */
-.telemetry-header {
-    padding: 0.9rem 1.2rem 0.6rem;
-    border-bottom: 1px solid rgba(0, 242, 254, 0.08);
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+.info-card p,
+.info-card li {
+  color: var(--color-blanco-suave);
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
 }
 
-.telemetry-title-row {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+.info-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: var(--espacio-sm);
 }
 
-.telemetry-icon {
-    font-size: 0.7rem;
-    color: var(--terminal-muted);
+.info-card li::before {
+  content: '✓ ';
+  color: var(--color-amarillo);
+  font-weight: 700;
+  /*
+    Añadimos un checkmark decorativo con ::before y content.
+    Esto evita tener que poner el símbolo en el HTML, manteniendo
+    la separación de contenido y presentación.
+  */
 }
 
-.telemetry-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--neon-blue);
-    text-transform: uppercase;
+.closed-day {
+  color: var(--color-gris-texto) !important;
+  font-size: 0.9rem;
 }
 
-.telemetry-badge {
-    font-family: var(--terminal-font);
-    font-size: 0.65rem;
-    padding: 0.1rem 0.5rem;
-    border-radius: 3px;
-    border: 1px solid var(--terminal-green);
-    color: var(--terminal-green);
-    background: rgba(57, 255, 20, 0.06);
-    letter-spacing: 1px;
-    margin-left: auto;
+
+/* ================================================================
+   9. SECCIÓN DESTACADOS
+   ================================================================ */
+.featured-section {
+  padding: var(--espacio-xxl) var(--espacio-lg);
+  background-color: var(--color-negro);
 }
 
-.telemetry-subtitle {
-    font-family: var(--terminal-font);
-    font-size: 0.75rem;
-    color: var(--terminal-muted);
-    letter-spacing: 0.3px;
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /*
+    CSS Grid para los platillos destacados.
+    repeat(auto-fit, minmax(250px, 1fr)) es la fórmula responsiva más
+    poderosa de CSS Grid:
+    - auto-fit: el grid crea tantas columnas como quepan en el espacio.
+    - minmax(250px, 1fr): cada columna tiene mínimo 250px y máximo 1fr
+      (1 fracción del espacio disponible).
+    Resultado: en desktop con 1200px → 4 columnas. En tablet → 2 columnas.
+    En móvil → 1 columna. TODO SIN UNA SOLA MEDIA QUERY.
+  */
+  gap: var(--espacio-md);
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* Cuerpo de la terminal: área de scroll con máscara de degradado */
-.telemetry-body {
-    height: 220px;
-    overflow: hidden;
-    position: relative;
-    padding: 0.8rem 0;
-    /* Máscara: los registros más antiguos se desvanecen en la parte superior */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
+/* Tarjeta de platillo destacado */
+.featured-card {
+  background-color: var(--color-negro-claro);
+  border: 1px solid var(--color-negro-borde);
+  border-radius: var(--radio-borde-lg);
+  overflow: hidden;
+  /*
+    overflow: hidden — Recorta el contenido hijo que excede los bordes
+    redondeados. Sin esto, la imagen/emoji dentro de la tarjeta
+    podría sobresalir de las esquinas redondeadas.
+  */
+  transition: transform var(--transicion), box-shadow var(--transicion), border-color var(--transicion);
+  display: flex;
+  flex-direction: column;
 }
 
-/* Contenedor de registros que se anima hacia arriba */
-.telemetry-scroll {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    /* Animación: los registros suben continuamente simulando un log en vivo */
-    animation: terminalScroll 28s linear infinite;
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-hover);
+  border-color: var(--color-amarillo);
 }
 
-@keyframes terminalScroll {
-    0%   { transform: translateY(0); }
-    100% { transform: translateY(-55%); }
+.card-image-placeholder {
+  background: linear-gradient(135deg, var(--color-negro-borde), var(--color-negro-medio));
+  /*
+    linear-gradient(ángulo, color1, color2) — Gradiente lineal.
+    135deg = diagonal de arriba-izquierda a abajo-derecha.
+    Aquí usamos el degradado como "placeholder" visual donde iría
+    una fotografía real del plato.
+  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espacio-lg);
+  min-height: 140px;
 }
 
-/* Línea de registro individual */
-.tlog-line {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    padding: 0.22rem 1.2rem;
-    font-family: var(--terminal-font);
-    font-size: 0.76rem;
-    line-height: 1.5;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.food-emoji {
+  font-size: 4rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  /*
+    filter: drop-shadow() aplica sombra a la forma real del emoji
+    (incluyendo su transparencia), a diferencia de box-shadow que
+    aplica la sombra al box rectangular del elemento.
+  */
 }
 
-/* Prompt de inicio de sesión */
-.tlog-prompt {
-    color: var(--terminal-green);
-    font-weight: bold;
-    flex-shrink: 0;
+.card-content {
+  padding: var(--espacio-md);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /*
+    flex: 1 en el card-content dentro de una tarjeta con flex-direction:column
+    hace que el contenido se expanda para llenar el espacio restante.
+    Esto garantiza que el precio siempre quede en la parte inferior
+    de la tarjeta, sin importar cuánto texto tenga la descripción.
+  */
+  gap: var(--espacio-xs);
 }
 
-/* Timestamp */
-.tlog-time {
-    color: var(--terminal-muted);
-    flex-shrink: 0;
-    min-width: 7rem;
+.card-title {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
-/* Etiquetas de categoría */
-.tlog-tag {
-    font-size: 0.65rem;
-    padding: 0.05rem 0.35rem;
-    border-radius: 2px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    min-width: 5.5rem;
-    text-align: center;
+.card-description {
+  color: var(--color-blanco-suave);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex: 1;
+  max-width: none;
 }
 
-.tlog-tag-tank     { background: rgba(0, 242, 254, 0.12); color: var(--neon-blue);   border: 1px solid rgba(0, 242, 254, 0.3); }
-.tlog-tag-pressure { background: rgba(79, 172, 254, 0.12); color: var(--neon-purple); border: 1px solid rgba(79, 172, 254, 0.3); }
-.tlog-tag-flow     { background: rgba(0, 255, 135, 0.10); color: var(--neon-green);  border: 1px solid rgba(0, 255, 135, 0.3); }
-.tlog-tag-quality  { background: rgba(79, 172, 254, 0.10); color: #7ec8e3;            border: 1px solid rgba(79, 172, 254, 0.2); }
-.tlog-tag-valve    { background: rgba(255, 159, 67, 0.10); color: var(--neon-orange); border: 1px solid rgba(255, 159, 67, 0.3); }
-.tlog-tag-sys      { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); }
-.tlog-tag-warn     { background: rgba(255, 215, 0, 0.10); color: var(--terminal-amber); border: 1px solid rgba(255, 215, 0, 0.3); }
-.tlog-tag-error    { background: rgba(255, 68, 68, 0.12); color: var(--terminal-red);   border: 1px solid rgba(255, 68, 68, 0.3); }
-
-/* Texto principal del registro */
-.tlog-text      { color: var(--terminal-text); flex: 1; }
-
-/* Valores destacados: color + negrita (no solo color, también peso tipográfico) */
-.tlog-val       { color: var(--neon-blue);    font-weight: bold; }
-.tlog-val-warn  { color: var(--terminal-amber); font-weight: bold; }
-.tlog-val-error { color: var(--terminal-red);   font-weight: bold; }
-
-/* Variantes de línea por nivel de severidad */
-.tlog-system { opacity: 0.6; }
-.tlog-info   { opacity: 1; }
-.tlog-warn   { background: rgba(255, 215, 0, 0.03); }
-.tlog-error  { background: rgba(255, 68, 68, 0.05); }
-
-/* Línea de entrada con cursor parpadeante — solo CSS, sin JavaScript */
-.telemetry-input-row {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.55rem 1.2rem;
-    border-top: 1px solid rgba(0, 242, 254, 0.06);
-    background: rgba(0, 0, 0, 0.25);
-    font-family: var(--terminal-font);
-    font-size: 0.76rem;
+.card-price {
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  color: var(--color-amarillo-claro);
+  font-weight: 700;
+  margin-top: auto;
+  /*
+    margin-top: auto — En un contenedor flex, margin:auto en un eje
+    absorbe todo el espacio disponible en esa dirección.
+    Esto "empuja" el precio hacia el fondo de la tarjeta,
+    sin importar cuánto contenido haya arriba.
+  */
 }
 
-.tlog-prompt-green { color: var(--terminal-green); font-weight: bold; }
-.tlog-prompt-white { color: var(--text-main); }
-.tlog-prompt-blue  { color: var(--neon-purple); }
 
-/* Cursor parpadeante: animación CSS pura, sin JavaScript */
-.tlog-cursor {
-    color: var(--neon-blue);
-    font-size: 0.8rem;
-    line-height: 1;
-    animation: cursorBlink 1s step-end infinite;
-    /* step-end produce el efecto on/off característico de los terminales reales */
+/* ================================================================
+   10. SECCIÓN MENÚ — CSS GRID LAYOUT (REQUERIMIENTO OBLIGATORIO #2)
+   ================================================================
+   DECISIÓN TÉCNICA — Por qué Grid aquí:
+   El menú tiene MÚLTIPLES categorías distribuidas en FILAS y COLUMNAS.
+   Grid es ideal para layouts en DOS dimensiones.
+   Flexbox alinea en una sola dimensión (fila O columna).
+   Grid alinea en filas Y columnas simultáneamente.
+
+   Para defender en la defensa oral:
+   "Usé Flexbox en el header porque los elementos se distribuyen en
+   una sola línea horizontal. Usé Grid en el menú porque necesitaba
+   controlar tanto las columnas como las filas de las categorías."
+   ================================================================ */
+.menu-section {
+  padding: var(--espacio-xxl) var(--espacio-lg);
+  background-color: var(--color-negro-medio);
 }
 
-@keyframes cursorBlink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
+/* GRID CONTAINER — Este es el GRID principal del proyecto */
+.menu-grid {
+  display: grid;
+  /*
+    display: grid — Activa CSS Grid Layout en este contenedor.
+    Los hijos directos (.menu-category) se convierten en GRID ITEMS.
+  */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  /*
+    Misma fórmula responsiva que en los destacados.
+    Aquí las columnas mínimas son 220px (menús son más compactos).
+    En desktop: ~4-5 columnas. En tablet: 2-3. En móvil: 1-2.
+  */
+  gap: var(--espacio-md);
+  /*
+    gap en Grid define el espacio entre filas Y columnas a la vez.
+    Equivale a row-gap + column-gap. También se puede especificar
+    separado: gap: 1rem 2rem (row-gap: 1rem, column-gap: 2rem).
+  */
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+  /*
+    align-items: start en Grid alinea los grid items en la parte
+    superior de su celda. Sin esto, Grid los estiraría a la altura
+    máxima de la fila (stretch por defecto), lo que hace que las
+    categorías con pocos ítems queden con mucho espacio vacío.
+  */
 }
 
-/* ==========================================================================
-   EJERCICIO 3: COLUMNA 3 — SIDEBAR DERECHO (flex: 1 = 1/5 del ancho)
-   Mismo valor que el sidebar izquierdo, produciendo simetría visual.
-   ========================================================================== */
-.sidebar-right {
-    flex: 1; /* Mismo 1/5 del ancho que el sidebar izquierdo */
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+/* Categoría individual del menú — GRID ITEM */
+.menu-category {
+  background-color: var(--color-negro-claro);
+  border: 1px solid var(--color-negro-borde);
+  border-radius: var(--radio-borde);
+  padding: var(--espacio-md);
+  transition: box-shadow var(--transicion), border-color var(--transicion);
 }
 
-.sidebar-right h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
+.menu-category:hover {
+  box-shadow: 0 4px 20px rgba(240, 180, 41, 0.15);
+  border-color: rgba(240, 180, 41, 0.3);
 }
 
-.alerts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/* Título de categoría */
+.category-title {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--color-negro-borde);
+  padding-bottom: var(--espacio-xs);
+  margin-bottom: var(--espacio-sm);
 }
 
-.alert-item {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.01);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    transition: background 0.2s;
+/* Lista de ítems del menú */
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.alert-item:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+/* Ítem individual: nombre y precio */
+.menu-item {
+  display: flex;
+  /*
+    Flexbox para cada ítem del menú: nombre a la izquierda, precio a la derecha.
+    justify-content: space-between los separa con todo el espacio entre ellos.
+  */
+  justify-content: space-between;
+  align-items: baseline;
+  /*
+    align-items: baseline — Alinea los textos por su línea base tipográfica.
+    Más preciso que center cuando los textos tienen tamaños diferentes.
+  */
+  gap: var(--espacio-xs);
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.06);
+  /*
+    Línea divisoria punteada muy sutil entre ítems.
+    rgba con opacity muy baja (0.06 = 6%) para que no sea dominante.
+  */
 }
 
-.alert-indicator {
-    width: 4px;
-    border-radius: 2px;
-    flex-shrink: 0; /* Evita que el indicador se deforme */
-    min-height: 100%;
+.menu-item:last-child {
+  border-bottom: none;
+  /*
+    :last-child — Selecciona el último elemento entre sus hermanos.
+    Quitamos el borde del último ítem porque sería redundante
+    (ya hay borde en la categoría contenedora).
+  */
 }
 
-/* El significado de cada color se refuerza con el texto del h4 ("Crítica:", "Advertencia:") */
-.alert-item.high    .alert-indicator { background-color: var(--neon-pink);   box-shadow: 0 0 8px var(--neon-pink); }
-.alert-item.warning .alert-indicator { background-color: var(--neon-orange); }
-.alert-item.info    .alert-indicator { background-color: var(--neon-purple); }
-
-.alert-content h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
-.alert-content p  { font-size: 0.75rem; color: var(--text-muted); }
-
-/* ==========================================================================
-   EJERCICIO 4 (BONUS): RESPONSIVIDAD MÓVIL — MEDIA QUERIES
-   Se usa min-height en lugar de height: 100vh porque 'height' rígido
-   cortaría el contenido en pantallas con mucho contenido (overflow). 
-   min-height permite que el contenedor crezca si el contenido lo necesita,
-   pero garantiza que ocupe al menos todo el viewport.
-   ========================================================================== */
-@media (max-width: 1100px) {
-    /* El layout pasa de 3 a 2 columnas colapsando el panel derecho abajo */
-    .main-layout {
-        flex-wrap: wrap;
-    }
-    .sidebar       { flex: 1 1 250px; }
-    .content-center { flex: 3 1 600px; }
-    .sidebar-right { flex: 1 1 100%; } /* Ocupa el ancho completo al final */
+.item-name {
+  color: var(--color-blanco-suave);
+  font-size: 0.9rem;
+  flex: 1;
+  /*
+    flex: 1 — El nombre ocupa todo el espacio disponible, empujando
+    el precio hacia la derecha.
+  */
 }
 
+.item-price {
+  color: var(--color-amarillo-claro);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  /*
+    white-space: nowrap — El precio nunca se divide en dos líneas.
+    "₡3.500" siempre aparece completo en una sola línea.
+  */
+}
+
+
+/* ================================================================
+   11. SECCIÓN CONTACTO — FLEXBOX + MAPA
+   ================================================================ */
+.contact-section {
+  padding: var(--espacio-xxl) var(--espacio-lg);
+  background-color: var(--color-negro);
+}
+
+/* Layout principal de contacto — FLEXBOX (otra instancia requerida) */
+.contact-layout {
+  display: flex;
+  gap: var(--espacio-xl);
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto var(--espacio-xl);
+  /*
+    margin: 0 auto var(--espacio-xl) — shorthand de 3 valores:
+    top: 0, left/right: auto (centrado), bottom: var(--espacio-xl)
+  */
+}
+
+/* Panel de saludo personalizado (Web Storage JS) */
+.greeting-panel {
+  flex: 1;
+  background-color: var(--color-negro-claro);
+  border: 1px solid var(--color-negro-borde);
+  border-radius: var(--radio-borde-lg);
+  padding: var(--espacio-xl);
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* El contenido del greeting se llena con JS */
+.greeting-display {
+  width: 100%;
+  text-align: center;
+}
+
+/* Estilos para el formulario de nombre (generado por JS en el Paso 5) */
+.greeting-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+  align-items: center;
+}
+
+.greeting-form label {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.greeting-form input[type="text"] {
+  width: 100%;
+  max-width: 300px;
+  padding: var(--espacio-sm);
+  background-color: var(--color-negro-medio);
+  border: 2px solid var(--color-negro-borde);
+  border-radius: var(--radio-borde);
+  color: var(--color-blanco);
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
+  text-align: center;
+  transition: border-color var(--transicion);
+}
+
+.greeting-form input[type="text"]:focus {
+  border-color: var(--color-amarillo);
+  outline: none;
+  /*
+    Para el input, manejamos el foco visualmente con border-color
+    (no outline) para un look más integrado al diseño.
+    Esto es aceptable si el estilo de foco es suficientemente visible
+    (borde amarillo de 2px sobre fondo oscuro — excelente contraste).
+  */
+}
+
+.greeting-form input[type="text"]::placeholder {
+  color: var(--color-gris-texto);
+}
+
+.greeting-form button {
+  background-color: var(--color-amarillo);
+  color: var(--color-negro);
+  padding: var(--espacio-xs) var(--espacio-lg);
+  border-radius: var(--radio-borde);
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  transition: background-color var(--transicion), transform var(--transicion);
+}
+
+.greeting-form button:hover,
+.greeting-form button:focus {
+  background-color: var(--color-amarillo-hover);
+  transform: translateY(-2px);
+}
+
+/* Mensaje de saludo (cuando ya hay nombre guardado) */
+.greeting-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-sm);
+}
+
+.greeting-message h3 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--color-amarillo);
+  font-family: var(--fuente-titulo);
+}
+
+.greeting-message p {
+  color: var(--color-blanco-suave);
+  max-width: none;
+}
+
+.reset-name-btn {
+  background: none;
+  border: 1px solid var(--color-negro-borde);
+  color: var(--color-gris-texto);
+  padding: 0.3rem 0.8rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  transition: border-color var(--transicion), color var(--transicion);
+  margin-top: var(--espacio-xs);
+}
+
+.reset-name-btn:hover,
+.reset-name-btn:focus {
+  border-color: var(--color-amarillo);
+  color: var(--color-amarillo);
+}
+
+/* Panel de información de contacto */
+.contact-info-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+}
+
+.contact-info-title {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--espacio-xs);
+}
+
+address {
+  font-style: normal;
+  /*
+    Por defecto, el navegador renderiza <address> en cursiva (italic).
+    font-style: normal lo normaliza para que use la fuente regular.
+  */
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-xs);
+  color: var(--color-blanco-suave);
+  font-size: 0.95rem;
+  max-width: none;
+}
+
+.contact-link {
+  color: var(--color-amarillo);
+  font-weight: 700;
+  transition: color var(--transicion);
+}
+
+.contact-link:hover,
+.contact-link:focus {
+  color: var(--color-amarillo-claro);
+  text-decoration: underline;
+}
+
+.contact-note {
+  color: var(--color-gris-texto);
+  font-size: 0.85rem;
+}
+
+/* Botón de mapa externo */
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-xs);
+  background-color: transparent;
+  border: 2px solid var(--color-amarillo);
+  color: var(--color-amarillo);
+  padding: var(--espacio-xs) var(--espacio-md);
+  border-radius: var(--radio-borde);
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color var(--transicion), color var(--transicion), transform var(--transicion);
+  align-self: flex-start;
+  margin-top: var(--espacio-xs);
+}
+
+.map-button:hover,
+.map-button:focus {
+  background-color: var(--color-amarillo);
+  color: var(--color-negro);
+  transform: translateY(-2px);
+}
+
+/* ---- CONTENEDOR DEL MAPA INTERACTIVO ---- */
+.map-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: var(--radio-borde-lg);
+  overflow: hidden;
+  /*
+    overflow: hidden — Aplica el border-radius al iframe hijo.
+    Sin esto, el iframe no hereda el border-radius del contenedor.
+  */
+  border: 2px solid var(--color-negro-borde);
+  box-shadow: var(--sombra-tarjeta);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
+  /* Aspect ratio del contenedor del mapa */
+  aspect-ratio: 16 / 9;
+  /*
+    aspect-ratio: 16/9 — Mantiene la proporción cinematográfica del mapa
+    independientemente del ancho del contenedor.
+    Es una alternativa moderna al hack del "padding-bottom trick" (padding-bottom:56.25%).
+    En móvil, cuando el contenedor se estrecha, la altura se reduce proporcionalmente.
+  */
+}
+
+.map-container:hover {
+  border-color: var(--color-amarillo);
+  box-shadow: var(--sombra-hover);
+}
+
+/* El iframe del mapa ocupa el 100% de su contenedor */
+.google-map {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  /*
+    border: none — Elimina el borde por defecto que algunos navegadores
+    aplican a los iframes (herencia de atributos HTML3 antiguos).
+  */
+}
+
+
+/* ================================================================
+   12. ASIDE — SINPE MÓVIL
+   ================================================================ */
+.promo-aside {
+  background: linear-gradient(135deg, var(--color-negro-claro), var(--color-negro-medio));
+  border-top: 3px solid var(--color-amarillo);
+  border-bottom: 3px solid var(--color-amarillo);
+  padding: var(--espacio-xl) var(--espacio-lg);
+  text-align: center;
+}
+
+.promo-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.promo-title {
+  font-family: var(--fuente-titulo);
+  color: var(--color-amarillo);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: var(--espacio-sm);
+}
+
+.promo-content p {
+  color: var(--color-blanco-suave);
+  max-width: none;
+  margin: 0 auto;
+}
+
+.sinpe-number {
+  font-size: 1.8rem;
+  font-family: var(--fuente-titulo);
+  color: var(--color-blanco);
+  margin-top: var(--espacio-xs);
+  letter-spacing: 0.1em;
+}
+
+
+/* ================================================================
+   13. FOOTER — FLEXBOX
+   ================================================================ */
+.site-footer {
+  background-color: var(--color-negro);
+  border-top: 1px solid var(--color-negro-borde);
+  padding: var(--espacio-xl) var(--espacio-lg);
+}
+
+.footer-content {
+  display: flex;
+  /*
+    Tercera instancia de Flexbox: el footer tiene tres bloques
+    (brand, nav, legal) distribuidos horizontalmente.
+  */
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--espacio-xl);
+  flex-wrap: wrap;
+  /*
+    flex-wrap: wrap — En pantallas angostas, los bloques del footer
+    se reorganizan en múltiples filas en lugar de comprimirse.
+  */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-xs);
+  flex: 0 0 auto;
+  /*
+    flex: 0 0 auto — Este bloque NO crece ni se encoge.
+    flex-grow:0, flex-shrink:0, flex-basis:auto.
+    Mantiene su tamaño natural (determinado por su contenido).
+  */
+}
+
+.footer-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity var(--transicion);
+}
+
+.footer-logo:hover {
+  opacity: 1;
+}
+
+.footer-tagline {
+  color: var(--color-gris-texto);
+  font-size: 0.85rem;
+  font-style: italic;
+  max-width: none;
+}
+
+/* Navegación del footer */
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-xs);
+}
+
+.footer-link {
+  color: var(--color-gris-texto);
+  font-size: 0.9rem;
+  transition: color var(--transicion);
+}
+
+.footer-link:hover,
+.footer-link:focus {
+  color: var(--color-amarillo);
+}
+
+/* Legal / Copyright */
+.footer-legal {
+  text-align: right;
+}
+
+.footer-legal small {
+  display: block;
+  color: var(--color-gris-texto);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+
+/* ================================================================
+   14. MEDIA QUERIES — RESPONSIVIDAD (REQUERIMIENTO OBLIGATORIO)
+   ================================================================
+   Las media queries son bloques CSS que se aplican SOLO cuando
+   se cumple una condición del entorno del dispositivo.
+   Sintaxis: @media (condición) { reglas CSS }
+
+   ESTRATEGIA: "Mobile First" vs "Desktop First"
+   - Desktop First (nuestro enfoque): Diseñamos para desktop y usamos
+     max-width para adaptar a pantallas más pequeñas.
+   - Mobile First: Diseñamos para móvil y usamos min-width para escalar.
+   Ambos son válidos; Desktop First es más intuitivo cuando se tiene
+   un diseño de referencia en pantalla grande.
+
+   BREAKPOINTS ELEGIDOS (por qué estos valores):
+   - 768px: Tablet en modo portrait (iPad: 768px, Android tablets ~768px)
+     Por debajo de 768px, la navegación horizontal ya no cabe bien.
+   - 480px: Smartphones modernos (375px iPhone, 412px Android flagship)
+     Por debajo de 480px necesitamos ajustes más agresivos.
+   ================================================================ */
+
+/* ---- BREAKPOINT 1: TABLET — max-width: 768px ---- */
 @media (max-width: 768px) {
-    /* TODO SE COLAPSA A UNA SOLA COLUMNA VERTICAL */
-    /* min-height: 100vh en body con flex-direction: column implementa el
-       patrón Sticky Footer: el contenido principal se expande para empujar
-       el footer hasta el fondo del viewport. */
-    body {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+  /*
+    max-width: 768px significa: "aplica estas reglas cuando el viewport
+    tenga COMO MÁXIMO 768px de ancho". Es decir, en pantallas de 768px
+    o más pequeñas (tablets y móviles).
+  */
 
-    .navbar {
-        padding: 1rem 1.5rem;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .nav-links {
-        gap: 1.2rem;
-        font-size: 0.85rem;
-    }
+  /* Header: de fila a columna en tablet no cabe bien — usamos hamburguesa */
+  .nav-toggle {
+    display: flex;
+    /*
+      En tablet/móvil, mostramos el botón hamburguesa.
+      (En desktop estaba display:none)
+    */
+  }
 
-    /* El único cambio clave: eje principal cambia de row a column */
-    .main-layout {
-        flex-direction: column;
-        padding: 1rem;
-        min-height: auto; /* El body ya gestiona el min-height */
-    }
+  .nav-menu {
+    display: none;
+    /*
+      Ocultamos el menú horizontal. JS lo mostrará al hacer clic
+      en el botón hamburguesa con la clase .is-open.
+    */
+    position: absolute;
+    top: var(--altura-header);
+    left: 0;
+    right: 0;
+    background-color: var(--color-negro);
+    border-bottom: 2px solid var(--color-amarillo);
+    flex-direction: column;
+    padding: var(--espacio-sm);
+    gap: 0;
+    z-index: 99;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
 
-    /* Todos los paneles pasan a ocupar el 100% del ancho */
-    .sidebar,
-    .content-center,
-    .sidebar-right {
-        flex: 1 1 100%;
-        width: 100%; /* Refuerzo explícito requerido por el enunciado del Ej. 4 */
-        min-height: auto;
-    }
+  .nav-menu.is-open {
+    display: flex;
+    /*
+      JS añadirá la clase .is-open al hacer clic en el hamburguesa,
+      y removemos display:none para que aparezca el menú desplegable.
+    */
+  }
 
-    /* Las tarjetas de sensores se apilan una sobre otra */
-    .sensors-grid .sensor-card {
-        flex: 1 1 100%;
-    }
+  .nav-link {
+    padding: var(--espacio-sm) var(--espacio-md);
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-negro-borde);
+    font-size: 1rem;
+  }
 
-    /* En móvil la terminal muestra una altura menor para no dominar el scroll */
-    .telemetry-body {
-        height: 180px;
-    }
+  .nav-link::after {
+    display: none;
+    /* Ocultamos la línea decorativa en móvil (no tiene sentido en columna) */
+  }
 
-    /* Truncamos el prompt en móvil para que quepa en pantalla */
-    .telemetry-subtitle {
-        font-size: 0.68rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+  /* Hero: ajuste de padding y tipografía */
+  .hero-section {
+    padding: var(--espacio-xl) var(--espacio-sm);
+    min-height: calc(100svh - var(--altura-header));
+    /*
+      100svh = "Small Viewport Height" — una unidad moderna que excluye
+      la barra de herramientas del navegador móvil. Evita el problema
+      clásico de 100vh en móvil (que incluía la barra y causaba scroll).
+    */
+  }
+
+  /* Nosotros: de fila a columna */
+  .about-content {
+    flex-direction: column;
+    /*
+      En tablet, las dos columnas de "Nosotros" se apilan verticalmente.
+      flex-direction: column cambia el eje principal a vertical.
+    */
+  }
+
+  .about-text,
+  .about-info {
+    flex: none;
+    width: 100%;
+    /*
+      Al cambiar a columna, quitamos flex:1 y ponemos width:100%
+      para que cada columna ocupe el ancho completo disponible.
+    */
+  }
+
+  /* Menú: reduce columnas mínimas para que quepan más en tablet */
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    /*
+      Reducimos el mínimo de 220px a 180px para tablet, permitiendo
+      que quepan más columnas en pantallas medianas.
+    */
+  }
+
+  /* Contacto: layout en columna */
+  .contact-layout {
+    flex-direction: column;
+  }
+
+  .greeting-panel,
+  .contact-info-panel {
+    width: 100%;
+  }
+
+  /* Mapa: ratio 4:3 en tablet para tener más altura */
+  .map-container {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Footer: centrado en columna */
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-legal {
+    text-align: center;
+  }
+
+  .footer-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--espacio-xs);
+  }
+}
+
+/* ---- BREAKPOINT 2: MÓVIL — max-width: 480px ---- */
+@media (max-width: 480px) {
+  /*
+    Ajustes específicos para smartphones. Estos se aplican ADEMÁS
+    de los de 768px (las media queries se acumulan, no se reemplazan).
+    En 480px se aplican AMBOS bloques @media.
+  */
+
+  /* Header más compacto en móvil */
+  .site-header {
+    padding: var(--espacio-xs) var(--espacio-sm);
+  }
+
+  .site-logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Badges en columna en móvil muy pequeño */
+  .hero-badges {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* CTA botón a ancho completo en móvil */
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Featured grid: 1 columna en móvil pequeño */
+  .featured-grid {
+    grid-template-columns: 1fr;
+    /*
+      1fr = una sola columna que ocupa todo el ancho disponible.
+      En móvil pequeño, las 4 tarjetas de platillos se apilan verticalmente.
+    */
+  }
+
+  /* Menú: 1-2 columnas en móvil */
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  /* Secciones con menos padding lateral en móvil */
+  .hero-section,
+  .about-section,
+  .featured-section,
+  .menu-section,
+  .contact-section,
+  .promo-aside,
+  .site-footer {
+    padding-left: var(--espacio-sm);
+    padding-right: var(--espacio-sm);
+  }
+
+  /* Mapa: casi cuadrado en móvil */
+  .map-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Sinpe: número más pequeño */
+  .sinpe-number {
+    font-size: 1.4rem;
+  }
 }

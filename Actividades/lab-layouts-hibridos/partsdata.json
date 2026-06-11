@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "name": "Filtro de Aceite OEM",
+    "sku": "90915-30002 · Toyota OEM",
+    "price_crc": 12500,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔩"
+  },
+  {
+    "id": 2,
+    "name": "Pastillas de Freno Delanteras",
+    "sku": "04465-60030 · Toyota OEM",
+    "price_crc": 45000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔧"
+  },
+  {
+    "id": 3,
+    "name": "Amortiguador Delantero Nitrocharger",
+    "sku": "OME-60018 · Old Man Emu",
+    "price_crc": 75000,
+    "status": "low_stock",
+    "status_text": "Pocas unidades",
+    "icon": "🛞"
+  },
+  {
+    "id": 4,
+    "name": "Faro Principal Izquierdo Cristal",
+    "sku": "81150-60510 · Toyota OEM",
+    "price_crc": 185000,
+    "status": "out_of_stock",
+    "status_text": "Agotado",
+    "icon": "🔄"
+  },
+  {
+    "id": 5,
+    "name": "Bomba de Agua 4.5L (1FZ-FE)",
+    "sku": "16100-69445 · Aisin",
+    "price_crc": 85000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "💡"
+  },
+  {
+    "id": 6,
+    "name": "Kit de Esferas y Eje Delantero",
+    "sku": "04431-60020 · Terrain Tamer",
+    "price_crc": 120000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔧"
+  },
+  {
+    "id": 7,
+    "name": "Juego de Bujías Iridium",
+    "sku": "90919-01184 · Denso",
+    "price_crc": 18000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔩"
+  },
+  {
+    "id": 8,
+    "name": "Filtro de Aire de Motor",
+    "sku": "17801-68030 · Toyota OEM",
+    "price_crc": 22000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔩"
+  },
+  {
+    "id": 9,
+    "name": "Disco de Embrague 300mm",
+    "sku": "31250-60280 · Exedy",
+    "price_crc": 95000,
+    "status": "low_stock",
+    "status_text": "Pocas unidades",
+    "icon": "⚙️"
+  },
+  {
+    "id": 10,
+    "name": "Correa de Ventilador",
+    "sku": "90916-02385 · Bando",
+    "price_crc": 9500,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔩"
+  },
+  {
+    "id": 11,
+    "name": "Amortiguador de Dirección",
+    "sku": "45700-60052 · Old Man Emu",
+    "price_crc": 78000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🛞"
+  },
+  {
+    "id": 12,
+    "name": "Radiador de Aluminio Reforzado",
+    "sku": "16400-66030 · Koyorad",
+    "price_crc": 155000,
+    "status": "low_stock",
+    "status_text": "Pocas unidades",
+    "icon": "🔄"
+  },
+  {
+    "id": 13,
+    "name": "Alternador 80A",
+    "sku": "27060-66070 · Denso",
+    "price_crc": 145000,
+    "status": "out_of_stock",
+    "status_text": "Agotado",
+    "icon": "💡"
+  },
+  {
+    "id": 14,
+    "name": "Filtro de Combustible",
+    "sku": "23300-66040 · Kyosan",
+    "price_crc": 14000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "🔩"
+  },
+  {
+    "id": 15,
+    "name": "Faro Trasero Derecho",
+    "sku": "81550-60440 · Depo",
+    "price_crc": 32000,
+    "status": "in_stock",
+    "status_text": "En Stock",
+    "icon": "💡"
+  }
+]

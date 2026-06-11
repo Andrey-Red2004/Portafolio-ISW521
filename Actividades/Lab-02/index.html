@@ -1,331 +1,979 @@
 <!DOCTYPE html>
+<!--
+  <!DOCTYPE html> es la declaración del tipo de documento.
+  Le indica al navegador que use el modo de renderizado estándar de HTML5.
+  Sin esto, algunos navegadores entran en "quirks mode" (modo de compatibilidad
+  con HTML antiguo), lo que puede romper el layout y el CSS moderno.
+-->
 <html lang="es">
+<!--
+  El atributo lang="es" cumple dos funciones críticas:
+  1. ACCESIBILIDAD: Los lectores de pantalla (ej. NVDA, JAWS) usan este valor
+     para seleccionar el motor de voz correcto (pronunciación en español).
+  2. SEO: Los motores de búsqueda indexan mejor el contenido cuando conocen
+     el idioma del documento.
+-->
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydroPulse - Dashboard de Monitoreo Hídrico</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- ============================================================
+       BLOQUE HEAD: Metadatos, vínculos externos y configuración
+       Este bloque NO es visible para el usuario, pero define cómo
+       el navegador interpreta y renderiza el documento.
+       ============================================================ -->
+
+  <meta charset="UTF-8">
+  <!--
+    charset="UTF-8": Define la codificación de caracteres del documento.
+    UTF-8 soporta TODOS los caracteres de todos los idiomas, incluyendo
+    tildes (á, é, í, ó, ú), la ñ, el símbolo ₡ (colón costarricense)
+    y emojis. Sin este meta, los caracteres especiales aparecerían corruptos.
+  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    CLAVE PARA RESPONSIVIDAD:
+    - width=device-width: Le dice al navegador que el ancho del "viewport"
+      (área visible) debe igualar el ancho físico del dispositivo.
+      Sin esto, los móviles renderizan la página como si fuera desktop (980px)
+      y la escalan hacia abajo, haciendo todo diminuto.
+    - initial-scale=1.0: Establece el nivel de zoom inicial en 100%.
+    Esta meta es el punto de partida de TODA la responsividad con CSS.
+  -->
+
+  <meta name="description" content="Akchete By Lara's Food - Comidas rápidas artesanales en Río Frío. Fajitas, burritos, hamburguesas de patacón, pollo frito y más. Pedidos por WhatsApp.">
+  <!--
+    El meta description no afecta el ranking SEO directamente, pero SÍ
+    controla el texto que aparece en los resultados de búsqueda de Google.
+    Un buen description aumenta el CTR (click-through rate).
+  -->
+
+  <meta name="author" content="Myrna Doris Valerio Gonzales - Akchete By Lara's Food">
+
+  <title>Akchete By Lara's Food | Comidas Rápidas en Río Frío</title>
+  <!--
+    El <title> aparece en:
+    1. La pestaña del navegador
+    2. Los resultados de búsqueda de Google (título clicable)
+    3. Al guardar en favoritos
+    Debe ser descriptivo, único y no exceder ~60 caracteres.
+  -->
+
+  <!-- ---- Hoja de estilos externa (REQUERIMIENTO OBLIGATORIO) ---- -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- ---- Estilos del modal de fotografías de platillos ---- -->
+  <link rel="stylesheet" href="css/dish-modal.css">
+  <!--
+    La regla del laboratorio exige que TODO el CSS esté en archivos .css
+    externos, NO en etiquetas <style> dentro del HTML ni en atributos
+    style="" en línea. Esto separa contenido (HTML) de presentación (CSS),
+    principio fundamental del desarrollo web profesional.
+  -->
+
+  <!-- ---- Preconexión a Google Fonts para optimizar la carga ---- -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <!--
+    Google Fonts es una CDN externa de tipografías. No es un framework CSS,
+    solo provee fuentes, lo cual está permitido por el enunciado.
+    - Oswald: tipografía de display para títulos (impacto, legibilidad).
+    - Lato: tipografía sans-serif para cuerpo de texto (lectura cómoda).
+    - rel="preconnect": le dice al navegador que establezca la conexión
+      con el servidor de Google Fonts ANTES de que la necesite, reduciendo
+      el tiempo de carga de las fuentes.
+  -->
+
 </head>
+
 <body>
+  <!-- ============================================================
+       BLOQUE BODY: Todo el contenido visible de la página.
+       La estructura semántica sigue el orden lógico del documento:
+       header → main (sections) → aside → footer
+       ============================================================ -->
 
-    <!-- EJERCICIO 1: BARRA DE NAVEGACIÓN CON FLEXBOX -->
-    <!-- Rol "banner" es implícito en <nav> dentro de <header>; aria-label diferencia si hubiera múltiples navs -->
-    <nav class="navbar" aria-label="Navegación principal">
-        <div class="nav-logo" aria-label="HydroPulse - Dashboard de Monitoreo Hídrico">
-            <span class="logo-icon" aria-hidden="true">💧</span>
-            <span class="logo-text">Hydro<span class="text-gradient">Pulse</span></span>
-        </div>
-        <ul class="nav-links" role="list">
-            <li><a href="#" class="active" aria-current="page">Dashboard</a></li>
-            <li><a href="#">Sensores</a></li>
-            <li><a href="#">Reportes</a></li>
-            <li><a href="#">Configuración</a></li>
-        </ul>
-        <div class="nav-actions">
-            <button class="btn-primary" type="button">Cerrar Sesión</button>
-        </div>
+
+  <!-- ================================================================
+       <header>: CABECERA DEL SITIO
+       Propósito semántico: Contiene la información introductoria y de
+       navegación del sitio. Representa la "identidad" de la página.
+       Puede aparecer a nivel de página (dentro de <body>) o dentro
+       de un <article> o <section> para identificar esa sección.
+       Aquí lo usamos a nivel de página.
+       ================================================================ -->
+  <header class="site-header" role="banner">
+    <!--
+      role="banner": Atributo ARIA que declara explícitamente que este
+      <header> es el banner principal del sitio (solo uno por página).
+      Aunque los lectores de pantalla modernos infieren esto del <header>,
+      el atributo ARIA mejora la compatibilidad con tecnologías asistivas
+      más antiguas y es requerido por WCAG 2.1.
+    -->
+
+    <!-- Logo del negocio -->
+    <div class="logo-container">
+      <a href="#inicio" aria-label="Akchete By Lara's Food - Ir al inicio">
+        <!--
+          El enlace envuelve el logo para que sea clickeable y lleve al inicio.
+          aria-label describe el destino del enlace para lectores de pantalla,
+          ya que el contenido del enlace es una imagen, no texto.
+        -->
+        <img
+          src="assets/logoAkchete.png"
+          alt="Logo de Akchete By Lara's Food"
+          class="footer-logo"
+          width="60"
+          height="60"
+        >
+        <!--
+          ACCESIBILIDAD WCAG 2.1 - Criterio 1.1.1 (Nivel A):
+          Toda imagen no decorativa DEBE tener un atributo alt descriptivo.
+          El alt debe describir el CONTENIDO y FUNCIÓN de la imagen,
+          no simplemente decir "logo" o "imagen".
+
+          Los atributos width y height evitan el "layout shift" (CLS):
+          el navegador reserva el espacio para la imagen antes de cargarla,
+          evitando que el contenido "salte" durante la carga.
+        -->
+      </a>
+    </div>
+
+    <!-- ================================================================
+         <nav>: BARRA DE NAVEGACIÓN PRINCIPAL
+         Propósito semántico: Contenedor específico para bloques de
+         navegación. Solo debe usarse para navegación PRINCIPAL o
+         secundaria importante, no para cualquier grupo de enlaces.
+         ================================================================ -->
+    <nav class="main-nav" aria-label="Navegación principal">
+      <!--
+        aria-label="Navegación principal": ARIA distingue esta <nav> de
+        otras que pudiera haber en la página (ej: navegación del footer).
+        Sin el label, el lector de pantalla solo diría "navegación" sin
+        contexto. Con él, dice "navegación principal".
+      -->
+
+      <!-- Botón hamburguesa para menú móvil (controlado por JS) -->
+      <button
+        class="nav-toggle"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <!--
+          aria-expanded="false": Informa al lector de pantalla si el menú
+          está abierto (true) o cerrado (false). JS actualizará este valor.
+          aria-controls="nav-menu": Vincula este botón con el elemento que
+          controla, identificado por id="nav-menu".
+          ACCESIBILIDAD DE TECLADO: Los <button> nativos son focusables
+          y activables con Enter/Space por defecto. Siempre usar <button>
+          para acciones, nunca <div> o <span> con onclick.
+        -->
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <!-- Las tres líneas del ícono hamburguesa (CSS las dibuja) -->
+      </button>
+
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <!--
+          <ul> (Unordered List): Semánticamente correcto para una lista de
+          navegación porque los ítems NO tienen un orden específico jerárquico.
+          role="list": Corrige un bug de VoiceOver (Safari/iOS) donde
+          las listas con list-style:none pierden su semántica de lista.
+        -->
+        <li role="listitem">
+          <a href="#inicio" class="nav-link">Inicio</a>
+        </li>
+        <li role="listitem">
+          <a href="#nosotros" class="nav-link">Nosotros</a>
+        </li>
+        <li role="listitem">
+          <a href="#destacados" class="nav-link">Destacados</a>
+        </li>
+        <li role="listitem">
+          <a href="#menu" class="nav-link">Menú</a>
+        </li>
+        <li role="listitem">
+          <a href="#contacto" class="nav-link">Contacto</a>
+        </li>
+      </ul>
     </nav>
+    <!-- Fin de <nav> -->
 
-    <main class="main-layout" id="main-content">
-        
-        <!-- EJERCICIO 3: COLUMNA 1 - SIDEBAR IZQUIERDO -->
-        <aside class="sidebar" aria-label="Panel de estaciones y resumen diario">
-            <div class="sidebar-section">
-                <h3 id="estaciones-heading">Estaciones</h3>
-                <ul class="sidebar-menu" aria-labelledby="estaciones-heading" role="list">
-                    <!-- aria-current indica la estación activa; el punto verde se refuerza con texto para lectores -->
-                    <li class="active" aria-current="true">
-                        <span class="status-dot online" aria-hidden="true"></span>
-                        <span class="sr-only">Estado: En línea — </span>
-                        Planta Central Planta Alta
-                    </li>
-                    <li>
-                        <span class="status-dot online" aria-hidden="true"></span>
-                        <span class="sr-only">Estado: En línea — </span>
-                        Sucursal Norte Flujo
-                    </li>
-                    <li>
-                        <!-- Estado "offline" reforzado con texto oculto, no solo con color -->
-                        <span class="status-dot offline" aria-hidden="true"></span>
-                        <span class="sr-only">Estado: Fuera de línea — </span>
-                        Estación Delta V
-                    </li>
-                    <li>
-                        <span class="status-dot online" aria-hidden="true"></span>
-                        <span class="sr-only">Estado: En línea — </span>
-                        Represa Sector 4
-                    </li>
-                </ul>
-            </div>
-            <div class="sidebar-section quick-stats" aria-label="Resumen diario del sistema">
-                <h3 id="resumen-heading">Resumen Diario</h3>
-                <dl class="stat-list" aria-labelledby="resumen-heading">
-                    <div class="stat-mini">
-                        <dt class="stat-label">Eficiencia total</dt>
-                        <dd class="stat-val text-neon-blue">94.2%</dd>
-                    </div>
-                    <div class="stat-mini">
-                        <dt class="stat-label">Alertas Activas</dt>
-                        <!-- El color rojo se refuerza con el número, no depende solo del color -->
-                        <dd class="stat-val text-neon-pink">2</dd>
-                    </div>
-                </dl>
-            </div>
-        </aside>
+  </header>
+  <!-- Fin de <header> -->
 
-        <!-- EJERCICIO 3: COLUMNA 2 - CONTENIDO CENTRAL -->
-        <section class="content-center" aria-label="Panel principal de monitoreo">
-            
-            <!-- Gráfico de flujo en tiempo real -->
-            <div class="charts-container">
-                <div class="chart-card main-chart">
-                    <div class="card-header">
-                        <h2>Flujo de Consumo en Tiempo Real</h2>
-                        <!-- aria-label sobre el badge explica su significado semántico -->
-                        <span class="badge shadow-neon-blue" role="status" aria-label="Transmisión en vivo activa">En vivo</span>
-                    </div>
-                    <!-- El gráfico de barras es decorativo/visual; se describe con aria-label para lectores -->
-                    <div class="mock-chart-visual"
-                         role="img"
-                         aria-label="Gráfico de barras: flujo de consumo hídrico en las últimas horas. Valores aproximados: 40%, 65%, 50%, 85%, 70%, 95%, 60%">
-                        <div class="chart-bar" style="height: 40%"></div>
-                        <div class="chart-bar" style="height: 65%"></div>
-                        <div class="chart-bar" style="height: 50%"></div>
-                        <div class="chart-bar" style="height: 85%"></div>
-                        <div class="chart-bar" style="height: 70%"></div>
-                        <div class="chart-bar" style="height: 95%"></div>
-                        <div class="chart-bar" style="height: 60%"></div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- EJERCICIO 2: CUADRÍCULA DE SENSORES CON FLEX-WRAP y GAP -->
-            <section aria-label="Lecturas de sensores IoT" class="sensors-section">
-                <h2 class="sr-only">Sensores IoT — Lecturas Actuales</h2>
-                <div class="sensors-grid">
+  <!-- ================================================================
+       <main>: CONTENIDO PRINCIPAL DEL DOCUMENTO
+       Propósito semántico: Representa el contenido único y central
+       de la página. REGLA ESTRICTA: Solo puede haber UN elemento <main>
+       por documento HTML. No debe incluir contenido que se repita en
+       otras páginas (menús de nav, footers, sidebars globales).
+       WCAG 2.1 - Criterio 2.4.1: Permite a usuarios de teclado saltar
+       directamente al contenido principal usando "saltar al contenido".
+       ================================================================ -->
+  <main id="main-content">
 
-                    <article class="sensor-card" aria-label="Sensor de Temperatura">
-                        <span class="sensor-icon" aria-hidden="true">🌡️</span>
-                        <h3>Temperatura</h3>
-                        <p class="sensor-value">22.4 °C</p>
-                        <!-- Estado no depende solo del color: texto descriptivo "Óptimo" lo refuerza -->
-                        <span class="sensor-status status-ok">
-                            <span class="sr-only">Estado: </span>Óptimo
-                        </span>
-                    </article>
+    <!-- Enlace de "saltar al contenido" para accesibilidad de teclado -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <!--
+      WCAG 2.1 - Criterio 2.4.1 (Bypass Blocks, Nivel A):
+      Los usuarios que navegan solo con teclado deben poder SALTAR
+      el menú de navegación y ir directo al contenido en cada página.
+      Este enlace es invisible por defecto (CSS: position off-screen)
+      pero APARECE cuando recibe el foco con Tab, cumpliendo el criterio
+      de "foco visible" (Criterio 2.4.7).
+    -->
 
-                    <article class="sensor-card" aria-label="Sensor de Presión Hídrica">
-                        <span class="sensor-icon" aria-hidden="true">📊</span>
-                        <h3>Presión Hídrica</h3>
-                        <p class="sensor-value">4.2 bar</p>
-                        <span class="sensor-status status-ok">
-                            <span class="sr-only">Estado: </span>Estable
-                        </span>
-                    </article>
 
-                    <article class="sensor-card" aria-label="Sensor de Caudal de Entrada">
-                        <span class="sensor-icon" aria-hidden="true">🌊</span>
-                        <h3>Caudal de Entrada</h3>
-                        <p class="sensor-value">124 L/s</p>
-                        <span class="sensor-status status-ok">
-                            <span class="sr-only">Estado: </span>Normal
-                        </span>
-                    </article>
+    <!-- ================================================================
+         SECCIÓN 1: HERO / INICIO
+         <section>: Agrupa contenido temáticamente relacionado.
+         Requiere un encabezado (<h1>-<h6>) para tener sentido semántico.
+         Usamos id="inicio" como ancla para los enlaces del menú de nav.
+         ================================================================ -->
+    <section id="inicio" class="hero-section" aria-labelledby="hero-titulo">
+      <!--
+        aria-labelledby="hero-titulo": ARIA vincula esta sección con su
+        encabezado (id="hero-titulo"). Los lectores de pantalla anuncian
+        la sección con el texto del encabezado referenciado.
+      -->
+      <div class="hero-content">
+        <h1 id="hero-titulo" class="hero-title">
+          Sabor auténtico,<br>
+          <span class="highlight">directo del corazón</span>
+        </h1>
+        <!--
+          <h1>: El encabezado más importante de la página. Solo debe haber
+          UNO por página. Define el tema central del documento. Los motores
+          de búsqueda le dan el mayor peso SEO a este elemento.
+        -->
+        <p class="hero-subtitle">
+          Comidas rápidas artesanales en Río Frío. Fajitas, burritos,
+          hamburguesas de patacón y pollo frito que te harán volver.
+        </p>
+        <div class="hero-badges" aria-label="Opciones de servicio disponibles">
+          <!--
+            aria-label en el div describe el bloque de badges para lectores
+            de pantalla, ya que los badges individuales son iconos + texto
+            y el contexto grupal ayuda a entenderlos mejor.
+          -->
+          <span class="badge">🛵 Domicilio Express</span>
+          <span class="badge">🛍️ Para llevar</span>
+          <span class="badge">🍽️ Comer aquí</span>
+          <span class="badge">🚗 Drive-thru</span>
+        </div>
+        <a
+          href="https://wa.me/50663987994"
+          class="cta-button"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Hacer un pedido por WhatsApp al número +506 6398-7994"
+        >
+          Pedir por WhatsApp
+        </a>
+        <!--
+          target="_blank": Abre el enlace en nueva pestaña.
+          rel="noopener noreferrer": Seguridad obligatoria cuando se usa
+          target="_blank". Sin esto, la página destino puede acceder al
+          objeto window de la página origen (vulnerabilidad "tabnapping").
+          - noopener: Rompe la referencia window.opener.
+          - noreferrer: No envía el encabezado Referer HTTP.
+        -->
+      </div>
+    </section>
+    <!-- Fin de sección Hero/Inicio -->
 
-                    <!-- alert-glow refuerza visualmente la alerta; aria-label y texto "Elevado" la refuerzan semánticamente -->
-                    <article class="sensor-card alert-glow" aria-label="Sensor de Nivel de pH — Requiere atención">
-                        <span class="sensor-icon" aria-hidden="true">🧪</span>
-                        <h3>Nivel de pH</h3>
-                        <p class="sensor-value">8.7 pH</p>
-                        <span class="sensor-status status-warn" role="alert">
-                            <span class="sr-only">Advertencia — Estado: </span>Elevado
-                        </span>
-                    </article>
 
-                    <article class="sensor-card" aria-label="Sensor de Turbidez del Agua">
-                        <span class="sensor-icon" aria-hidden="true">☁️</span>
-                        <h3>Turbidez</h3>
-                        <p class="sensor-value">1.8 NTU</p>
-                        <span class="sensor-status status-ok">
-                            <span class="sr-only">Estado: </span>Claro
-                        </span>
-                    </article>
+    <!-- ================================================================
+         SECCIÓN 2: NOSOTROS
+         Presentación del negocio y sus valores. Usamos <section> porque
+         es un bloque temático con su propio encabezado.
+         ================================================================ -->
+    <section id="nosotros" class="about-section" aria-labelledby="nosotros-titulo">
 
-                    <article class="sensor-card" aria-label="Sensor de Consumo Eléctrico">
-                        <span class="sensor-icon" aria-hidden="true">⚡</span>
-                        <h3>Consumo Eléctrico</h3>
-                        <p class="sensor-value">14.2 kW</p>
-                        <span class="sensor-status status-ok">
-                            <span class="sr-only">Estado: </span>Eficiente
-                        </span>
-                    </article>
+      <h2 id="nosotros-titulo" class="section-title">
+        ¿Quiénes somos?
+      </h2>
+      <!--
+        <h2>: Encabezado de segundo nivel. La jerarquía de encabezados
+        (h1 → h2 → h3) debe ser SECUENCIAL y nunca saltar niveles.
+        Esta jerarquía es crítica para lectores de pantalla: permite
+        a los usuarios navegar el documento "por encabezados".
+      -->
 
-                </div>
-            </section>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            <strong>Akchete By Lara's Food</strong> es un local informal, bonito y acogedor
+            de comidas rápidas artesanales en Río Frío, Finca 6. Fundado y administrado
+            por <strong>Myrna Doris Valerio Gonzales</strong>, nació del amor por la cocina
+            tradicional con un toque contemporáneo.
+          </p>
+          <p>
+            Cada plato se prepara con ingredientes frescos y recetas propias: desde nuestras
+            fajitas empanizadas con un toque picante, hasta la icónica "Pata Hamburguesa"
+            hecha con patacones dorados.
+          </p>
+        </div>
 
-            <!-- ============================================================
-                 TERMINAL DE TELEMETRÍA OPERATIVA
-                 Justificación: Esta terminal permite visualizar rápidamente
-                 eventos recientes de la infraestructura hídrica, facilitando
-                 la supervisión operativa y la detección temprana de incidencias.
-                 Los operadores pueden identificar patrones y anomalías sin
-                 navegar entre múltiples vistas, optimizando el tiempo de
-                 respuesta ante fallos o lecturas fuera de rango.
-                 Implementada con solo HTML y CSS (sin JavaScript).
-                 ============================================================ -->
-            <section class="telemetry-panel" aria-label="Terminal de Telemetría Operativa">
-                <div class="telemetry-header">
-                    <div class="telemetry-title-row">
-                        <span class="telemetry-icon" aria-hidden="true">⬛</span>
-                        <h2 class="telemetry-title">Terminal de Telemetría</h2>
-                        <span class="telemetry-badge" role="status" aria-label="Sistema operando normalmente">SYS OK</span>
-                    </div>
-                    <p class="telemetry-subtitle">hydropulse@acueducto:~$ monitor --live --interval=2s</p>
-                </div>
+        <div class="about-info">
+          <!-- Horario de atención -->
+          <div class="info-card" role="group" aria-label="Horario de atención">
+            <!--
+              role="group": ARIA agrupa elementos relacionados lógicamente
+              que no tienen un elemento HTML semántico equivalente.
+            -->
+            <h3 class="info-card-title">
+              <span aria-hidden="true">🕐</span> Horario
+            </h3>
+            <!--
+              aria-hidden="true" en el emoji: Los emojis pueden ser
+              verbalizados por los lectores de pantalla de formas
+              inconsistentes. Al ocultarlos con aria-hidden="true",
+              el lector de pantalla los ignora y lee solo el texto.
+            -->
+            <p><strong>Martes a Domingo</strong></p>
+            <p>12:00 m.d. — 9:00 p.m.</p>
+            <p class="closed-day">
+              <span aria-hidden="true">❌</span> Lunes: Cerrado
+            </p>
+          </div>
 
-                <!-- El contenido de la terminal es decorativo/visual para lectores;
-                     el aria-label del section padre provee contexto. Los registros
-                     en texto plano son legibles por lectores de pantalla. -->
-                <div class="telemetry-body" role="log" aria-live="off" aria-label="Registro de eventos del sistema hídrico">
+          <!-- Servicios disponibles -->
+          <div class="info-card" role="group" aria-label="Servicios disponibles">
+            <h3 class="info-card-title">
+              <span aria-hidden="true">✅</span> Servicios
+            </h3>
+            <ul>
+              <li>Entrega a domicilio Express</li>
+              <li>Para llevar</li>
+              <li>Consumo en el lugar</li>
+              <li>Pedidos desde el automóvil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-                    <!-- Animación CSS: los registros se desplazan hacia arriba simulando un log en vivo -->
-                    <div class="telemetry-scroll">
+    </section>
+    <!-- Fin de sección Nosotros -->
 
-                        <div class="tlog-line tlog-system">
-                            <span class="tlog-prompt" aria-hidden="true">$</span>
-                            <span class="tlog-text">Iniciando sesión de monitoreo continuo...</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:01">[08:15:01]</span>
-                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
-                            <span class="tlog-text">Tanque Principal Sector A <span class="tlog-val">73%</span> — Nivel nominal</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:03">[08:15:03]</span>
-                            <span class="tlog-tag tlog-tag-pressure">PRESIÓN</span>
-                            <span class="tlog-text">Sector Norte <span class="tlog-val">4.2 bar</span> — Dentro del rango operativo</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:05">[08:15:05]</span>
-                            <span class="tlog-tag tlog-tag-quality">CALIDAD</span>
-                            <span class="tlog-text">Sensor PH-C01 <span class="tlog-val">7.1 pH</span> — Óptimo para consumo</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:07">[08:15:07]</span>
-                            <span class="tlog-tag tlog-tag-flow">CAUDAL</span>
-                            <span class="tlog-text">Naciente Sur <span class="tlog-val">124 L/s</span> — Flujo estable</span>
-                        </div>
-                        <div class="tlog-line tlog-warn">
-                            <span class="tlog-time" aria-label="08:15:09">[08:15:09]</span>
-                            <span class="tlog-tag tlog-tag-warn">ALERTA</span>
-                            <span class="tlog-text">PH-C02 Filtro Central <span class="tlog-val-warn">8.7 pH</span> — Elevado. Revisión requerida</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:11">[08:15:11]</span>
-                            <span class="tlog-tag tlog-tag-valve">VÁLVULA</span>
-                            <span class="tlog-text">V-04 Sector D <span class="tlog-val">ABIERTA</span> — Operación normal</span>
-                        </div>
-                        <div class="tlog-line tlog-error">
-                            <span class="tlog-time" aria-label="08:15:12">[08:15:12]</span>
-                            <span class="tlog-tag tlog-tag-error">CRÍTICO</span>
-                            <span class="tlog-text">Estación Delta V — <span class="tlog-val-error">Sensor no responde</span> · Tiempo de espera excedido</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:14">[08:15:14]</span>
-                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
-                            <span class="tlog-text">Represa Sector 4 <span class="tlog-val">58%</span> — Llenado en progreso</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:16">[08:15:16]</span>
-                            <span class="tlog-tag tlog-tag-flow">CAUDAL</span>
-                            <span class="tlog-text">Planta Central <span class="tlog-val">98 L/s</span> — Flujo reducido post-pico</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:18">[08:15:18]</span>
-                            <span class="tlog-tag tlog-tag-quality">TURBIDEZ</span>
-                            <span class="tlog-text">NTU-01 <span class="tlog-val">1.8 NTU</span> — Agua clara, dentro de parámetros</span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:20">[08:15:20]</span>
-                            <span class="tlog-tag tlog-tag-pressure">ELÉCTRICO</span>
-                            <span class="tlog-text">Consumo bomba principal <span class="tlog-val">14.2 kW</span> — Eficiencia nominal</span>
-                        </div>
-                        <div class="tlog-line tlog-system">
-                            <span class="tlog-time" aria-label="08:15:22">[08:15:22]</span>
-                            <span class="tlog-tag tlog-tag-sys">SISTEMA</span>
-                            <span class="tlog-text">Ciclo de monitoreo completado — <span class="tlog-val">4/5 estaciones operativas</span></span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:24">[08:15:24]</span>
-                            <span class="tlog-tag tlog-tag-valve">VÁLVULA</span>
-                            <span class="tlog-text">V-01 Principal <span class="tlog-val">ABIERTA</span> — Mantenimiento programado 23:00</span>
-                        </div>
-                        <div class="tlog-line tlog-warn">
-                            <span class="tlog-time" aria-label="08:15:26">[08:15:26]</span>
-                            <span class="tlog-tag tlog-tag-warn">MANT.</span>
-                            <span class="tlog-text">Limpieza de tuberías programada para <span class="tlog-val-warn">hoy 23:00</span></span>
-                        </div>
-                        <div class="tlog-line tlog-info">
-                            <span class="tlog-time" aria-label="08:15:28">[08:15:28]</span>
-                            <span class="tlog-tag tlog-tag-tank">TANQUE</span>
-                            <span class="tlog-text">Tanque Auxiliar Norte <span class="tlog-val">91%</span> — Alto. Evaluando desvío</span>
-                        </div>
 
-                    </div><!-- /.telemetry-scroll -->
-                </div><!-- /.telemetry-body -->
+    <!-- ================================================================
+         SECCIÓN 3: PLATILLOS DESTACADOS
+         Usamos <article> para cada platillo porque cada uno es contenido
+         AUTÓNOMO: tiene sentido por sí solo, podría publicarse
+         independientemente (en redes sociales, en otro sitio, en una app).
+         Esta es la diferencia clave entre <section> y <article>.
+         ================================================================ -->
+    <section id="destacados" class="featured-section" aria-labelledby="destacados-titulo">
 
-                <!-- Línea de entrada: cursor parpadeante CSS, sin JavaScript -->
-                <div class="telemetry-input-row" aria-hidden="true">
-                    <span class="tlog-prompt-green">hydropulse@acueducto</span>
-                    <span class="tlog-prompt-white">:</span>
-                    <span class="tlog-prompt-blue">~</span>
-                    <span class="tlog-prompt-white">$</span>
-                    <span class="tlog-cursor" aria-hidden="true">█</span>
-                </div>
+      <h2 id="destacados-titulo" class="section-title">
+        Platillos Estrella
+      </h2>
+      <p class="section-subtitle">Los favoritos de nuestra clientela</p>
 
-            </section><!-- /.telemetry-panel -->
+      <div class="featured-grid">
+        <!--
+          Este div.featured-grid será el contenedor de CSS Grid para los
+          artículos destacados. El Grid se define en CSS, no aquí.
+          La separación de responsabilidades: HTML define la ESTRUCTURA,
+          CSS define la PRESENTACIÓN.
+        -->
 
-        </section><!-- /.content-center -->
+        <!-- Platillo estrella 1: Fajitas -->
+        <article class="featured-card" aria-labelledby="fajitas-titulo">
+          <!--
+            <article>: Representa contenido autónomo y autocontenido.
+            aria-labelledby vincula el artículo con su encabezado interno
+            para que los lectores de pantalla anuncien de qué trata.
+          -->
+          <div class="card-image-placeholder" aria-hidden="true">
+            <!-- 
+              aria-hidden="true": Este div es puramente decorativo.
+              Los lectores de pantalla lo ignorarán completamente.
+              La información de la imagen se transmite a través del
+              encabezado y descripción del article.
+            -->
+            <span class="food-emoji" role="img" aria-label="Fajitas de pollo">🌮</span>
+          </div>
+          <div class="card-content">
+            <h3 id="fajitas-titulo" class="card-title">
+              <button
+                class="dish-trigger"
+                data-dish-id="fajitas"
+                aria-label="Ver foto de Fajitas de Pollo + Papas"
+                aria-haspopup="dialog"
+              >Fajitas de Pollo + Papas</button>
+            </h3>
+            <p class="card-description">
+              Fajitas de pollo empanizadas con un toque de picante,
+              acompañadas de papas. El favorito indiscutible de la casa.
+            </p>
+            <p class="card-price" aria-label="Precio: tres mil seiscientos colones">
+              <span aria-hidden="true">₡</span>3.600
+            </p>
+          </div>
+        </article>
 
-        <!-- EJERCICIO 3: COLUMNA 3 - SIDEBAR DERECHO (ALERTAS) -->
-        <section class="sidebar-right" aria-label="Alertas activas del sistema">
-            <h2 id="alertas-heading">Alertas del Sistema</h2>
-            <div class="alerts-container" role="list" aria-labelledby="alertas-heading">
+        <!-- Platillo estrella 2: Burrito -->
+        <article class="featured-card" aria-labelledby="burrito-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Burrito de pollo crispy">🌯</span>
+          </div>
+          <div class="card-content">
+            <h3 id="burrito-titulo" class="card-title">Burrito de Pollo Crispy + Papas</h3>
+            <p class="card-description">
+              Tortilla de harina con frijoles molidos, queso amarillo, mayonesa
+              de la casa, papas y fajitas de pollo empanizadas con picante.
+            </p>
+            <p class="card-price" aria-label="Precio: dos mil quinientos colones">
+              <span aria-hidden="true">₡</span>2.500
+            </p>
+          </div>
+        </article>
 
-                <!-- role="listitem" en conjunto con role="list" para compatibilidad con lectores -->
-                <!-- El color del indicador se refuerza con el texto del encabezado ("Crítica:", "Advertencia:") -->
-                <div class="alert-item high" role="listitem" aria-label="Alerta crítica: Presión Estación Delta V">
-                    <!-- aria-hidden: indicador visual de color, el significado está en el texto -->
-                    <div class="alert-indicator" aria-hidden="true"></div>
-                    <div class="alert-content">
-                        <h4>Crítica: Presión Estación Delta V</h4>
-                        <p>Hace 5 min · Sensor no responde.</p>
-                    </div>
-                </div>
+        <!-- Platillo estrella 3: Pata Hamburguesa -->
+        <article class="featured-card" aria-labelledby="pata-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Pata hamburguesa con patacones">🍔</span>
+          </div>
+          <div class="card-content">
+            <h3 id="pata-titulo" class="card-title">Pata Hamburguesa + Papas</h3>
+            <p class="card-description">
+              Dos patacones dorados en forma de hamburguesa, rellenos de mayonesa
+              de la casa, lechuga, tomate y tu proteína a escoger.
+            </p>
+            <p class="card-price" aria-label="Precio: tres mil quinientos colones">
+              <span aria-hidden="true">₡</span>3.500
+            </p>
+          </div>
+        </article>
 
-                <div class="alert-item warning" role="listitem" aria-label="Advertencia: pH Elevado en filtro central">
-                    <div class="alert-indicator" aria-hidden="true"></div>
-                    <div class="alert-content">
-                        <h4>Advertencia: pH Elevado</h4>
-                        <p>Hace 12 min · Filtro central requiere revisión.</p>
-                    </div>
-                </div>
+        <!-- Platillo estrella 4: Pollo Frito -->
+        <article class="featured-card" aria-labelledby="pollo-titulo">
+          <div class="card-image-placeholder" aria-hidden="true">
+            <span class="food-emoji" role="img" aria-label="Pollo frito picante">🍗</span>
+          </div>
+          <div class="card-content">
+            <h3 id="pollo-titulo" class="card-title">Pollo Frito Picante</h3>
+            <p class="card-description">
+              Trocitos por peso desde ₡1.000. Porciones: pechuga y ala ₡2.200 /
+              muslo y cadera ₡2.000. Crujiente y lleno de sabor.
+            </p>
+            <p class="card-price" aria-label="Precio desde un mil colones">
+              Desde <span aria-hidden="true">₡</span>1.000
+            </p>
+          </div>
+        </article>
 
-                <div class="alert-item info" role="listitem" aria-label="Información: Mantenimiento programado esta noche">
-                    <div class="alert-indicator" aria-hidden="true"></div>
-                    <div class="alert-content">
-                        <h4>Mantenimiento Programado</h4>
-                        <p>Hoy 23:00 · Limpieza de tuberías.</p>
-                    </div>
-                </div>
+      </div>
+      <!-- Fin de .featured-grid -->
 
-            </div>
+    </section>
+    <!-- Fin de sección Destacados -->
+
+
+    <!-- ================================================================
+         SECCIÓN 4: MENÚ COMPLETO
+         Esta sección usará CSS GRID LAYOUT (requerimiento obligatorio)
+         para mostrar todas las categorías del menú en una cuadrícula.
+         Cada categoría del menú es una <section> anidada con su propio
+         encabezado <h3>.
+         ================================================================ -->
+    <section id="menu" class="menu-section" aria-labelledby="menu-titulo">
+
+      <h2 id="menu-titulo" class="section-title">Nuestro Menú Completo</h2>
+      <p class="section-subtitle">Precios en colones costarricenses (₡)</p>
+
+      <!-- Contenedor principal del Grid del menú -->
+      <div class="menu-grid" role="list" aria-label="Categorías del menú">
+        <!--
+          Este div.menu-grid es el GRID CONTAINER (requerimiento obligatorio).
+          En CSS, le aplicaremos: display: grid
+          Cada .menu-category es un GRID ITEM.
+          role="list" + role="listitem" en los hijos: accesibilidad semántica
+          para el grid de categorías.
+        -->
+
+        <!-- ---- CATEGORÍA: Nachos ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-nachos">
+          <h3 id="cat-nachos" class="category-title">Nachos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Carne</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Mixto</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
         </section>
 
-    </main>
+        <!-- ---- CATEGORÍA: Papas ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-papas">
+          <h3 id="cat-papas" class="category-title">Papas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Orden de papas</span>
+              <span class="item-price" aria-label="1800 colones">₡1.800</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Salchipapas</span>
+              <span class="item-price" aria-label="2300 colones">₡2.300</span>
+            </li>
+          </ul>
+        </section>
 
+        <!-- ---- CATEGORÍA: Papa Carne ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-papa-carne">
+          <h3 id="cat-papa-carne" class="category-title">Papa Carne</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Papa carne</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Papa Nacho Mixto</span>
+              <span class="item-price" aria-label="4500 colones">₡4.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Fusión de carne</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Fusión Mixto</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Hamburguesas ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-hamburguesas">
+          <h3 id="cat-hamburguesas" class="category-title">Hamburguesas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pequeña Pollo + papas</span>
+              <span class="item-price" aria-label="2000 colones">₡2.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pequeña Carne + papas</span>
+              <span class="item-price" aria-label="1700 colones">₡1.700</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Grande Carne + papas</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Grande Pollo + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Pata Hamburguesas ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-pata">
+          <h3 id="cat-pata" class="category-title">Pata Hamburguesas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Carne + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Original + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Burritos ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-burritos">
+          <h3 id="cat-burritos" class="category-title">Burritos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">De carne + papas</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">De carne solo</span>
+              <span class="item-price" aria-label="2500 colones">₡2.500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy solo</span>
+              <span class="item-price" aria-label="2000 colones">₡2.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy + papas</span>
+              <span class="item-price" aria-label="2500 colones">₡2.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Fajitas ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-fajitas">
+          <h3 id="cat-fajitas" class="category-title">Fajitas</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pescado + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Mixtas + papas</span>
+              <span class="item-price" aria-label="3600 colones">₡3.600</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Tacos ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-tacos">
+          <h3 id="cat-tacos" class="category-title">Tacos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Taco Clásico</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Taco + papas</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Wrap ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-wrap">
+          <h3 id="cat-wrap" class="category-title">Wrap</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy</span>
+              <span class="item-price" aria-label="2900 colones">₡2.900</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pollo crispy + papas</span>
+              <span class="item-price" aria-label="3500 colones">₡3.500</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Ceviche ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-ceviche">
+          <h3 id="cat-ceviche" class="category-title">Ceviche</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Grande</span>
+              <span class="item-price" aria-label="5000 colones">₡5.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Pequeño</span>
+              <span class="item-price" aria-label="4000 colones">₡4.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Caldosa ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-caldosa">
+          <h3 id="cat-caldosa" class="category-title">Caldosa</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pequeña</span>
+              <span class="item-price" aria-label="1600 colones">₡1.600</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Pollo Frito ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-pollo-frito">
+          <h3 id="cat-pollo-frito" class="category-title">Pollo Frito Picante</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Pechuga y ala</span>
+              <span class="item-price" aria-label="2200 colones">₡2.200</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Muslo y cadera</span>
+              <span class="item-price" aria-label="2000 colones">₡2.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Trocitos (por peso)</span>
+              <span class="item-price" aria-label="desde 1000 colones">Desde ₡1.000</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Refrescos ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-refrescos">
+          <h3 id="cat-refrescos" class="category-title">Refrescos</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Gaseoso 1.5 L</span>
+              <span class="item-price" aria-label="1900 colones">₡1.900</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Gaseoso 600 ml</span>
+              <span class="item-price" aria-label="1000 colones">₡1.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Gaseoso 3 L</span>
+              <span class="item-price" aria-label="3000 colones">₡3.000</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Naturales</span>
+              <span class="item-price" aria-label="800 colones">₡800</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Jugos</span>
+              <span class="item-price" aria-label="500 colones">₡500</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ---- CATEGORÍA: Extras ---- -->
+        <section class="menu-category" role="listitem" aria-labelledby="cat-extras">
+          <h3 id="cat-extras" class="category-title">Extras</h3>
+          <ul class="menu-items">
+            <li class="menu-item">
+              <span class="item-name">Adicionales</span>
+              <span class="item-price" aria-label="500 colones">₡500</span>
+            </li>
+            <li class="menu-item">
+              <span class="item-name">Empaque</span>
+              <span class="item-price" aria-label="300 colones">₡300</span>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+      <!-- Fin de .menu-grid (CSS Grid Container) -->
+
+    </section>
+    <!-- Fin de sección Menú Completo -->
+
+
+    <!-- ================================================================
+         SECCIÓN 5: CONTACTO (Sección de acción del usuario)
+         Contiene el formulario de contacto / saludo personalizado.
+         La funcionalidad de Web Storage (localStorage) se integrará aquí.
+         ================================================================ -->
+    <section id="contacto" class="contact-section" aria-labelledby="contacto-titulo">
+
+      <h2 id="contacto-titulo" class="section-title">Haz tu Pedido</h2>
+      <p class="section-subtitle">Contáctanos directamente por WhatsApp</p>
+
+      <div class="contact-layout">
+        <!--
+          Este div usa FLEXBOX (requerimiento del laboratorio para layout lineal).
+          En CSS definiremos: display: flex para este contenedor.
+        -->
+
+        <!-- Panel de saludo personalizado (Web Storage) -->
+        <div class="greeting-panel" aria-live="polite" aria-atomic="true">
+          <!--
+            aria-live="polite": WCAG 2.1 - Criterio 4.1.3 (Nivel AA).
+            Informa a los lectores de pantalla que este área se actualizará
+            dinámicamente. "polite" = espera a que el usuario termine de
+            leer lo actual antes de anunciar el cambio.
+            aria-atomic="true": El lector de pantalla lee el bloque completo
+            al actualizarse, no solo la parte que cambió.
+          -->
+          <div id="greeting-display" class="greeting-display">
+            <!--
+              Este div se llenará dinámicamente con JS.
+              Si hay un nombre guardado en localStorage, mostrará el saludo.
+              Si no hay nombre, mostrará el formulario para ingresarlo.
+            -->
+          </div>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="contact-info-panel">
+          <h3 class="contact-info-title">Información de Contacto</h3>
+
+          <address>
+            <!--
+              <address>: Elemento semántico HTML5 para información de
+              contacto. Convierte semánticamente las direcciones en datos
+              de contacto reconocibles por motores de búsqueda y asistentes
+              de voz (mejora schema.org/LocalBusiness).
+            -->
+            <p class="contact-item">
+              <span aria-hidden="true">📍</span>
+              <strong>Dirección:</strong> Río Frío Finca 6, al lado atrás del
+              Colono Construcción Finca #6.
+            </p>
+            <p class="contact-item">
+              <span aria-hidden="true">📱</span>
+              <strong>WhatsApp:</strong>
+              <a
+                href="https://wa.me/50663987994"
+                class="contact-link"
+                aria-label="Contactar por WhatsApp al número +506 6398-7994"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +506 6398-7994
+              </a>
+              <em class="contact-note">(Solo WhatsApp)</em>
+            </p>
+            <p class="contact-item">
+              <span aria-hidden="true">🕐</span>
+              <strong>Horario:</strong> Mar — Dom, 12 m.d. a 9:00 p.m.
+            </p>
+          </address>
+
+          <!-- Enlace externo al mapa (complementa el embed) -->
+          <a
+            href="https://maps.app.goo.gl/8KFWsLd5X7sVXL6Q8"
+            class="map-button"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Ver ubicación de Akchete en Google Maps en pantalla completa (abre en nueva pestaña)"
+          >
+            <span aria-hidden="true">🗺️</span> Ver en Google Maps
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ---- MAPA INTERACTIVO DE GOOGLE MAPS ---- -->
+      <div class="map-container">
+        <!--
+          <iframe>: Elemento HTML que incrusta un documento externo dentro
+          del documento actual. Google Maps provee un "embed" (versión
+          incrustable) del mapa que es interactivo: se puede arrastrar,
+          hacer zoom y ver detalles del lugar.
+
+          DECISIÓN TÉCNICA — Por qué iframe y no una imagen estática:
+          - Una imagen estática del mapa sería solo visual, no interactiva.
+          - El iframe conecta directamente con los servidores de Google Maps,
+            cargando el mapa completo y funcional (drag, zoom, Street View).
+
+          ATRIBUTOS DE SEGURIDAD Y ACCESIBILIDAD:
+          - title="...": OBLIGATORIO para accesibilidad. El lector de pantalla
+            necesita saber QUÉ muestra el iframe. Sin title, el lector solo
+            diría "marco" sin ningún contexto útil. Es el equivalente del
+            atributo alt en las imágenes, pero para iframes.
+          - loading="lazy": Optimización de rendimiento. El iframe NO carga
+            hasta que el usuario hace scroll hacia él. Mejora el tiempo de
+            carga inicial de la página (Lighthouse/PageSpeed).
+          - allowfullscreen: Permite que el usuario expanda el mapa a
+            pantalla completa desde el botón dentro del iframe.
+          - referrerpolicy="no-referrer-when-downgrade": Política de privacidad
+            estándar para embeds externos. Envía el referrer solo si la
+            conexión es HTTPS→HTTPS (segura), lo omite en HTTP→HTTPS.
+
+          COORDENADAS: El embed apunta a las coordenadas de Río Frío, Costa Rica,
+          zona de Finca 6, según el enlace de Google Maps proporcionado.
+        -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.2!2d-83.9!3d10.22!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDEzJzEyLjAiTiA4M8KwNTQnMDAuMCJX!5e0!3m2!1ses!2scr!4v1700000000000!5m2!1ses!2scr&q=R%C3%ADo+Fr%C3%ADo+Finca+6+Costa+Rica"
+          class="google-map"
+          title="Mapa interactivo de la ubicación de Akchete By Lara's Food en Río Frío Finca 6, Costa Rica"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          aria-label="Mapa de Google Maps mostrando la ubicación de Akchete By Lara's Food"
+        ></iframe>
+      </div>
+      <!-- Fin del mapa interactivo -->
+
+    </section>
+    <!-- Fin de sección Contacto -->
+
+  </main>
+  <!-- Fin de <main> -->
+
+
+  <!-- ================================================================
+       <aside>: CONTENIDO COMPLEMENTARIO
+       Propósito semántico: Contenido tangencialmente relacionado con
+       el contenido principal. Es complementario pero no esencial.
+       Ejemplos: barras laterales, callouts, información adicional.
+       En móvil típicamente se coloca debajo del main.
+       ================================================================ -->
+  <aside class="promo-aside" aria-label="Información adicional del negocio">
+    <div class="promo-content">
+      <h2 class="promo-title">
+        <span aria-hidden="true">💳</span> Sinpe Móvil
+      </h2>
+      <p>
+        También aceptamos pagos por <strong>Sinpe Móvil</strong>.
+      </p>
+      <p class="sinpe-number" aria-label="Número de Sinpe Móvil: +506 6033 guion 8818">
+        +506 6033-8818
+      </p>
+    </div>
+  </aside>
+  <!-- Fin de <aside> -->
+
+
+  <!-- ================================================================
+       <footer>: PIE DE PÁGINA
+       Propósito semántico: Contiene información sobre el autor/sitio,
+       datos de copyright, enlaces relacionados, términos de uso, etc.
+       Representa el cierre del documento. Puede haber múltiples <footer>
+       (ej: uno en el body, otro dentro de un <article>), pero el
+       <footer> dentro de <body> es el pie de página del sitio.
+       ================================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <!--
+      role="contentinfo": ARIA indica que este footer contiene información
+      sobre el documento (copyright, autor, etc.). Complementa al
+      role="banner" del header.
+    -->
+
+    <div class="footer-content">
+
+      <!-- Logo en el footer -->
+      <div class="footer-brand">
+        <img
+          src="assets/logoAkchete.png"
+          alt="Logo de Akchete By Lara's Food"
+          class="footer-logo"
+          width="60"
+          height="60"
+        >
+        <p class="footer-tagline">Sabor que te hace volver.</p>
+      </div>
+
+      <!-- Navegación del footer (complementaria a la del header) -->
+      <nav aria-label="Navegación secundaria del pie de página">
+        <ul class="footer-nav" role="list">
+          <li role="listitem"><a href="#inicio" class="footer-link">Inicio</a></li>
+          <li role="listitem"><a href="#nosotros" class="footer-link">Nosotros</a></li>
+          <li role="listitem"><a href="#destacados" class="footer-link">Destacados</a></li>
+          <li role="listitem"><a href="#menu" class="footer-link">Menú</a></li>
+          <li role="listitem"><a href="#contacto" class="footer-link">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-legal">
+        <p>
+          <small>
+            &copy; <span id="current-year"></span> Akchete By Lara's Food.
+           
+          </small>
+        </p>
+        <p>
+          <small>Río Frío Finca 6, Costa Rica.</small>
+        </p>
+      </div>
+
+    </div>
+
+  </footer>
+  <script src="js/scripts.js"></script>
 </body>
 </html>

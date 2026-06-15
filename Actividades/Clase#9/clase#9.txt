@@ -1,0 +1,59 @@
+--------- Actividad 1 ----------
+Respuestas:
+-  al sitio le hace falta el meta viewport en el head.
+- Se agrega la linea de código "<meta name="viewport" content="width=device-width, initial-scale=1.0">" dentro de la etiqueta head.
+
+
+---------- Actividad 3 ------------
+Respuestas:
+- la fuente mide 40 px
+
+
+
+------- Actividad 4 --------------
+Respuestas: 
+- cuando el ancho es de 599px o menos, cambia la galería a una columna
+- cuando el ancho de vw es de 768px o mas se muestra la barra lateral
+- se activa cuando el documento se envia a imprimir o guardar como PDF y oculta la navegación y los anuncios
+
+
+
+--------- Actividad 5 ---------------
+Respuestas:
+- se define como base los estilos mas pequeños: .productos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+- lo que se mueve a media, se van escalando los componentes conforme va creciendo el viewpoint, desde tablets hasta monitores de escritorio.
+
+
+
+
+---------- Actividad 6 ------------
+Respuestas:
+- se define una imagen pesada de resolución 4k en la clase base, y aunque en pantallas pequeñas se aplique display: none, el navegador del móvil va a descargar la imagen de todas maneras y así desperdicia el ancho de banda y afecta el tiempo de carga.
+- uso de anchos fijos en pixeles en cada breakpoint en lugar de usar valores fluidos como % o vw. Esto rompe el diseño de las pantallas con resoluciones intermedias y el código se vuelve difícil de mantener.
+- el código se estructura en desktop-first y esto contradice las buenas practicas de desarrollo.
+
+
+--------- Actividad 7 ---------------
+Respuestas:
+- crear breakpoints para dispositivos en especifico es una practica insostenible.
+- los breakpoints no deben basarse en resoluciones de hadware de una marca.
+
+
+
+--------- Actividad 8 ---------------
+Respuestas:
+- una variable llamada color primary que tiene el color verde.
+- una variable llamada color-on-primary que guarda el color blanco
+- una variable llamada spacing-medium que une los 16px detectados de relleno
+- una variable llamada radius-medium que une los 8px del redondeado de las esquinas.
+
+
+
+
+
+
+

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap - Demostración Técnica</title>
+    <!-- CDN CSS Bootstrap 5.3: Sistema de Grid 12 columnas + Componentes preestilizados -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN: Iconografía oficial de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS personalizado: Override de variables CSS de Bootstrap (--bs-primary, --bs-body-bg, etc.) -->
+    <link href="custom.css" rel="stylesheet">
+</head>
+<body>
+    <!-- NAVBAR: Componente de navegación Bootstrap con toggle responsivo -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <!-- .navbar: Contenedor con flex, padding y colores semánticos -->
+        <!-- .navbar-expand-lg: Breakpoint 992px (menú se colapsa < 992px) -->
+        <!-- .navbar-dark .bg-dark: Tema oscuro (colores y contraste preestablecidos) -->
+        <!-- .fixed-top: Posición fija Bootstrap (z-index automático) -->
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- .navbar-brand: Logo con tamaños y márgenes predefinidos -->
+                <i class="bi bi-bootstrap-fill"></i> Bootstrap Showcase
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <!-- .navbar-toggler: Botón hamburguesa (Bootstrap lo estiliza automáticamente) -->
+                <!-- data-bs-toggle="collapse": Atributo HTML5 que Bootstrap JS interpreta -->
+                <!-- data-bs-target="#navbarNav": ID del elemento a colapsar (sin JS personalizado) -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- .collapse: Bootstrap JS oculta/muestra esto automáticamente -->
+                <!-- .navbar-collapse: Estilos especiales para menú colapsable -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- .navbar-nav: Flex vertical (móvil) → horizontal (desktop) automáticamente -->
+                    <!-- .ms-auto: Margen izquierdo auto (empuja a la derecha) - utilidad Bootstrap -->
+                    <li class="nav-item"><a class="nav-link active" href="#grid">Grid System</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#componentes">Componentes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#validacion">Validación</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid mt-5">
+        <!-- SECCIÓN 1: GRID SYSTEM RESPONSIVO DE BOOTSTRAP -->
+        <section id="grid" class="py-5 border-bottom">
+            <div class="container">
+                <h2 class="mb-4"><i class="bi bi-columns-gap"></i> Grid System 12 Columnas</h2>
+                <p class="text-muted mb-4">4 columnas en Desktop → 2 en Tablet → 1 en Móvil (Breakpoints: lg, md, xs)</p>
+
+                <!-- ROW: Contenedor flex de Bootstrap para columnas -->
+                <div class="row g-4">
+                    <!-- .row: Flexbox + gutters automáticos -->
+                    <!-- .g-4: Gap/espaciado entre columnas (1.5rem) -->
+
+                    <!-- COLUMNA 1: 25% en lg, 50% en md, 100% en xs -->
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- .col-lg-3: 3/12 = 25% en pantallas ≥992px -->
+                        <!-- .col-md-6: 6/12 = 50% en pantallas ≥768px -->
+                        <!-- .col-12: 12/12 = 100% en pantallas <768px (móvil) -->
+                        <div class="card h-100">
+                            <!-- .card: Componente tarjeta Bootstrap (border, padding, sombra) -->
+                            <!-- .h-100: Altura 100% (utilidad Bootstrap) -->
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-graph-up text-primary"></i> Métrica 1</h5>
+                                <!-- .card-title: Estilos predefinidos de título en tarjeta -->
+                                <!-- .text-primary: Color Bootstrap primary (variable CSS --bs-primary) -->
+                                <h3 class="text-primary">$45,000</h3>
+                                <small class="text-muted">Valor de ejemplo</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA 2: Mismo patrón responsivo -->
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-people text-info"></i> Métrica 2</h5>
+                                <h3 class="text-info">1,250</h3>
+                                <small class="text-muted">Usuarios activos</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA 3 -->
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-percent text-success"></i> Métrica 3</h5>
+                                <h3 class="text-success">3.8%</h3>
+                                <small class="text-muted">Tasa conversión</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA 4 -->
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-exclamation-circle text-warning"></i> Métrica 4</h5>
+                                <h3 class="text-warning">12</h3>
+                                <small class="text-muted">Errores detectados</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEMOSTRACIÓN DE BREAKPOINTS -->
+                <div class="mt-5">
+                    <h5 class="mb-3">Redimensiona la ventana para ver cómo cambia el grid automáticamente</h5>
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="bg-primary text-white p-3 text-center">
+                                <small>col-lg-4 col-md-6 col-12</small><br>
+                                <strong>Responsivo automático</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="bg-success text-white p-3 text-center">
+                                <small>col-lg-4 col-md-6 col-12</small><br>
+                                <strong>sin CSS adicional</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="bg-info text-white p-3 text-center">
+                                <small>col-lg-4 col-md-12 col-12</small><br>
+                                <strong>Bootstrap maneja todo</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: COMPONENTES BOOTSTRAP -->
+        <section id="componentes" class="py-5 border-bottom">
+            <div class="container">
+                <h2 class="mb-4"><i class="bi bi-puzzle"></i> Componentes Bootstrap Nativos</h2>
+                <p class="text-muted mb-4">Modal, Toast, Collapse, Tabs, Badges - Todo con HTML + Bootstrap JS (sin JS personalizado)</p>
+
+                <div class="row g-4">
+                    <!-- MODAL COMPONENT -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Modal</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Componente overlay que se abre/cierra sin JavaScript personalizado:</p>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
+                                    <!-- .btn .btn-primary: Botón con estilo Bootstrap -->
+                                    <!-- data-bs-toggle="modal": Bootstrap JS lo interpreta automáticamente -->
+                                    <!-- data-bs-target="#miModal": ID del modal a mostrar -->
+                                    <i class="bi bi-window"></i> Abrir Modal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOAST COMPONENT -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Toast (Notificación)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Notificación emergente con Bootstrap Toast:</p>
+                                <button class="btn btn-success" id="btnToast">
+                                    <i class="bi bi-bell"></i> Mostrar Toast
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLLAPSE/ACCORDION -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Collapse (Acordeón)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="accordion" id="accordionDemo">
+                                    <!-- .accordion: Contenedor de items plegables de Bootstrap -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
+                                                <!-- data-bs-toggle="collapse": Bootstrap JS maneja el toggle -->
+                                                <!-- data-bs-target="#item1": ID del contenido a mostrar/ocultar -->
+                                                ¿Qué es el Grid de Bootstrap?
+                                            </button>
+                                        </h2>
+                                        <div id="item1" class="accordion-collapse collapse show" data-bs-parent="#accordionDemo">
+                                            <!-- .collapse: Estado inicial (oculto por defecto) -->
+                                            <!-- .show: Mostrado por defecto -->
+                                            <!-- data-bs-parent: Cierra otros items al abrir uno -->
+                                            <div class="accordion-body">
+                                                <strong>Sistema de 12 columnas:</strong> Divide el ancho disponible en 12 partes iguales. Usas <code>.col-*</code> para especificar cuántas columnas ocupa cada elemento. <code>.col-lg-6</code> = 6 de 12 = 50%. El grid es completamente fluido y responsivo.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
+                                                ¿Qué son los Breakpoints?
+                                            </button>
+                                        </h2>
+                                        <div id="item2" class="accordion-collapse collapse" data-bs-parent="#accordionDemo">
+                                            <div class="accordion-body">
+                                                <strong>Puntos de quiebre:</strong> Tamaños de pantalla donde Bootstrap cambia estilos automáticamente. Principales: <code>xs</code> (&lt;576px), <code>sm</code> (≥576px), <code>md</code> (≥768px), <code>lg</code> (≥992px), <code>xl</code> (≥1200px). Usas <code>.col-md-6 .col-lg-3</code> para aplicar estilos distintos según el breakpoint.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
+                                                ¿Qué son las Utilidades CSS?
+                                            </button>
+                                        </h2>
+                                        <div id="item3" class="accordion-collapse collapse" data-bs-parent="#accordionDemo">
+                                            <div class="accordion-body">
+                                                <strong>Clases de un solo propósito:</strong> <code>.m-3</code> = margin 1rem, <code>.p-2</code> = padding 0.5rem, <code>.text-primary</code> = color primario, <code>.bg-success</code> = fondo verde, <code>.d-flex</code> = display flex. Bootstrap proporciona cientos de utilidades para aplicar estilos sin escribir CSS.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABS/NAVIGATION -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Tabs (Pestañas)</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <!-- .nav .nav-tabs: Contenedor de pestañas Bootstrap -->
+                                    <li class="nav-item">
+                                        <button class="nav-link active" id="tab1" data-bs-toggle="tab" data-bs-target="#content1">
+                                            <!-- data-bs-toggle="tab": Bootstrap JS cambia entre contenidos -->
+                                            <!-- .active: Pestaña activa por defecto -->
+                                            <i class="bi bi-check-circle"></i> Componentes
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="tab2" data-bs-toggle="tab" data-bs-target="#content2">
+                                            <i class="bi bi-gear"></i> Personalización
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="tab3" data-bs-toggle="tab" data-bs-target="#content3">
+                                            <i class="bi bi-lightning"></i> Ventajas
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-3">
+                                    <!-- .tab-content: Contenedor de contenido de pestañas -->
+                                    <div class="tab-pane fade show active" id="content1">
+                                        <!-- .tab-pane: Item individual de contenido -->
+                                        <!-- .fade .show: Transición y visibilidad de Bootstrap -->
+                                        Bootstrap proporciona componentes listos: Button, Card, Modal, Toast, Navbar, Form, Table, Badge, Alert, Collapse, Tabs, Dropdown, y más.
+                                    </div>
+                                    <div class="tab-pane fade" id="content2">
+                                        <strong>Variables CSS:</strong> Personaliza colores y tamaños modificando variables en <code>:root</code>. <code>--bs-primary: #2563eb;</code>. <strong>Sin !important necesario.</strong> Bootstrap respeta la especificidad CSS nativa.
+                                    </div>
+                                    <div class="tab-pane fade" id="content3">
+                                        <ul>
+                                            <li>Prototipado rápido (componentes listos)</li>
+                                            <li>Grid 12 columnas flexible y responsivo</li>
+                                            <li>Documentación oficial completa</li>
+                                            <li>Comunidad grande y activa</li>
+                                            <li>Componentes accesibles WCAG por defecto</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BADGES Y COLORES SEMÁNTICOS -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">Badges y Colores Semánticos</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3"><strong>Colores semánticos de Bootstrap:</strong></p>
+                                <!-- .badge: Componente pequeño de etiqueta -->
+                                <span class="badge bg-primary me-2">Primary (azul)</span>
+                                <span class="badge bg-success me-2">Success (verde)</span>
+                                <span class="badge bg-danger me-2">Danger (rojo)</span>
+                                <span class="badge bg-warning me-2">Warning (naranja)</span>
+                                <span class="badge bg-info me-2">Info (cyan)</span>
+                                <span class="badge bg-secondary">Secondary (gris)</span>
+                                <!-- .me-2: Margin-end 0.5rem (separación utilidad Bootstrap) -->
+                                <p class="mt-3 mb-0"><small class="text-muted">Todos estos colores están definidos como variables CSS en Bootstrap: <code>--bs-primary</code>, <code>--bs-success</code>, etc.</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: VALIDACIÓN DE FORMULARIOS -->
+        <section id="validacion" class="py-5 border-bottom">
+            <div class="container">
+                <h2 class="mb-4"><i class="bi bi-check-circle"></i> Validación de Formularios Bootstrap</h2>
+                <p class="text-muted mb-4">Clases <code>.is-valid</code> y <code>.is-invalid</code> + Bootstrap JS</p>
+
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="formulario" novalidate>
+                                    <!-- novalidate: Desactiva validación HTML5 para usar Bootstrap -->
+                                    <div class="mb-3">
+                                        <!-- .mb-3: Margin-bottom 1rem (utilidad spacing Bootstrap) -->
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <!-- .form-label: Estilos de label Bootstrap -->
+                                        <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" required>
+                                        <!-- .form-control: Input estilizado Bootstrap (border, padding, focus state) -->
+                                        <div class="invalid-feedback">
+                                            <!-- .invalid-feedback: Mensaje que aparece cuando hay error -->
+                                            El nombre es obligatorio.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="email" placeholder="tu@correo.com" required>
+                                        <div class="invalid-feedback">
+                                            Ingresa un correo válido.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="pais" class="form-label">País</label>
+                                        <select class="form-select" id="pais" required>
+                                            <!-- .form-select: Dropdown estilizado Bootstrap -->
+                                            <option selected disabled value="">Selecciona un país...</option>
+                                            <option value="cr">Costa Rica</option>
+                                            <option value="pa">Panamá</option>
+                                            <option value="ni">Nicaragua</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Debes seleccionar un país.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <!-- .form-check: Contenedor para checkbox/radio -->
+                                            <input class="form-check-input" type="checkbox" id="terminos" required>
+                                            <!-- .form-check-input: Checkbox estilizado Bootstrap -->
+                                            <label class="form-check-label" for="terminos">
+                                                <!-- .form-check-label: Label para checkbox -->
+                                                Acepto los términos y condiciones
+                                            </label>
+                                            <div class="invalid-feedback">
+                                                Debes aceptar los términos.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-check-lg"></i> Validar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">¿Cómo funciona?</h5>
+                                <p><strong>1. HTML5:</strong> Atributos <code>required</code>, <code>type="email"</code>, etc.</p>
+                                <p><strong>2. Bootstrap CSS:</strong> Clases <code>.was-validated</code>, <code>.is-invalid</code> dan estilos visuales (borde rojo, mensaje de error)</p>
+                                <p><strong>3. JavaScript (mínimo):</strong> Previene el envío si hay errores y aplica la clase <code>.was-validated</code></p>
+                                <p class="mb-0 text-muted"><small>Prueba enviando sin llenar los campos para ver los estilos de Bootstrap.</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: TABLA RESPONSIVE -->
+        <section id="tabla" class="py-5">
+            <div class="container">
+                <h2 class="mb-4"><i class="bi bi-table"></i> Tabla Responsive de Bootstrap</h2>
+                <p class="text-muted mb-4">Componente <code>.table</code> que se adapta automáticamente en móvil</p>
+
+                <div class="table-responsive">
+                    <!-- .table-responsive: Scroll horizontal en móviles para tablas grandes -->
+                    <table class="table table-hover table-striped">
+                        <!-- .table: Estilos base Bootstrap (border, padding, spacing) -->
+                        <!-- .table-hover: Fila se destaca al pasar el mouse -->
+                        <!-- .table-striped: Filas alternas con color de fondo -->
+                        <thead class="table-dark">
+                            <!-- .table-dark: Encabezado oscuro Bootstrap -->
+                            <tr>
+                                <th>Componente</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Grid System</strong></td>
+                                <td>12 columnas responsivas con breakpoints</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modal</strong></td>
+                                <td>Diálogo overlay con HTML + data-bs-* attributes</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Navbar</strong></td>
+                                <td>Barra de navegación responsiva con toggle</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Componentes Form</strong></td>
+                                <td>Input, Select, Checkbox, Radio estilizados</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Toast</strong></td>
+                                <td>Notificación emergente responsive</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Collapse</strong></td>
+                                <td>Contenido plegable (acordeón)</td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL COMPONENT: Completamente Bootstrap (HTML + data attributes) -->
+    <div class="modal fade" id="miModal" tabindex="-1">
+        <!-- .modal: Contenedor principal del modal Bootstrap -->
+        <!-- .fade: Transición fade de Bootstrap -->
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- .modal-dialog: Diálogo con contenedor Bootstrap -->
+            <!-- .modal-dialog-centered: Centra verticalmente -->
+            <div class="modal-content">
+                <!-- .modal-content: Fondo, border, sombra automáticos de Bootstrap -->
+                <div class="modal-header">
+                    <!-- .modal-header: Encabezado con border y padding Bootstrap -->
+                    <h5 class="modal-title">
+                        <!-- .modal-title: Estilos de título Bootstrap -->
+                        <i class="bi bi-bootstrap-fill text-primary"></i> Esto es un Modal de Bootstrap
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <!-- .btn-close: Botón X estilizado Bootstrap -->
+                    <!-- data-bs-dismiss="modal": Bootstrap lo cierra sin JS personalizado -->
+                </div>
+                <div class="modal-body">
+                    <!-- .modal-body: Contenido principal con padding Bootstrap -->
+                    <p>Este modal se abre/cierra completamente con:</p>
+                    <ul>
+                        <li><strong>HTML:</strong> <code>&lt;div class="modal"&gt;</code></li>
+                        <li><strong>Data attributes:</strong> <code>data-bs-toggle="modal"</code> y <code>data-bs-target="#miModal"</code></li>
+                        <li><strong>Bootstrap JS:</strong> Interpreta automáticamente estos atributos</li>
+                    </ul>
+                    <p><strong>No hay JavaScript personalizado.</strong> Bootstrap maneja todo.</p>
+                </div>
+                <div class="modal-footer">
+                    <!-- .modal-footer: Footer con border superior y padding Bootstrap -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER: Contenedor para notificaciones Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer">
+        <!-- .toast-container: Contenedor posicionable de toasts Bootstrap -->
+        <!-- .position-fixed: Posición fija (utilidad Bootstrap) -->
+        <!-- .bottom-0 .end-0: Esquina inferior derecha (utilidades Bootstrap) -->
+        <!-- .p-3: Padding 1rem (utilidad Bootstrap) -->
+    </div>
+
+    <!-- Bootstrap JS Bundle: Incluye Popper.js para componentes interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript personalizado: MÍNIMO - solo validación de form y Toast -->
+    <script src="app.js"></script>
+</body>
+</html>

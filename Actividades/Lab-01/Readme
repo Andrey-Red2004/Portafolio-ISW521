@@ -1,0 +1,29 @@
+# Akchete By Lara's Food
+
+Sitio web accesible implementado con HTML5 semántico, ARIA y JavaScript vanilla. Demuestra principios de accesibilidad web WCAG 2.1 Level AA con features como navegación por teclado, control de tamaño de letra y anuncios para lectores de pantalla.
+
+## Instalación
+
+Clonar el repositorio:
+```
+git clone https://github.com/[usuario]/akchete-web.git
+cd akchete-web
+```
+
+Servir localmente:
+```
+python -m http.server 8000
+```
+
+Luego abrir en navegador: http://localhost:8000
+
+## Características
+
+Modal accesible con HTML5 dialog y focus trap. Navegación completa por teclado sin ratón. Control de tamaño de letra persistente. Anuncios dinámicos para lectores de pantalla. Estructura HTML5 semántica sin divs innecesarios.
+
+## Estudiante
+
+Nombre: [Tu nombre]
+Carné: [Tu carné]
+Curso: ISW-521
+Universidad: Universidad Técnica Nacional, Sede San Carlos

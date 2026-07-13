@@ -1,0 +1,568 @@
+/* =======================================================
+   CONTRATO CSS <-> JS (leer antes de tocar este archivo)
+   -------------------------------------------------------
+   El HTML aprobado no define clases de estado (loading/error/
+   success) para no ensuciar el markup con presentación. En su
+   lugar, estos estilos esperan que la capa de JS (fuera de este
+   alcance) alterne los siguientes ATRIBUTOS ya válidos en HTML5
+   sobre los IDs existentes — no se agrega ningún elemento ni
+   clase nueva, solo se documenta el contrato:
+
+     #connection-indicator[data-state="online|offline|checking"]
+     #auth-status[data-state="idle|loading|success|error"]
+     #polling-status[data-state="idle|polling|paused"]
+     button[disabled]                -> ya soportado nativamente
+     th[aria-sort="ascending|descending|none"] -> ya está en el HTML
+     article[hidden]                 -> ya está en el HTML
+
+   Si data-state no se implementa, los componentes igual funcionan
+   con su estado neutro por defecto.
+======================================================= */
+
+/* =======================================================
+   BOTONES
+======================================================= */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Botón primario: login, refrescar */
+#login-button,
+#refresh-button {
+  background-image: var(--gradient-accent);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-full);
+  padding-inline: var(--space-6);
+}
+
+#login-button:hover,
+#refresh-button:hover {
+  box-shadow: var(--shadow-glow-accent);
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+#login-button:active,
+#refresh-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-sm);
+  filter: brightness(0.98);
+}
+
+#login-button:disabled,
+#refresh-button:disabled {
+  background-color: var(--color-gray-200);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón de reintento (dentro del panel de error): estilo secundario */
+#error-retry-button {
+  background-color: var(--color-surface);
+  color: var(--color-danger);
+  border-color: var(--color-danger-bg);
+  border-radius: var(--radius-full);
+}
+
+#error-retry-button:hover {
+  background-color: var(--color-danger-bg);
+  border-color: currentColor;
+  transform: translateY(-1px);
+}
+
+/* Botón de reautenticación: acción principal dentro del error */
+#error-reauth-button {
+  background-image: var(--gradient-danger);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-full);
+}
+
+#error-reauth-button:hover {
+  box-shadow: var(--shadow-glow-danger);
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+#error-retry-button:active,
+#error-reauth-button:active {
+  transform: translateY(0);
+}
+
+/* =======================================================
+   INPUTS Y SELECT
+======================================================= */
+.form-field label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#username,
+#password,
+#zone-select {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--fs-base);
+  box-shadow: var(--shadow-inset-top);
+}
+
+#username:hover,
+#password:hover,
+#zone-select:hover {
+  border-color: var(--color-gray-400);
+}
+
+#username:focus-visible,
+#password:focus-visible,
+#zone-select:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-bg);
+}
+
+#zone-select {
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-gray-600) 50%),
+    linear-gradient(135deg, var(--color-gray-600) 50%, transparent 50%);
+  background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: var(--space-8);
+  appearance: none;
+}
+
+#zone-select:disabled,
+#username:disabled,
+#password:disabled {
+  background-color: var(--color-gray-100);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* =======================================================
+   ENCABEZADOS DE SECCIÓN Y TARJETAS CONTENEDORAS
+======================================================= */
+#auth-section,
+#filters-section,
+#standings-section {
+  position: relative;
+  background-image: var(--gradient-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-6) var(--space-6) var(--space-7);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+#auth-section:hover,
+#filters-section:hover,
+#standings-section:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+}
+
+/* Franja de acento a la izquierda: distingue cada bloque funcional
+   (autenticación / filtros / datos) sin depender de íconos ni imágenes */
+#auth-section::before,
+#filters-section::before,
+#standings-section::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 4px;
+}
+
+#auth-section::before {
+  background-image: var(--gradient-accent);
+}
+
+#filters-section::before {
+  background-image: var(--gradient-accent-soft);
+}
+
+#standings-section::before {
+  background-image: var(--gradient-success);
+}
+
+#auth-section h2,
+#filters-section h2,
+#standings-section h2 {
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-1);
+}
+
+/* =======================================================
+   TABLA — ENCABEZADOS
+======================================================= */
+#standings-caption {
+  text-align: left;
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  padding-bottom: var(--space-4);
+}
+
+#standings-head th {
+  background-color: rgba(247, 249, 252, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid var(--color-border-strong);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sort-button {
+  width: 100%;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  justify-content: inherit;
+  gap: var(--space-1);
+}
+
+.sort-button:hover {
+  color: var(--color-accent);
+}
+
+/* Indicador de dirección de orden, dibujado con el propio
+   atributo aria-sort que ya expone el HTML: sin JS extra,
+   sin clases nuevas. */
+.sort-button::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-inline-start: var(--space-1);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  opacity: 0.35;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+th[aria-sort='ascending'] .sort-button::after {
+  border-bottom: 5px solid var(--color-accent);
+  opacity: 1;
+}
+
+th[aria-sort='descending'] .sort-button::after {
+  border-top: 5px solid var(--color-accent);
+  opacity: 1;
+}
+
+th[aria-sort='none'] .sort-button::after {
+  border-bottom: 5px solid var(--color-text-muted);
+}
+
+th[aria-sort='ascending'],
+th[aria-sort='descending'] {
+  color: var(--color-accent);
+}
+
+/* =======================================================
+   TABLA — FILAS Y CELDAS
+======================================================= */
+#standings-body tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition-base), transform var(--transition-fast);
+}
+
+#standings-body tr:hover {
+  background-color: var(--color-gray-50);
+  transform: translateX(2px);
+}
+
+#standings-body td {
+  font-size: var(--fs-sm);
+  color: var(--color-text-primary);
+}
+
+#standings-body td[data-field='team'] {
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-display);
+}
+
+#standings-body td:not([data-field='team']) {
+  font-family: var(--font-mono);
+}
+
+/* Posición: la celda misma se trata como badge (sin depender de
+   que el JS envuelva el número en un elemento hijo) */
+#standings-body td[data-field='position'] {
+  text-align: center;
+  font-weight: var(--fw-bold);
+  color: var(--color-text-secondary);
+}
+
+#standings-body td[data-field='position'] {
+  padding-block: var(--space-2);
+}
+
+#standings-body tr td[data-field='position'] {
+  position: relative;
+}
+
+#standings-body tr td[data-field='position']::before {
+  content: '';
+  position: absolute;
+  inset: 6px 14px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-gray-100);
+  z-index: -1;
+}
+
+/* Puntos: la columna que más importa en un standing, resuelta
+   como pill relleno con el degradado de acento */
+#standings-body td[data-field='points'] {
+  font-weight: var(--fw-bold);
+  color: var(--color-accent);
+  text-align: right;
+}
+
+/* "Leader Highlight": zona de clasificación (primeros 2 lugares
+   de cada grupo, siempre que el JSON llegue ordenado por
+   posición, que es el contrato natural de una tabla de
+   posiciones). Se resuelve por estructura, sin clases nuevas. */
+#standings-body tr:nth-child(-n + 2) {
+  background-image: linear-gradient(90deg, var(--color-success-bg) 0%, transparent 65%);
+  border-left: 3px solid var(--color-success-strong);
+}
+
+#standings-body tr:nth-child(-n + 2):hover {
+  background-image: linear-gradient(90deg, var(--color-green-100) 0%, transparent 65%);
+}
+
+#standings-body tr:nth-child(-n + 2) td[data-field='position'] {
+  color: var(--color-text-inverse);
+}
+
+#standings-body tr:nth-child(-n + 2) td[data-field='position']::before {
+  background-image: var(--gradient-success);
+}
+
+#standings-footnote {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+/* =======================================================
+   ESTADOS DE MENSAJE (auth-status / polling-status / connection)
+======================================================= */
+#connection-indicator,
+#auth-status,
+#polling-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+#connection-indicator {
+  color: var(--color-gray-300);
+}
+
+#connection-indicator::before,
+#auth-status:not(:empty)::before,
+#polling-status:not(:empty)::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+#auth-status[data-state='error'] {
+  color: var(--color-danger);
+}
+
+#auth-status[data-state='success'],
+#polling-status[data-state='polling'] {
+  color: var(--color-success);
+}
+
+#polling-status[data-state='polling']::before,
+#connection-indicator[data-state='online']::before {
+  animation: pulse-dot 1.8s var(--ease-standard) infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 5px transparent;
+    opacity: 0.7;
+  }
+}
+
+#auth-status[data-state='loading'],
+#polling-status[data-state='paused'],
+#connection-indicator[data-state='checking'] {
+  color: var(--color-warning);
+}
+
+/* Loader: se activa combinando el hook data-state="loading" con
+   el atributo nativo [disabled] de los botones asociados. */
+[data-state='loading']::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =======================================================
+   PANELES DE NOTIFICACIÓN (error / rate-limit / backoff)
+   Reemplazan al modal bloqueante clásico: son tarjetas
+   flotantes ("toast") que nunca impiden interactuar con
+   el resto de la interfaz.
+======================================================= */
+#error-panel,
+#rate-limit-panel,
+#backoff-panel {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-border-strong);
+  animation: toast-in var(--transition-slow) var(--ease-standard);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#error-panel h3,
+#rate-limit-panel h3,
+#backoff-panel h3 {
+  font-size: var(--fs-sm);
+  margin-bottom: var(--space-2);
+}
+
+#error-panel p,
+#rate-limit-panel p,
+#backoff-panel p {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+#error-panel {
+  border-left-color: var(--color-danger);
+}
+
+#error-panel h3 {
+  color: var(--color-danger);
+}
+
+#error-panel {
+  display: grid;
+  gap: var(--space-3);
+}
+
+#error-panel .form-field,
+#error-panel > button {
+  width: 100%;
+}
+
+#rate-limit-panel {
+  border-left-color: var(--color-warning);
+}
+
+#rate-limit-panel h3 {
+  color: var(--color-warning);
+}
+
+#backoff-panel {
+  border-left-color: var(--color-accent);
+}
+
+#backoff-panel h3 {
+  color: var(--color-accent);
+}
+
+/* Badges: los contadores viven en <span> ya existentes en el HTML */
+#rate-limit-countdown,
+#backoff-attempt,
+#backoff-delay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75em;
+  padding: 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-xs);
+  border-radius: var(--radius-full);
+}
+
+#rate-limit-countdown {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.25em;
+  font-size: var(--fs-sm);
+  box-shadow: inset 0 0 0 1px rgba(180, 83, 9, 0.15);
+}
+
+#backoff-attempt,
+#backoff-delay {
+  background-color: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+
+/* =======================================================
+   FOOTER
+======================================================= */
+#app-footer {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+#last-updated-time {
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}

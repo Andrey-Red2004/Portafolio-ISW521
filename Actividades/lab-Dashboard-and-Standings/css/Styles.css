@@ -1,0 +1,341 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+@import url('layout.css');
+@import url('components.css');
+@import url('responsive.css');
+
+
+:root {
+  /* --- Paleta cruda --- */
+  --color-navy-950: #060b18;
+  --color-navy-900: #0b1220;
+  --color-navy-800: #121b2e;
+  --color-navy-700: #1b2740;
+
+  --color-blue-600: #2563eb;
+  --color-blue-500: #3b82f6;
+  --color-blue-100: #dbeafe;
+
+  --color-teal-500: #14b8a6;
+  --color-teal-400: #2dd4bf;
+  --color-violet-500: #7c6cf6;
+
+  --color-white: #ffffff;
+  --color-gray-50: #f7f9fc;
+  --color-gray-100: #eef2f7;
+  --color-gray-200: #e3e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-600: #52607a;
+  --color-gray-800: #1e293b;
+
+  --color-green-600: #15803d;
+  --color-green-500: #16a34a;
+  --color-green-100: #dcfce7;
+
+  --color-amber-600: #b45309;
+  --color-amber-500: #d97706;
+  --color-amber-100: #fef3c7;
+
+  --color-red-600: #b91c1c;
+  --color-red-500: #dc2626;
+  --color-red-100: #fee2e2;
+
+  /* --- Alias semánticos (los componentes SIEMPRE consumen estos) --- */
+  --color-bg: var(--color-gray-50);
+  --color-surface: var(--color-white);
+  --color-border: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-300);
+
+  --color-text-primary: var(--color-gray-800);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-400);
+  --color-text-inverse: var(--color-white);
+
+  --color-header-bg: var(--color-navy-950);
+  --color-header-bg-alt: var(--color-navy-900);
+  --color-header-border: var(--color-navy-700);
+
+  --color-accent: var(--color-blue-600);
+  --color-accent-hover: var(--color-blue-500);
+  --color-accent-bg: var(--color-blue-100);
+
+  --color-success: var(--color-green-600);
+  --color-success-strong: var(--color-green-500);
+  --color-success-bg: var(--color-green-100);
+
+  --color-warning: var(--color-amber-600);
+  --color-warning-strong: var(--color-amber-500);
+  --color-warning-bg: var(--color-amber-100);
+
+  --color-danger: var(--color-red-600);
+  --color-danger-strong: var(--color-red-500);
+  --color-danger-bg: var(--color-red-100);
+
+  --color-focus-ring: var(--color-blue-500);
+
+  --color-accent-2: var(--color-teal-500);
+  --color-accent-2-strong: var(--color-teal-400);
+
+  /* --- Gradientes de marca (uso puntual: header, CTA, acentos) --- */
+  --gradient-brand: linear-gradient(135deg, var(--color-navy-950) 0%, var(--color-navy-900) 55%, #101c36 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-blue-600) 0%, var(--color-violet-500) 100%);
+  --gradient-accent-soft: linear-gradient(135deg, var(--color-blue-500) 0%, var(--color-teal-400) 100%);
+  --gradient-success: linear-gradient(135deg, var(--color-green-600) 0%, var(--color-teal-500) 100%);
+  --gradient-danger: linear-gradient(135deg, var(--color-red-600) 0%, #f97316 100%);
+  --gradient-surface: linear-gradient(180deg, #ffffff 0%, var(--color-gray-50) 100%);
+
+  /* --- Tipografía --- */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 1.875rem;
+
+  --lh-tight: 1.2;
+  --lh-base: 1.5;
+  --lh-relaxed: 1.7;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* --- Espaciado (escala base 4px) --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* --- Radios --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* --- Sombras (tinte navy, no negro puro -> sensación premium) --- */
+  --shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.06);
+  --shadow-md: 0 4px 12px rgba(11, 18, 32, 0.08), 0 1px 2px rgba(11, 18, 32, 0.06);
+  --shadow-lg: 0 12px 32px rgba(11, 18, 32, 0.14), 0 2px 6px rgba(11, 18, 32, 0.08);
+  --shadow-xl: 0 24px 48px -12px rgba(11, 18, 32, 0.22);
+  --shadow-glow-accent: 0 8px 24px -6px rgba(37, 99, 235, 0.45);
+  --shadow-glow-success: 0 8px 20px -6px rgba(21, 128, 61, 0.4);
+  --shadow-glow-danger: 0 8px 20px -6px rgba(185, 28, 28, 0.35);
+  --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* --- Transiciones --- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 120ms var(--ease-standard);
+  --transition-base: 200ms var(--ease-standard);
+  --transition-slow: 320ms var(--ease-standard);
+
+  /* --- Capas --- */
+  --z-header: 100;
+  --z-toast: 500;
+
+  /* --- Contenedor --- */
+  --content-max-width: 1400px;
+}
+
+/* =======================================================
+   RESET
+======================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  color: inherit;
+}
+
+/* =======================================================
+   BODY Y CONFIGURACIÓN GLOBAL
+======================================================= */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  background-image: radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.06) 0%, transparent 42%),
+    radial-gradient(circle at 100% 18%, rgba(20, 184, 166, 0.05) 0%, transparent 38%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Datos numéricos y de tiempo con fuente monoespaciada tabular */
+time,
+td[data-field] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* =======================================================
+   SCROLLBAR PERSONALIZADA
+======================================================= */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-strong);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-gray-400);
+}
+
+/* =======================================================
+   TRANSICIONES GLOBALES
+======================================================= */
+a,
+button,
+input,
+select,
+th button,
+[role='status'],
+[role='alert'] {
+  transition: background-color var(--transition-base),
+    color var(--transition-base), border-color var(--transition-base),
+    box-shadow var(--transition-base), transform var(--transition-fast),
+    opacity var(--transition-base);
+}
+
+/* =======================================================
+   ESTADOS DE FOCO GLOBALES (accesibilidad)
+======================================================= */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* =======================================================
+   UTILIDADES GENERALES
+======================================================= */
+
+/* Refuerzo del atributo nativo [hidden]: algunos overrides de
+   display en layout.css/components.css podrían pisarlo si no
+   se respeta la cascada; esta regla asegura que SIEMPRE gane. */
+[hidden] {
+  display: none !important;
+}
+
+/* Enlace "saltar al contenido": oculto visualmente hasta recibir foco */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 1000;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  transition: top var(--transition-base);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-4);
+}
+
+/* =======================================================
+   ACCESIBILIDAD: MOVIMIENTO REDUCIDO
+======================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

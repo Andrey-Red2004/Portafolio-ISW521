@@ -1,0 +1,213 @@
+/* =======================================================
+   CONTENEDOR PRINCIPAL
+======================================================= */
+#main-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-6) var(--space-16);
+}
+
+/* =======================================================
+   HEADER
+======================================================= */
+#app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  background-image: var(--gradient-brand);
+  border-bottom: 1px solid var(--color-header-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Línea de acento inferior: firma visual sutil del header */
+#app-header::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 2px;
+  background-image: var(--gradient-accent-soft);
+  opacity: 0.9;
+}
+
+#app-header h1 {
+  font-size: var(--fs-lg);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Marca: punto degradado antes del título, a modo de "logo" tipográfico */
+#app-header h1::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-image: var(--gradient-accent-soft);
+  box-shadow: 0 0 12px 2px rgba(45, 212, 191, 0.55);
+  flex-shrink: 0;
+}
+
+#connection-indicator {
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+/* =======================================================
+   SECCIÓN: AUTENTICACIÓN
+======================================================= */
+#auth-section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+#login-form fieldset {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  align-items: end;
+  gap: var(--space-4);
+}
+
+#login-form legend {
+  grid-column: 1 / -1;
+  padding-bottom: var(--space-2);
+}
+
+/* =======================================================
+   SECCIÓN: FILTROS
+======================================================= */
+#filters-section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+#filters-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-4);
+}
+
+#filters-form .form-field {
+  min-width: 220px;
+  flex: 1 1 220px;
+}
+
+#refresh-button {
+  flex: 0 0 auto;
+}
+
+/* Campo de formulario genérico (label + control apilados) */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* =======================================================
+   SECCIÓN: STANDINGS / TABLA
+======================================================= */
+#standings-section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* El article actúa como contenedor con scroll horizontal propio:
+   así la tabla nunca rompe el layout en pantallas angostas y no
+   se necesita ningún wrapper adicional en el HTML. */
+#standings-article {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+}
+
+#standings-table {
+  width: 100%;
+  min-width: 720px;
+  table-layout: fixed;
+}
+
+#standings-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#standings-table th,
+#standings-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+
+#standings-table th:first-child,
+#standings-table td:first-child {
+  width: 64px;
+  text-align: center;
+}
+
+#standings-table th:not(:first-child):not(:nth-child(2)),
+#standings-table td:not(:first-child):not(:nth-child(2)) {
+  text-align: right;
+  width: 64px;
+}
+
+#standings-table th:nth-child(2),
+#standings-table td:nth-child(2) {
+  width: auto;
+}
+
+#standings-footnote {
+  padding: var(--space-3) var(--space-4);
+}
+
+/* =======================================================
+   SECCIÓN: NOTIFICACIONES (pila de "toasts")
+   Se posicionan flotantes para nunca bloquear la interfaz,
+   en vez de un modal centrado con overlay bloqueante.
+======================================================= */
+#notifications-section {
+  position: fixed;
+  inset-block-end: var(--space-6);
+  inset-inline-end: var(--space-6);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+  width: min(380px, calc(100vw - var(--space-8)));
+  pointer-events: none;
+}
+
+#notifications-section h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+#notifications-section > article {
+  width: 100%;
+  pointer-events: auto;
+}
+
+/* =======================================================
+   FOOTER
+======================================================= */
+#app-footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6);
+  margin-top: var(--space-8);
+}

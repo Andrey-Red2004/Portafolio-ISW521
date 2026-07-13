@@ -1,0 +1,273 @@
+/* =======================================================
+   ESTRATEGIA: DESKTOP FIRST
+   Las reglas base (styles/layout/components) asumen escritorio
+   grande. Cada breakpoint aquí abajo SOLO ajusta lo que cambia
+   respecto al nivel anterior, de mayor a menor ancho.
+======================================================= */
+
+/* =======================================================
+   1400px — escritorio grande: limitar respiración excesiva
+======================================================= */
+@media (max-width: 1400px) {
+  #main-content {
+    max-width: 1200px;
+  }
+}
+
+/* =======================================================
+   1200px — escritorio estándar
+======================================================= */
+@media (max-width: 1200px) {
+  #main-content {
+    padding-inline: var(--space-6);
+    gap: var(--space-6);
+  }
+
+  #standings-table {
+    min-width: 640px;
+  }
+
+  #notifications-section {
+    width: min(340px, calc(100vw - var(--space-8)));
+  }
+}
+
+/* =======================================================
+   992px — tablet horizontal: el login pasa de 3 a 2 columnas
+======================================================= */
+@media (max-width: 992px) {
+  #login-form fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #login-button {
+    grid-column: 1 / -1;
+  }
+
+  #app-header {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  #app-header h1 {
+    font-size: var(--fs-md);
+  }
+}
+
+/* =======================================================
+   768px — tablet vertical: filtros y login apilados,
+   contadores más compactos
+======================================================= */
+@media (max-width: 768px) {
+  #main-content {
+    padding: var(--space-6) var(--space-4) var(--space-12);
+    gap: var(--space-5);
+  }
+
+  #auth-section,
+  #filters-section,
+  #standings-section {
+    padding: var(--space-5);
+  }
+
+  #login-form fieldset {
+    grid-template-columns: 1fr;
+  }
+
+  #login-button {
+    grid-column: auto;
+  }
+
+  #filters-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #filters-form .form-field {
+    min-width: 0;
+  }
+
+  #refresh-button {
+    width: 100%;
+  }
+
+  #app-header {
+    flex-wrap: wrap;
+    row-gap: var(--space-2);
+  }
+
+  #notifications-section {
+    inset-inline-end: var(--space-4);
+    inset-block-end: var(--space-4);
+    width: calc(100vw - var(--space-8));
+  }
+
+  #rate-limit-countdown,
+  #backoff-attempt,
+  #backoff-delay {
+    font-size: var(--fs-xs);
+    min-width: 1.5em;
+  }
+}
+
+/* =======================================================
+   576px — móvil grande: la tabla reduce padding y tipografía,
+   pero SIGUE siendo tabla (aún hay espacio horizontal con scroll)
+======================================================= */
+@media (max-width: 576px) {
+  h1 {
+    font-size: var(--fs-md);
+  }
+
+  #standings-section h2,
+  #auth-section h2,
+  #filters-section h2 {
+    font-size: var(--fs-base);
+  }
+
+  #standings-table th,
+  #standings-table td {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--fs-xs);
+  }
+
+  #standings-table {
+    min-width: 560px;
+  }
+
+  #error-panel,
+  #rate-limit-panel,
+  #backoff-panel {
+    padding: var(--space-4);
+  }
+}
+
+/* =======================================================
+   400px — móvil pequeño: ADAPTACIÓN REAL DE LA TABLA.
+   En vez de solo achicar texto, la tabla se convierte en una
+   lista de tarjetas: cada <tr> es una tarjeta y cada <td> se
+   etiqueta con su columna usando el atributo data-field que
+   YA existe en el HTML (sin agregar nada nuevo al DOM).
+======================================================= */
+@media (max-width: 400px) {
+  #standings-article {
+    overflow-x: visible;
+  }
+
+  #standings-table {
+    min-width: 0;
+    width: 100%;
+    table-layout: auto;
+  }
+
+  /* El thead se retira visualmente pero permanece accesible
+     para lectores de pantalla (técnica visually-hidden). */
+  #standings-head {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  #standings-body,
+  #standings-body tr {
+    display: block;
+    width: 100%;
+  }
+
+  #standings-body tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) var(--space-4);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  #standings-body tr:nth-child(-n + 2) {
+    border-left: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-success-strong);
+  }
+
+  #standings-body td {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left !important;
+    width: auto !important;
+  }
+
+  #standings-body td[data-field='team'] {
+    grid-column: 1 / -1;
+    font-size: var(--fs-base);
+  }
+
+  #standings-body td[data-field='position'] {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* Etiqueta de columna generada desde el propio data-field,
+     traducida a español; ningún atributo nuevo en el HTML. */
+  #standings-body td::before {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  #standings-body td[data-field='position']::before {
+    content: 'Posición';
+  }
+  #standings-body td[data-field='team']::before {
+    content: 'Equipo';
+  }
+  #standings-body td[data-field='played']::before {
+    content: 'Jugados';
+  }
+  #standings-body td[data-field='won']::before {
+    content: 'Ganados';
+  }
+  #standings-body td[data-field='drawn']::before {
+    content: 'Empatados';
+  }
+  #standings-body td[data-field='lost']::before {
+    content: 'Perdidos';
+  }
+  #standings-body td[data-field='goalsFor']::before {
+    content: 'Goles a favor';
+  }
+  #standings-body td[data-field='goalsAgainst']::before {
+    content: 'Goles en contra';
+  }
+  #standings-body td[data-field='goalDifference']::before {
+    content: 'Diferencia';
+  }
+  #standings-body td[data-field='points']::before {
+    content: 'Puntos';
+  }
+
+  #login-form fieldset {
+    padding: 0;
+  }
+
+  #notifications-section {
+    inset-inline-end: var(--space-3);
+    inset-inline-start: var(--space-3);
+    inset-block-end: var(--space-3);
+    width: auto;
+  }
+
+  #error-panel,
+  #rate-limit-panel,
+  #backoff-panel {
+    border-left-width: 3px;
+  }
+}

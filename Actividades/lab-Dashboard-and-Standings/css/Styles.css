@@ -1,9 +1,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
 
-@import url('layout.css');
-@import url('components.css');
-@import url('responsive.css');
+@import url('Layout.css');
+@import url('Components.css');
+@import url('Responsive.css');
 
 
 :root {
@@ -85,6 +85,8 @@
   --gradient-success: linear-gradient(135deg, var(--color-green-600) 0%, var(--color-teal-500) 100%);
   --gradient-danger: linear-gradient(135deg, var(--color-red-600) 0%, #f97316 100%);
   --gradient-surface: linear-gradient(180deg, #ffffff 0%, var(--color-gray-50) 100%);
+  --body-bg-image: radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.06) 0%, transparent 42%),
+    radial-gradient(circle at 100% 18%, rgba(20, 184, 166, 0.05) 0%, transparent 38%);
 
   /* --- Tipografía --- */
   --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
@@ -150,6 +152,56 @@
   --content-max-width: 1400px;
 }
 
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #070d18;
+  --color-surface: #10192b;
+  --color-border: #1b2740;
+  --color-border-strong: #2a3754;
+
+  --color-text-primary: #e5edf8;
+  --color-text-secondary: #b3bfd4;
+  --color-text-muted: #7f8ca7;
+  --color-text-inverse: #ffffff;
+
+  --color-header-bg: #060b18;
+  --color-header-bg-alt: #0b1220;
+  --color-header-border: #1b2740;
+
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-accent-bg: rgba(37, 99, 235, 0.18);
+
+  --color-success: #34d399;
+  --color-success-strong: #4ade80;
+  --color-success-bg: rgba(21, 128, 61, 0.18);
+
+  --color-warning: #fbbf24;
+  --color-warning-strong: #f59e0b;
+  --color-warning-bg: rgba(180, 83, 9, 0.2);
+
+  --color-danger: #f87171;
+  --color-danger-strong: #ef4444;
+  --color-danger-bg: rgba(185, 28, 28, 0.2);
+
+  --gradient-surface: linear-gradient(180deg, rgba(16, 25, 43, 0.98) 0%, rgba(11, 18, 32, 0.98) 100%);
+  --body-bg-image: radial-gradient(circle at 8% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 42%),
+    radial-gradient(circle at 100% 18%, rgba(45, 212, 191, 0.1) 0%, transparent 38%);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.24), 0 1px 2px rgba(0, 0, 0, 0.16);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.18);
+  --shadow-xl: 0 24px 48px -12px rgba(0, 0, 0, 0.38);
+}
+
+html[data-bold='true'] {
+  --fw-regular: 500;
+  --fw-medium: 600;
+  --fw-semibold: 700;
+  --fw-bold: 800;
+}
+
 /* =======================================================
    RESET
 ======================================================= */
@@ -208,14 +260,15 @@ body {
   font-family: var(--font-body);
   font-size: var(--fs-base);
   line-height: var(--lh-base);
+  font-weight: var(--fw-regular);
   color: var(--color-text-primary);
   background-color: var(--color-bg);
-  background-image: radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.06) 0%, transparent 42%),
-    radial-gradient(circle at 100% 18%, rgba(20, 184, 166, 0.05) 0%, transparent 38%);
+  background-image: var(--body-bg-image);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  transition: background-color var(--transition-base), color var(--transition-base), background-image var(--transition-base);
 }
 
 ::selection {
@@ -245,6 +298,212 @@ td[data-field] {
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-strong) transparent;
+
+#app-header,
+#main-content,
+#app-footer,
+#notifications-section {
+  position: relative;
+}
+
+/* =======================================================
+   ENCABEZADO Y BARRA DE ACCESIBILIDAD
+======================================================= */
+#app-header {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+#app-header::after {
+  pointer-events: none;
+}
+
+#app-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-inverse);
+  flex-shrink: 0;
+}
+
+.header-subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.header-status-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-inline-start: auto;
+}
+
+.user-panel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.user-greeting {
+  color: var(--color-text-inverse);
+  font-weight: var(--fw-medium);
+}
+
+.a11y-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  width: 100%;
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.a11y-toolbar__label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  margin-inline-end: var(--space-1);
+}
+
+.a11y-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.5rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-inverse);
+  box-shadow: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.a11y-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.a11y-btn:active {
+  transform: translateY(0);
+}
+
+.a11y-btn--wide {
+  padding-inline: var(--space-4);
+}
+
+.a11y-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.a11y-btn__text {
+  line-height: 1;
+}
+
+html[data-theme='dark'] #app-header,
+html[data-theme='dark'] .a11y-toolbar {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme='dark'] .header-subtitle,
+html[data-theme='dark'] .a11y-toolbar__label {
+  color: rgba(229, 237, 248, 0.72);
+}
+
+html[data-theme='dark'] .a11y-btn {
+  background: rgba(16, 25, 43, 0.9);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme='dark'] .a11y-btn:hover {
+  background: rgba(16, 25, 43, 1);
+}
+
+html[data-theme='dark'] #auth-section,
+html[data-theme='dark'] #filters-section,
+html[data-theme='dark'] #standings-section {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme='dark'] #standings-head th {
+  background-color: rgba(11, 18, 32, 0.96);
+  color: var(--color-text-secondary);
+  border-bottom-color: var(--color-border-strong);
+}
+
+html[data-theme='dark'] #standings-body tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+html[data-theme='dark'] #error-panel,
+html[data-theme='dark'] #rate-limit-panel,
+html[data-theme='dark'] #backoff-panel {
+  background-color: rgba(16, 25, 43, 0.92);
+  border-color: var(--color-border);
+}
+
+html[data-theme='dark'] #error-panel p,
+html[data-theme='dark'] #rate-limit-panel p,
+html[data-theme='dark'] #backoff-panel p,
+html[data-theme='dark'] #standings-footnote {
+  color: var(--color-text-secondary);
+}
+
+html[data-bold='true'] body {
+  font-weight: var(--fw-medium);
+}
+
+html[data-bold='true'] h1,
+html[data-bold='true'] h2,
+html[data-bold='true'] h3,
+html[data-bold='true'] button,
+html[data-bold='true'] label,
+html[data-bold='true'] th,
+html[data-bold='true'] td,
+html[data-bold='true'] p,
+html[data-bold='true'] li,
+html[data-bold='true'] span {
+  font-weight: inherit;
+}
+
+html[data-bold='true'] .a11y-btn__text,
+html[data-bold='true'] .user-greeting,
+html[data-bold='true'] #standings-body td[data-field='team'],
+html[data-bold='true'] #standings-body td[data-field='points'] {
+  font-weight: var(--fw-bold);
+}
 }
 
 *::-webkit-scrollbar {

@@ -51,6 +51,25 @@
   #app-header h1 {
     font-size: var(--fs-md);
   }
+
+  #app-header {
+    align-items: stretch;
+  }
+
+  .header-brand,
+  .header-status-group,
+  .a11y-toolbar {
+    width: 100%;
+  }
+
+  .header-status-group {
+    justify-content: space-between;
+    margin-inline-start: 0;
+  }
+
+  .a11y-toolbar {
+    justify-content: flex-start;
+  }
 }
 
 /* =======================================================
@@ -93,6 +112,18 @@
   #app-header {
     flex-wrap: wrap;
     row-gap: var(--space-2);
+  }
+
+  .header-brand {
+    flex: 1 1 100%;
+  }
+
+  .header-status-group {
+    justify-content: flex-start;
+  }
+
+  .a11y-toolbar {
+    align-items: flex-start;
   }
 
   #notifications-section {

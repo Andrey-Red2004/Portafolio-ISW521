@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard de Grupos y Standings — Mundial</title>
+  <title>Dashboard de Grupos y Standings — Mundial 2026</title>
   <link rel="stylesheet" href="css/Styles.css">
 </head>
 <body>
@@ -11,118 +11,115 @@
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <header id="app-header">
-    <h1>Dashboard de Grupos y Standings del Mundial</h1>
-    <p id="connection-indicator" role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="header-brand">
+      <span class="header-logo" aria-hidden="true">⚽</span>
+      <div>
+        <h1>Dashboard de Grupos y Standings</h1>
+        <p class="header-subtitle">Mundial 2026 · Datos en vivo</p>
+      </div>
+    </div>
+
+    <div class="header-status-group">
+      <p id="connection-indicator" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div id="user-panel" class="user-panel" hidden>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button type="button" id="logout-button" class="btn btn--ghost">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <!-- ===== Barra de herramientas de accesibilidad ===== -->
+    <div id="a11y-toolbar" class="a11y-toolbar" role="toolbar" aria-label="Herramientas de accesibilidad">
+      <span class="a11y-toolbar__label" id="a11y-label">Accesibilidad</span>
+      <button type="button" id="font-decrease-btn" class="a11y-btn" aria-label="Disminuir tamaño de texto" aria-describedby="a11y-label">A−</button>
+      <button type="button" id="font-reset-btn" class="a11y-btn" aria-label="Restablecer tamaño de texto" aria-describedby="a11y-label">A</button>
+      <button type="button" id="font-increase-btn" class="a11y-btn" aria-label="Aumentar tamaño de texto" aria-describedby="a11y-label">A+</button>
+      <button type="button" id="theme-toggle-btn" class="a11y-btn a11y-btn--wide" aria-pressed="false" aria-describedby="a11y-label">
+        <span class="a11y-btn__icon" aria-hidden="true">🌙</span>
+        <span class="a11y-btn__text">Modo oscuro</span>
+      </button>
+      <button type="button" id="bold-toggle-btn" class="a11y-btn a11y-btn--wide" aria-pressed="false" aria-describedby="a11y-label">
+        <span class="a11y-btn__icon" aria-hidden="true"><strong>B</strong></span>
+        <span class="a11y-btn__text">Texto en negrita</span>
+      </button>
+    </div>
   </header>
 
   <main id="main-content">
 
-    <section id="auth-section" aria-labelledby="auth-heading">
+    <section id="auth-section" aria-labelledby="auth-heading" data-authenticated="false">
       <h2 id="auth-heading">Autenticación</h2>
+
+      <div class="auth-tabs" role="tablist" aria-label="Formularios de autenticación">
+        <button type="button" class="auth-tab" id="tab-login" role="tab" aria-selected="true" aria-controls="login-form">Iniciar sesión</button>
+        <button type="button" class="auth-tab" id="tab-register" role="tab" aria-selected="false" aria-controls="register-form">Crear cuenta</button>
+      </div>
 
       <form id="login-form" novalidate>
         <fieldset>
-          <legend>Iniciar sesión</legend>
+          <legend class="sr-only">Iniciar sesión</legend>
 
           <div class="form-field">
-            <label for="username">Usuario</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              autocomplete="username"
-              required
-            >
+            <label for="login-email">Correo electrónico</label>
+            <input type="email" id="login-email" name="email" autocomplete="username" required>
           </div>
 
           <div class="form-field">
-            <label for="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              autocomplete="current-password"
-              required
-            >
+            <label for="login-password">Contraseña</label>
+            <input type="password" id="login-password" name="password" autocomplete="current-password" required>
           </div>
 
-          <button type="submit" id="login-button">Ingresar</button>
+          <button type="submit" id="login-button" class="btn btn--primary">Ingresar</button>
+        </fieldset>
+      </form>
+
+      <form id="register-form" novalidate hidden>
+        <fieldset>
+          <legend class="sr-only">Crear cuenta</legend>
+
+          <div class="form-field">
+            <label for="register-name">Nombre completo</label>
+            <input type="text" id="register-name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="register-email">Correo electrónico</label>
+            <input type="email" id="register-email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="form-field">
+            <label for="register-password">Contraseña</label>
+            <input type="password" id="register-password" name="password" autocomplete="new-password" required minlength="6">
+          </div>
+
+          <button type="submit" id="register-button" class="btn btn--primary">Crear cuenta</button>
         </fieldset>
       </form>
 
       <p id="auth-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </section>
 
-    <section id="filters-section" aria-labelledby="filters-heading">
+    <section id="filters-section" aria-labelledby="filters-heading" hidden>
       <h2 id="filters-heading">Filtros</h2>
 
-      <form id="filters-form">
-        <div class="form-field">
-          <label for="zone-select">Zona / Grupo</label>
-          <select id="zone-select" name="zone" disabled aria-describedby="polling-status">
-          </select>
-        </div>
+      <div id="zone-filter-buttons" class="zone-filter-buttons" role="group" aria-label="Filtrar por zona">
+        <!-- Generado dinámicamente por JS a partir de las zonas recibidas de la API -->
+      </div>
 
-        <button type="button" id="refresh-button" disabled>
-          Actualizar ahora
-        </button>
-      </form>
-
-      <p id="polling-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="filters-actions">
+        <button type="button" id="refresh-button" class="btn btn--secondary" disabled>Actualizar ahora</button>
+        <p id="polling-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
     </section>
 
-    <section id="standings-section" aria-labelledby="standings-heading">
+    <section id="standings-section" aria-labelledby="standings-heading" hidden>
       <h2 id="standings-heading">Tabla de posiciones</h2>
+      <p id="standings-summary" class="standings-summary" role="status" aria-live="polite" aria-atomic="true"></p>
 
-      <article id="standings-article" aria-describedby="standings-caption">
-        <table id="standings-table">
-          <caption id="standings-caption"></caption>
-
-          <thead id="standings-head">
-            <tr>
-              <th scope="col" data-sort-key="position" aria-sort="none">
-                <button type="button" class="sort-button">Pos.</button>
-              </th>
-              <th scope="col" data-sort-key="team" aria-sort="none">
-                <button type="button" class="sort-button">Equipo</button>
-              </th>
-              <th scope="col" data-sort-key="played" aria-sort="none">
-                <button type="button" class="sort-button">PJ</button>
-              </th>
-              <th scope="col" data-sort-key="won" aria-sort="none">
-                <button type="button" class="sort-button">G</button>
-              </th>
-              <th scope="col" data-sort-key="drawn" aria-sort="none">
-                <button type="button" class="sort-button">E</button>
-              </th>
-              <th scope="col" data-sort-key="lost" aria-sort="none">
-                <button type="button" class="sort-button">P</button>
-              </th>
-              <th scope="col" data-sort-key="goalsFor" aria-sort="none">
-                <button type="button" class="sort-button">GF</button>
-              </th>
-              <th scope="col" data-sort-key="goalsAgainst" aria-sort="none">
-                <button type="button" class="sort-button">GC</button>
-              </th>
-              <th scope="col" data-sort-key="goalDifference" aria-sort="none">
-                <button type="button" class="sort-button">DG</button>
-              </th>
-              <th scope="col" data-sort-key="points" aria-sort="none">
-                <button type="button" class="sort-button">Pts</button>
-              </th>
-            </tr>
-          </thead>
-
-          <tbody id="standings-body">
-          </tbody>
-
-          <tfoot>
-            <tr>
-              <td colspan="10" id="standings-footnote"></td>
-            </tr>
-          </tfoot>
-        </table>
-      </article>
+      <div id="zones-container" class="zones-container">
+        <!-- Cada zona se construye 100% dinámicamente desde el JSON de /get/groups.
+             Si la conexión a la API se elimina, este contenedor queda vacío. -->
+      </div>
     </section>
 
     <section id="notifications-section" aria-labelledby="notifications-heading">
@@ -132,8 +129,10 @@
         <h3 id="error-title"></h3>
         <p id="error-message"></p>
         <p id="error-detail"></p>
-        <button type="button" id="error-retry-button" hidden>Reintentar</button>
-        <button type="button" id="error-reauth-button" hidden>Volver a iniciar sesión</button>
+        <div class="notification-actions">
+          <button type="button" id="error-retry-button" class="btn btn--secondary" hidden>Reintentar ahora</button>
+          <button type="button" id="error-reauth-button" class="btn btn--danger" hidden>Volver a iniciar sesión</button>
+        </div>
       </article>
 
       <article id="rate-limit-panel" role="status" aria-live="polite" aria-atomic="true" hidden>
@@ -151,6 +150,8 @@
           próximo intento en <span id="backoff-delay">0</span> segundos
         </p>
       </article>
+
+      <article id="toast-template" class="toast" role="status" hidden></article>
     </section>
 
   </main>
@@ -162,24 +163,73 @@
     </p>
   </footer>
 
+  <!-- ===== Modal de re-autenticación (401) =====
+       Se abre SIN recargar la página. El estado de filtros, orden
+       de columnas y zona visible permanece intacto detrás del modal. -->
+  <dialog id="reauth-dialog" aria-labelledby="reauth-title">
+    <form id="reauth-form" novalidate>
+      <h2 id="reauth-title">Tu sesión expiró</h2>
+      <p>Tu token de acceso ya no es válido. Vuelve a iniciar sesión para continuar exactamente donde estabas — tus filtros y el orden de las tablas se van a mantener.</p>
+
+      <div class="form-field">
+        <label for="reauth-email">Correo electrónico</label>
+        <input type="email" id="reauth-email" name="email" autocomplete="username" required>
+      </div>
+
+      <div class="form-field">
+        <label for="reauth-password">Contraseña</label>
+        <input type="password" id="reauth-password" name="password" autocomplete="current-password" required>
+      </div>
+
+      <p id="reauth-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="notification-actions">
+        <button type="submit" id="reauth-submit-button" class="btn btn--primary">Reautenticar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ===== Plantillas para construcción dinámica del DOM ===== -->
+  <template id="zone-block-template">
+    <section class="zone-block">
+      <header class="zone-block__header">
+        <h3 class="zone-block__title"></h3>
+        <span class="zone-leader-badge"></span>
+      </header>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only"></caption>
+          <thead>
+            <tr>
+              <th scope="col" data-sort-key="rank" aria-sort="none"><button type="button" class="sort-button">Pos.</button></th>
+              <th scope="col" data-sort-key="team" aria-sort="none"><button type="button" class="sort-button">Equipo</button></th>
+              <th scope="col" data-sort-key="gf" aria-sort="none"><button type="button" class="sort-button">GF</button></th>
+              <th scope="col" data-sort-key="ga" aria-sort="none"><button type="button" class="sort-button">GA</button></th>
+              <th scope="col" data-sort-key="gd" aria-sort="none"><button type="button" class="sort-button">DG</button></th>
+              <th scope="col" data-sort-key="pts" aria-sort="none"><button type="button" class="sort-button">Pts</button></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </template>
+
   <template id="row-template">
     <tr>
-      <td data-field="position"></td>
-      <td data-field="team"></td>
-      <td data-field="played"></td>
-      <td data-field="won"></td>
-      <td data-field="drawn"></td>
-      <td data-field="lost"></td>
-      <td data-field="goalsFor"></td>
-      <td data-field="goalsAgainst"></td>
-      <td data-field="goalDifference"></td>
-      <td data-field="points"></td>
+      <td data-field="rank"></td>
+      <td data-field="team" class="team-cell"></td>
+      <td data-field="gf"></td>
+      <td data-field="ga"></td>
+      <td data-field="gd"></td>
+      <td data-field="pts"></td>
     </tr>
   </template>
 
-  <template id="zone-option-template">
-    <option value=""></option>
+  <template id="zone-filter-button-template">
+    <button type="button" class="zone-filter-btn" aria-pressed="false"></button>
   </template>
 
+  <script src="script/app.js" defer></script>
 </body>
 </html>

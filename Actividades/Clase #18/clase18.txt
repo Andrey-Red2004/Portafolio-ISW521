@@ -1,0 +1,20 @@
+-------- Actividad 1 ----------
+	Fue actividad de discusión.
+
+-------- Actividad 2 ----------
+	Respuestas:
+		ninguna, con agregar otro estado y mapearlo con jsx ya estaría bien
+		y la vista se actualiza sola porque React detecta el cambio de estado y vuelve a renderizar esa parte.
+
+------- Actividad 3 -----------
+	Respuestas:
+		Solamente debería tocar un nodo, el que contiene el nombre del usuaria #237, no tendría sentido
+		tocar los 500 nodos si solo se va a modificar uno.
+
+------- Actividad 4 -----------
+	Respuestas:
+		Angular sería una desventaja, ya que angular no se recomienda usar en proyectos pequeños ni a corto plazo.
+
+------- Actividad 5 -----------
+	Respuestas:
+		

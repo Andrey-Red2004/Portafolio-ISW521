@@ -1,0 +1,1 @@
+{"version":3,"file":"EmailNotification.d.ts","sourceRoot":"","sources":["../../src/classes/EmailNotification.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,qBAAqB,CAAC;AAEvD,qBAAa,iBAAkB,SAAQ,gBAAgB;aACa,OAAO,EAAE,MAAM;IAA/E,YAAY,SAAS,EAAE,MAAM,EAAE,OAAO,EAAE,MAAM,EAAkB,OAAO,EAAE,MAAM,EAG9E;IACD,IAAI,IAAI,IAAI,CAKX;CAEJ"}

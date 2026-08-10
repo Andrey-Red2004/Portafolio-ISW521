@@ -1,0 +1,80 @@
+actividades de análisis
+ Muestra un error pq la función genérica sean del mismo tipo se rompe la restricción de la función 
+interface Icaja <T> {
+abrir (): T:
+intercambiar: T
+
+}
+ 
+
+actividad:2
+
+dado interface: Producto {id: number, nombre: string ; precio: number;}, escriban el tipo para el formulario de creación (todo menos el id , que lo genera el servidor) y el tipo  para un patch  arcial de solo precio y stock.
+
+El tipo para el formulario de creación es Omit<Producto, "id"> y el tipo para la actualización parcial es un objeto con precio y stock opcionales.
+
+actividad:3 Qué es cada componenteSmart (Contenedor): Maneja el estado, los efectos (fetch) y la lógica. No suele tener estilos propios.Dumb (Presentacional): Solo recibe datos por props y los pinta. No sabe de dónde viene la información. Es altamente reutilizable.
+
+Smart (Contenedor): Maneja el estado, los efectos (fetch) y la lógica. No suele tener estilos propios.Dumb (Presentacional): Solo recibe datos por props y los pinta. No sabe de dónde viene la información. Es altamente reutilizable.
+
+ 
+import { useState, useEffect } from 'react';
+import WeatherCard from './WeatherCard';
+
+export default function WeatherContainer({ ciudad }) {
+  const [clima, setClima] = useState(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch(`https://weather.com{ciudad}`)
+      .then(res => res.json())
+      .then(data => setClima(data))
+      .catch(() => setError(true));
+  }, [ciudad]);
+
+  if (error) return <p>Error al cargar</p>;
+  if (!clima) return <p>Cargando...</p>;
+
+  // Pasa los datos limpios al componente dumb
+  return <WeatherCard temperatura={clima.temp} condicion={clima.text} ciudad={ciudad} />;
+}
+
+import { useState, useEffect } from 'react';
+import WeatherCard from './WeatherCard';
+
+export default function WeatherContainer({ ciudad }) {
+  const [clima, setClima] = useState(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch(`https://weather.com{ciudad}`)
+      .then(res => res.json())
+      .then(data => setClima(data))
+      .catch(() => setError(true));
+  }, [ciudad]);
+
+  if (error) return <p>Error al cargar</p>;
+  if (!clima) return <p>Cargando...</p>;
+
+  // Pasa los datos limpios al componente dumb
+  return <WeatherCard temperatura={clima.temp} condicion={clima.text} ciudad={ciudad} />;
+}
+
+
+
+Dumb
+ export default function WeatherCard({ ciudad, temperatura, condicion }) {
+  return (
+    <div className="tarjeta-clima">
+      <h2>{ciudad}</h2>
+      <p>Temperatura: {temperatura}°C</p>
+      <p>Condición: {condicion}</p>
+    </div>
+  );
+}
+
+
+
+Actividad:4
+
+Si se pasa a true quedaría en bucle de cambio ya que no se puede hacer un cambio de padre a hijo entonces técnicamente no se podría hacer
